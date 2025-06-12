@@ -1,17 +1,11 @@
-import express from 'express'
-import {
-  addToBasket,
-  getBasket,
-  updateBasketItem,
-  removeFromBasket
-} from '../controllers/basketController.js'
-import { protect } from '../middleware/authMiddleware.js'
+import express from "express";
+import { getBasket, addToBasket, removeFromBasket } from "../controllers/basketController.js";
+import { protect } from "../middleware/authMiddleware.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.post('/', protect, addToBasket)
-router.get('/', protect, getBasket)
-router.put('/:itemId', protect, updateBasketItem)
-router.delete('/:itemId', protect, removeFromBasket)
+router.get("/", protect, getBasket);
+router.post("/add", protect, addToBasket);
+router.delete("/remove", protect, removeFromBasket);
 
-export default router
+export default router;

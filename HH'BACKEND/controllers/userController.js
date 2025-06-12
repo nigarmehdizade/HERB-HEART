@@ -1,26 +1,17 @@
-import User from "../models/User.js";
+import User from "../models/userModel.js";
 
-export const getUserProfile = async (req, res, next) => {
+export const getProfile = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user._id).select("-password");
     res.json(user);
   } catch (err) {
     next(err);
   }
 };
 
-export const updateUserProfile = async (req, res, next) => {
+export const updateProfile = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user.id);
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    user.name = req.body.name || user.name;
-    user.email = req.body.email || user.email;
-    user.address = req.body.address || user.address;
-    user.contact = req.body.contact || user.contact;
-    user.card = req.body.card || user.card;
-
-    const updated = await user.save();
+    const updated = await User.findByIdAndUpdate(req.user._id, req.body, { new: true }).select("-password");
     res.json(updated);
   } catch (err) {
     next(err);

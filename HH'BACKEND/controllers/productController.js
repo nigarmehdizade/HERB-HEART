@@ -1,4 +1,4 @@
-import Product from "../models/Product.js";
+import Product from "../models/productModel.js";
 
 export const getAllProducts = async (req, res, next) => {
   try {
@@ -12,7 +12,6 @@ export const getAllProducts = async (req, res, next) => {
 export const getProductById = async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id);
-    if (!product) return res.status(404).json({ message: "Product not found" });
     res.json(product);
   } catch (err) {
     next(err);
@@ -21,9 +20,9 @@ export const getProductById = async (req, res, next) => {
 
 export const createProduct = async (req, res, next) => {
   try {
-    const newProduct = new Product(req.body);
-    await newProduct.save();
-    res.status(201).json(newProduct);
+    const product = new Product(req.body);
+    await product.save();
+    res.status(201).json(product);
   } catch (err) {
     next(err);
   }
@@ -41,7 +40,7 @@ export const updateProduct = async (req, res, next) => {
 export const deleteProduct = async (req, res, next) => {
   try {
     await Product.findByIdAndDelete(req.params.id);
-    res.json({ message: "Product deleted" });
+    res.json({ message: "Məhsul silindi" });
   } catch (err) {
     next(err);
   }

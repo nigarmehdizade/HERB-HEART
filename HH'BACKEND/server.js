@@ -1,36 +1,43 @@
+
 import express from "express";
-import dotenv from "dotenv";
 import mongoose from "mongoose";
-import cors from "cors";
-import morgan from 'morgan';
+import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import cors from "cors";
+
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
-import passport from 'passport';
-import session from 'express-session';
-import './config/passport.js';
+import basketRoutes from "./routes/basketRoutes.js";
+
+import { errorHandler } from "./middleware/errorHandler.js";
+import { secureHeaders } from "./middleware/secureHeaders.js";
+import connectDB from "./config/db.js";
+
 dotenv.config();
 const app = express();
 
-app.use(cors({ origin: true, credentials: true }));
+connectDB();
+
+
 app.use(express.json());
 app.use(cookieParser());
-app.use(morgan("dev"));
+app.use(cors({
+  origin: [process.env.CLIENT_URI],
+  credentials: true
+}));
+app.use(secureHeaders);
+
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/products", productRoutes); 
+app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
-app.use(session({ secret: 'yourSecret', resave: false, saveUninitialized: false }));
-app.use(passport.initialize());
-app.use(passport.session());
+app.use("/api/basket", basketRoutes);
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("MongoDB Connected");
-    app.listen(5000, () => console.log("Backend run"));
-  })
-  .catch((err) => console.error("MongoDB connection error:", err));
+
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Backend runn ${PORT}`));
