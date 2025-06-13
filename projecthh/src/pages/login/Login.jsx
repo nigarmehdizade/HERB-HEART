@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from './Login.module.scss';
 import loginImg from '../../assets/login-bg.jpg';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
-
+import { FaUser, FaLock } from 'react-icons/fa';
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
@@ -14,13 +14,6 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo, loading, error } = useSelector((state) => state.user);
-
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('userInfo'));
-    if (user || userInfo) {
-      navigate('/home');
-    }
-  }, [userInfo, navigate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -32,33 +25,55 @@ const Login = () => {
   };
 
   return (
-    <div className={styles.login}>
-      <div className={styles.left}>
-        <img src={loginImg} alt="login" />
-      </div>
-      <div className={styles.right}>
-        <h2>Daxil ol</h2>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            required
-            onChange={handleChange}
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Şifrə"
-            required
-            onChange={handleChange}
-          />
-          <button type="submit" disabled={loading}>
-            {loading ? 'Gözləyin...' : 'Daxil ol'}
-          </button>
-        </form>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <p>Hesabın yoxdur? <a href="/register">Qeydiyyatdan keç</a></p>
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <div className={styles.imageSection}>
+          <img src={loginImg} alt="Login visual" />
+        </div>
+        <div className={styles.formSection}>
+          <h2 className={styles.title}>Daxil ol</h2>
+          <form onSubmit={handleSubmit} className={styles.form}>
+       <div className={styles.inputWrapper}>
+  <FaUser className={styles.icon} />
+  <input
+    type="email"
+    name="email"
+    placeholder="Email"
+    required
+    onChange={handleChange}
+  />
+</div>
+
+{/* Password input */}
+<div className={styles.inputWrapper}>
+  <FaLock className={styles.icon} />
+  <input
+    type="password"
+    name="password"
+    placeholder="Şifrə"
+    required
+    onChange={handleChange}
+  />
+</div>
+            <button type="submit" disabled={loading}>
+              {loading ? 'Gözləyin...' : 'Daxil ol'}
+            </button>
+          </form>
+          {error && <p className={styles.error}>{error}</p>}
+          <div className={styles.bottomText}>
+            <p>
+              Hesabın yoxdur? <a href="/register">Qeydiyyatdan keç</a>
+            </p>
+            <div className={styles.socialLogin}>
+              <span>və ya daxil ol</span>
+              <div className={styles.socialIcons}>
+                <button className={styles.fb}>f</button>
+                <button className={styles.tw}>t</button>
+                <button className={styles.gg}>G</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
