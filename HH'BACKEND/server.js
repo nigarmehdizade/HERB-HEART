@@ -20,13 +20,10 @@ const app = express();
 
 connectDB();
 
-
 app.use(express.json());
+
 app.use(cookieParser());
-app.use(cors({
-  origin: [process.env.CLIENT_URI],
-  credentials: true
-}));
+app.use(cors(("origin"-"*")))
 app.use(secureHeaders);
 
 
