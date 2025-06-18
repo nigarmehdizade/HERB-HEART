@@ -11,14 +11,8 @@ const Login = () => {
     password: '',
   });
  console.log('GÖNDƏRİLİR:', payload);
-dispatch(registerUser(payload)).then((res) => {
-  console.log('SERVER CAVABI:', res);
-  if (res.meta.requestStatus === 'fulfilled') {
-    navigate('/home');
-  } else {
-    alert(res.payload || 'Xəta baş verdi');
-  }
-});
+
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo, loading, error } = useSelector((state) => state.user);
