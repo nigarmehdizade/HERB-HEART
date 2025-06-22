@@ -3,9 +3,9 @@ import Router from './router/router'
 
 const App = () => {
   return (
- <>
- <Router/>
- </>
+    <div>
+      <Router></Router>
+    </div>
   )
 }
 

@@ -1,0 +1,102 @@
+.home {
+  padding-bottom: 4rem;
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3rem 4rem;
+  background-color: #f4eff3;
+  flex-wrap: wrap;
+
+  .text {
+    flex: 1;
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: #222;
+      line-height: 1.2;
+    }
+
+    p {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      color: #666;
+    }
+  }
+
+  .image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+  }
+}
+
+h2 {
+  text-align: center;
+  margin: 2rem 0 1rem;
+  color: #4caf50;
+}
+
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 0 2rem;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem;
+
+    .text {
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
+
+    .image {
+      margin-top: 2rem;
+
+      img {
+        max-width: 90%;
+      }
+    }
+  }
+
+  .productGrid {
+    padding: 0 1rem;
+  }
+}
+.organicSection {
+  text-align: center;
+  padding: 3rem 2rem;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.2rem;
+    color: #333;
+    line-height: 1.6;
+  }
+}

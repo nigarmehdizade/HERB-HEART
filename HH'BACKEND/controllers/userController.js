@@ -11,9 +11,17 @@ export const getProfile = async (req, res, next) => {
 
 export const updateProfile = async (req, res, next) => {
   try {
-    const updated = await User.findByIdAndUpdate(req.user._id, req.body, { new: true }).select("-password");
-    res.json(updated);
+    const { name, email, phone, address, cardInfo } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      { name, email, phone, address, cardInfo },
+      { new: true }
+    ).select("-password");
+
+    res.json(updatedUser);
   } catch (err) {
     next(err);
   }
 };
+

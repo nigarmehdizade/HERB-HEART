@@ -1,0 +1,98 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: white;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  flex-wrap: wrap;
+
+}
+
+.left img {
+  height: 80px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.left img:hover {
+  transform: scale(1.05);
+}
+
+.center {
+  display: flex;
+  gap: 1.5rem;
+  
+  flex-wrap: wrap;
+  justify-content: center;
+  flex: 1;
+
+  a {
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+      color: #4caf50;
+    letter-spacing: 1px;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #4caf50;
+    }
+  }
+}
+
+.right {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  a, .iconBtn {
+    font-size: 1.2rem;
+    color: #4caf50;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #4caf50;
+    }
+  }
+}
+
+.searchBox {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.8rem;
+
+  input {
+    width: 45%;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+
+    &:focus {
+      border-color: #4caf50;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .center {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .searchBox input {
+    width: 80%;
+  }
+}

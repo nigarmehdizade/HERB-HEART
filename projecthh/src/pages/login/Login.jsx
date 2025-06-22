@@ -5,13 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { FaUser, FaLock } from 'react-icons/fa';
+
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
- console.log('GÖNDƏRİLİR:', payload);
-
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,6 +22,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log('GÖNDƏRİLİR:', formData); // ← Burda düzgün şəkildə log et
     dispatch(loginUser(formData));
   };
 
@@ -35,33 +35,35 @@ const Login = () => {
         <div className={styles.formSection}>
           <h2 className={styles.title}>Daxil ol</h2>
           <form onSubmit={handleSubmit} className={styles.form}>
-       <div className={styles.inputWrapper}>
-  <FaUser className={styles.icon} />
-  <input
-    type="email"
-    name="email"
-    placeholder="Email"
-    required
-    onChange={handleChange}
-  />
-</div>
+            <div className={styles.inputWrapper}>
+              <FaUser className={styles.icon} />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                required
+                onChange={handleChange}
+              />
+            </div>
 
-{/* Password input */}
-<div className={styles.inputWrapper}>
-  <FaLock className={styles.icon} />
-  <input
-    type="password"
-    name="password"
-    placeholder="Şifrə"
-    required
-    onChange={handleChange}
-  />
-</div>
+            <div className={styles.inputWrapper}>
+              <FaLock className={styles.icon} />
+              <input
+                type="password"
+                name="password"
+                placeholder="Şifrə"
+                required
+                onChange={handleChange}
+              />
+            </div>
+
             <button type="submit" disabled={loading}>
               {loading ? 'Gözləyin...' : 'Daxil ol'}
             </button>
           </form>
+
           {error && <p className={styles.error}>{error}</p>}
+
           <div className={styles.bottomText}>
             <p>
               Hesabın yoxdur? <a href="/register">Qeydiyyatdan keç</a>
@@ -74,11 +76,9 @@ const Login = () => {
                 <button className={styles.gg}>G</button>
               </div>
             </div>
-            
           </div>
         </div>
       </div>
-      
     </div>
   );
 };

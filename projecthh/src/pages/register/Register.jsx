@@ -1,5 +1,3 @@
-// src/pages/register/Register.jsx
-
 import React, { useState, useEffect } from 'react';
 import styles from './Register.module.scss';
 import { useDispatch } from 'react-redux';
@@ -26,33 +24,44 @@ const Register = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
+  const { name, email, password, confirmPassword, agree } = formData;
 
-    if (formData.password !== formData.confirmPassword) {
-      return alert('Şifrələr uyğun deyil');
-    }
+  console.log("Yoxlama üçün formData:", formData); // TEST MƏQSƏDİLƏ
 
-    if (!formData.agree) {
-      return alert('Şərtləri qəbul etməlisiniz!');
-    }
-
-    const payload = {
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-    };
-
-  console.log('GÖNDƏRİLİR:', payload);
-dispatch(registerUser(payload)).then((res) => {
-  console.log('SERVER CAVABI:', res);
-  if (res.meta.requestStatus === 'fulfilled') {
-    navigate('/home');
-  } else {
-    alert(res.payload || 'Xəta baş verdi');
+  if (!name || !email || !password || !confirmPassword) {
+    alert('Zəhmət olmasa bütün xanaları doldurun.');
+    return;
   }
-});
 
-  };
+  if (password !== confirmPassword) {
+    alert('Şifrələr uyğun deyil');
+    return;
+  }
+
+  if (!agree) {
+    alert('Şərtləri qəbul etməlisiniz!');
+    return;
+  }
+
+const payload = {
+  name: formData.name,
+  email: formData.email,
+  password: formData.password,
+  phone: '',
+  address: '',
+  cardInfo: ''
+};
+  dispatch(registerUser(payload)).then((res) => {
+    console.log("SERVERDƏN CAVAB:", res);
+    if (res.meta.requestStatus === 'fulfilled') {
+      navigate('/home');
+    } else {
+      alert(res.payload || 'Xəta baş verdi');
+    }
+  });
+};
+
 
   const handleFBLogin = () => {
     if (window.FB) {
@@ -107,14 +116,17 @@ dispatch(registerUser(payload)).then((res) => {
               <i className="fa fa-user" />
               <input type="text" name="name" placeholder="Your Name" onChange={handleChange} required />
             </div>
+
             <div className={styles.inputWrapper}>
               <i className="fa fa-envelope" />
               <input type="email" name="email" placeholder="Your Email" onChange={handleChange} required />
             </div>
+
             <div className={styles.inputWrapper}>
               <i className="fa fa-lock" />
               <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
             </div>
+
             <div className={styles.inputWrapper}>
               <i className="fa fa-lock" />
               <input type="password" name="confirmPassword" placeholder="Repeat your password" onChange={handleChange} required />
@@ -122,7 +134,9 @@ dispatch(registerUser(payload)).then((res) => {
 
             <div className={styles.checkboxRow}>
               <input type="checkbox" name="agree" checked={formData.agree} onChange={handleChange} />
-              <label>I agree all statements in <a href="#">Terms of service</a></label>
+              <label>
+                I agree all statements in <a href="#">Terms of service</a>
+              </label>
             </div>
 
             <button type="submit" className={styles.registerBtn}>Register</button>

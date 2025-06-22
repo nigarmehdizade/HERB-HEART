@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 
-// Token yaradan funksiya
+// 🔐 Token yaradıcı funksiya
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: "7d",
@@ -12,11 +12,10 @@ const generateToken = (id) => {
 // ✅ Qeydiyyat
 export const registerUser = async (req, res) => {
   try {
-    const { name, surname, email, password } = req.body;
+    const { name, email, password } = req.body;
     console.log('Gelen register datasi:', req.body);
 
-
-    if (!name || !surname || !email || !password) {
+    if (!name || !email || !password) {
       return res.status(400).json({ message: 'Zəhmət olmasa bütün xanaları doldurun.' });
     }
 
@@ -29,9 +28,11 @@ export const registerUser = async (req, res) => {
 
     const user = await User.create({
       name,
-      surname,
       email,
       password: hashedPassword,
+      phone: "",
+      address: "",
+      cardInfo: "",
     });
 
     if (!user) {
@@ -43,8 +44,11 @@ export const registerUser = async (req, res) => {
       user: {
         id: user._id,
         name: user.name,
-        surname: user.surname,
         email: user.email,
+        phone: user.phone,
+        address: user.address,
+        cardInfo: user.cardInfo,
+        isAdmin: user.isAdmin
       },
     });
   } catch (error) {
@@ -53,7 +57,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
-// ✅ Login
+// ✅ Giriş
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -77,8 +81,11 @@ export const loginUser = async (req, res) => {
       user: {
         id: user._id,
         name: user.name,
-        surname: user.surname,
         email: user.email,
+        phone: user.phone,
+        address: user.address,
+        cardInfo: user.cardInfo,
+        isAdmin: user.isAdmin
       },
     });
   } catch (err) {
