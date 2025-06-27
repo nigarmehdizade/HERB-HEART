@@ -1,31 +1,112 @@
-// pages/productDetail/ProductDetail.jsx
-
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './ProductDetail.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { fetchProductById } from '../../redux/productSlice';
-import { addToBasket } from '../../redux/basketSlice';
+import axios from 'axios';
+import { FaStar } from 'react-icons/fa';
+import { SiMastercard } from "react-icons/si";
+import { FaCcVisa, FaCcPaypal, FaCcApplePay } from "react-icons/fa";
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const dispatch = useDispatch();
-  const { selectedProduct, loading } = useSelector((state) => state.products);
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [quantity, setQuantity] = useState(1);
+  const [selectedSize, setSelectedSize] = useState('225g');
+
+  // Description-lar id-ə görə
+  const descriptions = {
+    "1": "are dried, plump, whole fruits without added sugar. They are soft, sticky, naturally sweet and a source of fiber. Ideal for snacking, baking, or smoothies.",
+    "2": "are crunchy, protein-rich nuts perfect for snacking or baking.",
+    "3": "are sun-dried and rich in antioxidants. Great as a snack or addition to dishes.",
+    "4": "are delicious, chewy treats with natural sweetness, ideal for desserts or healthy snacking.",
+    "5": "are nutrient-packed snacks loaded with healthy fats and fiber. Great for energy boost.",
+  };
 
   useEffect(() => {
-    dispatch(fetchProductById(id));
-  }, [dispatch, id]);
+    axios.get(`http://localhost:5000/api/products/${id}`)
+      .then(res => {
+        setProduct(res.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Xəta:', err);
+        setLoading(false);
+      });
+  }, [id]);
 
-  if (loading || !selectedProduct) return <p>Yüklənir...</p>;
+  if (loading) return <p>Yüklənir...</p>;
+  if (!product) return <p>Məhsul tapılmadı</p>;
 
   return (
-    <div className={styles.detail}>
-      <img src={selectedProduct.image} alt={selectedProduct.name} />
-      <div className={styles.info}>
-        <h2>{selectedProduct.name}</h2>
-        <p>{selectedProduct.description}</p>
-        <p>Qiymət: {selectedProduct.price} ₼</p>
-        <button onClick={() => dispatch(addToBasket(selectedProduct))}>Səbətə əlavə et</button>
+    <div className={styles.container}>
+      <div className={styles.imageWrapper}>
+        <img src={product.image} alt={product.name} />
+      </div>
+
+      <div className={styles.infoWrapper}>
+        <h1 className={styles.title}>{product.name}</h1>
+
+        <div className={styles.rating}>
+          <div className={styles.stars}>
+            {[...Array(5)].map((_, i) => <FaStar key={i} />)}
+          </div>
+          <span className={styles.reviewCount}>24 reviews</span>
+        </div>
+
+        <p className={styles.sku}>08045</p>
+        <p className={styles.price}>${product.price}</p>
+        <p className={styles.shipping}>Shipping calculated at checkout.</p>
+
+        <div className={styles.shippingNotice}>
+          You're <span>$35.00</span> away from free shipping!
+        </div>
+
+        <div className={styles.sizeSelect}>
+          <button className={selectedSize === '225g' ? styles.active : ''} onClick={() => setSelectedSize('225g')}>
+            225g
+          </button>
+          <button className={selectedSize === '8x225g' ? styles.active : ''} onClick={() => setSelectedSize('8x225g')}>
+            8x225g
+          </button>
+        </div>
+
+        <div className={styles.quantityControl}>
+          <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>−</button>
+          <span>{quantity}</span>
+          <button onClick={() => setQuantity(q => q + 1)}>+</button>
+        </div>
+
+        <button className={styles.addToCart}>ADD TO CART</button>
+        <button className={styles.shopPay}>Buy with <strong>shop</strong><span>Pay</span></button>
+
+        <a href="#" className={styles.moreOptions}>More payment options</a>
+
+        {/* 💬 Məhsula aid description */}
+        <div className={styles.description}>
+          <p><strong>{product.name}</strong> {descriptions[product.id] || "Delicious and healthy product, perfect for your daily needs."}</p>
+        </div>
+
+        <div className={styles.meta}>
+          <span>Certified: organic, gluten-free and Kosher</span>
+          <span>Non-GMO, vegan, all-natural</span>
+          <span>Keep cool and dry</span>
+          <span>Country of origin: United States</span>
+          <span>Ingredients: Organic pitted prunes</span>
+          <span>May contain: Peanuts, Tree nuts, pits or pit fragments</span>
+        </div>
+
+        <div className={styles.share}>
+          <span>🔗 Share: </span>
+          <a href="#">Facebook</a>
+          <a href="#">Twitter</a>
+        </div>
+
+        <div className={styles.paymentIcons}>
+          <SiMastercard />
+          <FaCcVisa />
+          <FaCcPaypal />
+          <FaCcApplePay />
+        </div>
       </div>
     </div>
   );

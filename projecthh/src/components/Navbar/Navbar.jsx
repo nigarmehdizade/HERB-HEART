@@ -16,7 +16,7 @@ const Navbar = () => {
     <nav className={styles.navbar}>
       <div className={styles.left}>
         <Link to="/home">
-<img src="https://i.pinimg.com/736x/80/01/82/800182770ca3b668f906634b02f89ef6.jpg" alt="" />
+<img src="https://elanbio.ca/cdn/shop/files/ELAN_LOGO-01_60x@2x.png?v=1614307768" alt="" />
 
         </Link>
       </div>

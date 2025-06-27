@@ -9,13 +9,10 @@ export const getAllProducts = async (req, res, next) => {
   }
 };
 
-export const getProductById = async (req, res, next) => {
-  try {
-    const product = await Product.findById(req.params.id);
-    res.json(product);
-  } catch (err) {
-    next(err);
-  }
+ export const getProductById = async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  if (product) res.json(product);
+  else res.status(404).json({ message: 'Product not found' });
 };
 
 export const createProduct = async (req, res, next) => {

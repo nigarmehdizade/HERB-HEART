@@ -1,56 +1,95 @@
-.home {
-  padding-bottom: 4rem;
+.heroSlider {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  overflow: hidden;
 }
 
-.hero {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 3rem 4rem;
-  background-color: #f4eff3;
-  flex-wrap: wrap;
+.heroImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
-  .text {
-    flex: 1;
-    h1 {
-      font-size: 3.5rem;
-      font-weight: 800;
-      color: #222;
-      line-height: 1.2;
-    }
+.heroOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  // background: linear-gradient(to right, rgba(0,0,0,0.5), rgba(0,0,0,0));
+  z-index: 1;
+}
 
-    p {
-      margin-top: 1rem;
-      font-size: 1.2rem;
-      color: #666;
-    }
+.heroContent {
+  position: absolute;
+  top: 50%;
+  left: 8%;
+  transform: translateY(-50%);
+  z-index: 2;
+  color: white;
+  max-width: 600px;
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
   }
 
-  .image {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-
-    img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 10px;
-    }
+  p {
+    font-size: 1.2rem;
+    color: #f2f2f2;
   }
 }
+
+
+
+.productsTitle {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #000; // qara rəng
+  margin: 40px 0 20px;
+}
+
 
 h2 {
   text-align: center;
   margin: 2rem 0 1rem;
-  color: #4caf50;
+  color: black;
 }
 
 .productGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 2rem;
-  padding: 0 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 40px;
+  justify-items: center;
+  padding: 40px 20px;
 }
+.viewAllWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+.viewAllButton {
+  background-color: #000;
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+  padding: 12px 30px;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #333;
+  }
+}
+
 
 @media (max-width: 768px) {
   .hero {
@@ -100,3 +139,154 @@ h2 {
     line-height: 1.6;
   }
 }
+.splitSection {
+  display: flex;
+  width: 100%;
+  height: 500px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    height: auto;
+  }
+}
+
+.splitBlock {
+  flex: 1;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+}
+
+
+.overlay {
+  color: white;
+  padding: 30px;
+  text-align: center;
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: white; // ✅ Rəngi bura konkret təyin et
+  }
+
+  p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: white; // ✅ Yazı da ağ rəngdə olsun
+  }
+}
+.splitButton {
+  width: 180px;
+  height: 48px;
+  line-height: 48px;
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  display: block;      
+  margin: 0 auto;           
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: white;
+    color: black;
+  }
+}
+.recipesSection {
+  position: relative;
+  margin-top: 60px;
+  background-image: url('https://elanbio.ca/cdn/shop/files/ELAN_RECIPE_6_d9fdb20f-98ac-4582-bfaf-e873ec741052_2160x.jpg?v=1678465970');
+  background-size: cover;
+  background-position: center;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recipesOverlay {
+  text-align: center;
+  color: white;
+  padding: 20px;
+
+  h2 {
+    font-size: 48px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: white !important; 
+
+    @media (max-width: 768px) {
+      font-size: 32px;
+    }
+  }
+}
+
+
+.recipesButton {
+  display: inline-block;
+  padding: 12px 30px;
+  background-color: #000;
+  color: white;
+  font-weight: bold;
+  letter-spacing: 2px;
+  font-size: 14px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #333;
+  }
+}
+
+.certificationsSection {
+  padding: 80px 20px;
+  text-align: center;
+
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    color: #000;
+  }
+}
+
+.certificationLogos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+
+  img {
+    max-width: 150px;
+    height: auto;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+
+    &:hover {
+      filter: grayscale(0%);
+    }
+  }
+}
+
+
+
