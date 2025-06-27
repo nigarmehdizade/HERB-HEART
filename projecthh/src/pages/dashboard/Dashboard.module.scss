@@ -1,0 +1,49 @@
+.dashboard {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fafafa;
+  border-radius: 12px;
+
+  h2 {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    color: #222;
+  }
+
+  .section {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.05);
+
+    h3 {
+      color: #444;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+    }
+  }
+
+  .sectionAdmin {
+    margin-top: 2rem;
+    background: #ffe;
+    border: 1px dashed #ccc;
+    padding: 1rem;
+    border-radius: 8px;
+
+    button {
+      margin-top: 0.8rem;
+      padding: 10px 20px;
+      background-color: #222;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  }
+}

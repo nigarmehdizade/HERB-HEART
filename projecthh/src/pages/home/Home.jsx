@@ -34,7 +34,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Organic bölməsi */}
+    
       <div className={styles.organicSection}>
         <h2>NATURALLY ORGANIC</h2>
         <p>

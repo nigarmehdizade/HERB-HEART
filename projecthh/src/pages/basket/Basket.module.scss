@@ -1,0 +1,94 @@
+.basketContainer {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .basketItems {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .basketItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f8f8f8;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+    img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .info {
+      flex: 1;
+      margin-left: 1rem;
+
+      h3 {
+        margin: 0;
+        font-size: 1.2rem;
+      }
+
+      p {
+        color: #777;
+        font-size: 0.9rem;
+      }
+    }
+
+    .quantityControl {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      button {
+        background: #4caf50;
+        color: white;
+        border: none;
+        padding: 0.5rem;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+          background: #388e3c;
+        }
+      }
+
+      span {
+        font-size: 1rem;
+        padding: 0 0.5rem;
+      }
+    }
+
+    .removeBtn {
+      background: #f44336;
+      color: white;
+      border: none;
+      padding: 0.5rem 0.75rem;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover {
+        background: #d32f2f;
+      }
+    }
+  }
+
+  .total {
+    text-align: right;
+    margin-top: 2rem;
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+}

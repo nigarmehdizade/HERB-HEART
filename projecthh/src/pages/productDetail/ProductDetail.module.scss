@@ -1,0 +1,31 @@
+.detail {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+
+  img {
+    max-width: 400px;
+    border-radius: 12px;
+    object-fit: cover;
+  }
+
+  .info {
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  }
+}

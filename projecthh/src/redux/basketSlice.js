@@ -1,4 +1,3 @@
-// redux/basketSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const basketSlice = createSlice({
@@ -15,8 +14,22 @@ const basketSlice = createSlice({
         state.items.push({ ...action.payload, count: 1 });
       }
     },
-  },
+    removeFromBasket: (state, action) => {
+      state.items = state.items.filter(item => item._id !== action.payload);
+    },
+    incrementCount: (state, action) => {
+      const item = state.items.find(i => i._id === action.payload);
+      if (item) item.count += 1;
+    },
+    decrementCount: (state, action) => {
+      const item = state.items.find(i => i._id === action.payload);
+      if (item && item.count > 1) item.count -= 1;
+    },
+    clearBasket: (state) => {
+      state.items = [];
+    },
+  }
 });
 
-export const { addToBasket } = basketSlice.actions;
+export const { addToBasket, removeFromBasket, incrementCount, decrementCount, clearBasket } = basketSlice.actions;
 export default basketSlice.reducer;

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Login.module.scss';
 import loginImg from '../../assets/login-bg.jpg';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../redux/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { FaUser, FaLock } from 'react-icons/fa';
 
 const Login = () => {
@@ -16,13 +16,19 @@ const Login = () => {
   const navigate = useNavigate();
   const { userInfo, loading, error } = useSelector((state) => state.user);
 
+  // ✅ Uğurlu login olduqda yönləndir
+  useEffect(() => {
+    if (userInfo && userInfo.token) {
+      navigate('/home');
+    }
+  }, [userInfo, navigate]);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('GÖNDƏRİLİR:', formData); // ← Burda düzgün şəkildə log et
     dispatch(loginUser(formData));
   };
 
@@ -66,7 +72,7 @@ const Login = () => {
 
           <div className={styles.bottomText}>
             <p>
-              Hesabın yoxdur? <a href="/register">Qeydiyyatdan keç</a>
+              Hesabın yoxdur? <Link to="/register">Qeydiyyatdan keç</Link>
             </p>
             <div className={styles.socialLogin}>
               <span>və ya daxil ol</span>

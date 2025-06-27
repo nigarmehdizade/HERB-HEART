@@ -5,7 +5,9 @@ import Login from '../pages/login/Login';
 import Home from '../pages/home/Home';
 import PrivateRoute from '../components/PrivateRoute';
 import Dashboard from '../pages/Dashboard/Dashboard';
-import ProductDetails from '../pages/product/ProductDetails';
+import ProductDetail from '../pages/productDetail/ProductDetail';
+import Basket from '../pages/basket/Bakset';
+import Wishlist from '../pages/wishlist/Wishlist';
 
 const Router = () => {
   return (
@@ -14,10 +16,13 @@ const Router = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/home" element={<Home />} />
-      <Route path="/product/:id" element={<ProductDetails />} />
+      
+<Route path="/basket" element={<Basket />} />
+<Route path="/wishlist" element={<Wishlist />} />
+      <Route path="/product/:id" element={<ProductDetail />} />
 
 
-      {/* ✅ Qorunan route */}
+      
       <Route
         path="/dashboard"
         element={

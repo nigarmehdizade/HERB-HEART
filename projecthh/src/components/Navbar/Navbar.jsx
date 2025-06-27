@@ -32,7 +32,7 @@ const Navbar = () => {
       </div>
 
       <div className={styles.right}>
-        <Link to="/profile"><FaUser /></Link>
+        <Link to="/dashboard"><FaUser /></Link>
         <Link to="/wishlist"><FaHeart /></Link>
         <button onClick={toggleSearch} className={styles.iconBtn}><FaSearch /></button>
         <Link to="/basket"><FaShoppingBag /></Link>
