@@ -10,14 +10,14 @@ import ProductDetail from '../pages/productDetail/ProductDetail';
 import Basket from '../pages/basket/Bakset';
 import Wishlist from '../pages/wishlist/Wishlist';
 import MainLayout from '../components/layouts/MainLayout';
-
+import Snack from '../pages/snacks/Snack';
 import Recipes from '../pages/Recipes/Recipes';
 import DetailPage from '../pages/Recipes/detailpage';
-
+import SnackDetail from '../pages/snacks/SnackDetail';
 const Router = () => {
   return (
     <Routes>
-      {/* Redirect to /register */}
+
       <Route path="/" element={<Navigate to="/register" />} />
 
       <Route path="/register" element={<Register />} />
@@ -56,20 +56,36 @@ const Router = () => {
           </MainLayout>
         }
       />
-<Route
-  path="/category/recipes"
-  element={
-    <MainLayout>
-      <Recipes />
-    </MainLayout>
-  }
-/>
+      <Route
+        path="/category/recipes"
+        element={
+          <MainLayout>
+            <Recipes />
+          </MainLayout>
+        }
+      />
+      <Route
+        path="/category/snacks"
+        element={
+          <MainLayout>
+            <Snack />
+          </MainLayout>
+        }
+      />
+      <Route
+        path="/recipes/:id"
+        element={
+          <MainLayout>
+            <DetailPage />
+          </MainLayout>
+        }
+      />
 
 <Route
-  path="/recipes/:id"
+  path="/snack/:id"
   element={
     <MainLayout>
-      <DetailPage />
+      <SnackDetail />
     </MainLayout>
   }
 />

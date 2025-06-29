@@ -1,0 +1,273 @@
+.reviewContainer {
+  margin-top: 40px;
+  padding: 30px;
+  background-color: #fff;
+  border-top: 1px solid #eee;
+
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 25px;
+  }
+}
+
+.reviewForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 40px;
+
+  input, textarea {
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .stars {
+    display: flex;
+    gap: 5px;
+
+    svg {
+      font-size: 20px;
+      color: #ccc;
+      cursor: pointer;
+
+      &.active {
+        color: #f5a623;
+      }
+    }
+  }
+
+  .previewImage {
+    max-width: 100px;
+    border-radius: 6px;
+  }
+
+  button {
+    width: fit-content;
+    padding: 10px 20px;
+    font-weight: 600;
+    background: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+
+    &:hover {
+      background: #222;
+    }
+  }
+}
+
+.commentList {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.commentCard {
+  display: flex;
+  gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ccc;
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.commentContent {
+  flex: 1;
+
+  .commentTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .stars {
+      display: flex;
+      gap: 4px;
+
+      svg {
+        font-size: 16px;
+        color: #f5a623;
+      }
+    }
+
+    .date {
+      font-size: 13px;
+      color: #666;
+    }
+  }
+
+  .userInfo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+
+    strong {
+      font-size: 15px;
+    }
+
+    .verifiedIcon {
+      font-size: 16px;
+      color: green;
+    }
+  }
+
+  h4 {
+    font-weight: 600;
+    margin: 6px 0;
+  }
+
+  p {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .commentImage {
+    margin-top: 10px;
+    max-width: 120px;
+    border-radius: 6px;
+  }
+
+ .deleteWrapper {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-start; // sola çək
+}
+
+.deleteBtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #f2f2f2;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+
+  &:hover {
+    background: #eaeaea;
+  }
+
+  svg {
+    color: #888;
+  }
+}
+
+
+}
+.detailWrapper {
+  padding: 40px;
+
+  .snackInfo {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 60px;
+
+    img {
+      width: 300px;
+      height: auto;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    p {
+      margin: 10px 0;
+      font-size: 1rem;
+    }
+
+    strong {
+      color: #333;
+      font-size: 1.2rem;
+    }
+  }
+
+  .youMayAlsoLike {
+    margin-top: 60px;
+    text-align: center;
+
+    h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 30px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 30px;
+      justify-items: center;
+    }
+
+    .card {
+      max-width: 220px;
+      transition: 0.3s ease;
+      cursor: pointer;
+
+      &:hover {
+        transform: translateY(-6px);
+      }
+
+      img {
+        width: 100%;
+        border-radius: 6px;
+        margin-bottom: 10px;
+      }
+
+      h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .reviews {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+
+        .star {
+          color: #f6b01e;
+          margin-right: 2px;
+        }
+
+        span {
+          margin-left: 6px;
+          color: #555;
+        }
+      }
+
+      p {
+        color: #333;
+        font-size: 0.9rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,149 @@
+.snackPage {
+  padding-bottom: 60px;
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 400px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  h1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 3rem;
+    font-weight: 800;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+  }
+}
+
+.productsSection {
+  padding: 40px;
+
+  .topBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+
+    p {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    select {
+      padding: 6px 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  }
+}
+
+.snackGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  justify-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  text-align: center;
+  max-width: 250px;
+  cursor: pointer;
+
+  .imageWrapper {
+    position: relative;
+    width: 100%;
+    height: 300px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: 0.3s ease;
+    }
+
+    .mainImage {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hoverImage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      z-index: 2;
+      transition: opacity 0.3s ease;
+    }
+
+    .quickView {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #000;
+      color: #fff;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 3;
+    }
+
+    &:hover {
+      .mainImage {
+        opacity: 0;
+      }
+
+      .hoverImage {
+        opacity: 1;
+      }
+
+      .quickView {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
+  }
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 10px;
+    color: #111;
+    line-height: 1.4;
+  }
+
+  .reviews {
+    font-size: 0.9rem;
+    color: #777;
+    margin-top: 4px;
+  }
+
+  .price {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #000;
+    margin-top: 6px;
+  }
+}
+.description p{
+  font-size: 17px;
+  color: black;
+}

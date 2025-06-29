@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import commentRoutes from './routes/commentRoutes.js';
 import authRoutes from "./routes/authRoutes.js";
+import snackRoutes from './routes/snackRoutes.js';
 import userRoutes from "./routes/userRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
@@ -30,11 +31,13 @@ app.use(cors({
 }));
 app.use(secureHeaders);
 
+app.use('/uploads', express.static('uploads'));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
+app.use('/api/snacks', snackRoutes);
 app.use("/api/basket", basketRoutes);
 app.use("/api/recipes", recipeRoutes);
 app.use('/api/comments', commentRoutes);
