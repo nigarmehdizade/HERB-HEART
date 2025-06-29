@@ -51,8 +51,7 @@ const Home = () => {
 
   return (
     <div className={styles.home}>
-      <Navbar />
- {/* Hero Slider */}
+   
       {heroData[currentIndex] && (
         <div className={styles.heroSlider}>
           <img

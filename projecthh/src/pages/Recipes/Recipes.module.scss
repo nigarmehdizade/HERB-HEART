@@ -1,0 +1,46 @@
+.recipesPage {
+  padding: 40px;
+  text-align: center;
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 40px;
+  }
+}
+
+.recipeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 30px;
+  justify-items: center;
+
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  cursor: pointer;
+  text-align: center;
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-top: 10px;
+    color: #111;
+  }
+}
+
+.image {
+  width: 100%;
+  max-width: 400px; /* əvvəl 300px idi */
+  height: 250px;     /* əvvəl 180px idi */
+  object-fit: cover;
+  display: block;
+
+}

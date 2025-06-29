@@ -1,0 +1,109 @@
+.detailWrapper {
+  padding: 40px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+
+  h1 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 20px;
+  }
+
+  .image {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    border-radius: 12px;
+    margin: 0 auto 30px;
+    display: block;
+  }
+
+  p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  ul, ol {
+    text-align: left;
+    margin: 0 auto 24px;
+    max-width: 700px;
+    line-height: 1.8;
+  }
+
+  .commentSection {
+    text-align: left;
+    margin-top: 40px;
+
+    h3 {
+      margin-bottom: 12px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .row {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+      }
+
+      input, textarea {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        width: 100%;
+      }
+
+      textarea {
+        height: 100px;
+        resize: none;
+      }
+
+      button {
+        width: 160px;
+        padding: 10px;
+        background-color: #111;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+    }
+
+    .note {
+      font-size: 12px;
+      color: #777;
+    }
+  }
+
+  .backBtn {
+    margin-top: 40px;
+    background-color: #111;
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+}
+.commentList {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.singleComment {
+  margin-bottom: 12px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+
+  p {
+    margin: 4px 0;
+  }
+}

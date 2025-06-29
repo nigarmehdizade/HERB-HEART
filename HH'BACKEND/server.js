@@ -4,13 +4,13 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-
+import commentRoutes from './routes/commentRoutes.js';
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import basketRoutes from "./routes/basketRoutes.js";
-
+import recipeRoutes from "./routes/recipeRoutes.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { secureHeaders } from "./middleware/secureHeaders.js";
 import connectDB from "./config/db.js";
@@ -36,8 +36,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/basket", basketRoutes);
-
-
+app.use("/api/recipes", recipeRoutes);
+app.use('/api/comments', commentRoutes);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
