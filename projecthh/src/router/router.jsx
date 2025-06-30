@@ -12,6 +12,9 @@ import Wishlist from '../pages/wishlist/Wishlist';
 import MainLayout from '../components/layouts/MainLayout';
 import Snack from '../pages/snacks/Snack';
 import Recipes from '../pages/Recipes/Recipes';
+import Nuts from '../pages/nuts/Nuts';
+import NutsDetail from '../pages/NutsDetail/NutsDetail';
+
 import DetailPage from '../pages/Recipes/detailpage';
 import SnackDetail from '../pages/snacks/SnackDetail';
 const Router = () => {
@@ -99,6 +102,41 @@ const Router = () => {
           </PrivateRoute>
         }
       />
+      <Route
+  path="/category/nuts"
+  element={
+    <MainLayout>
+      <Nuts />
+    </MainLayout>
+  }
+/>
+
+<Route
+  path="/nuts/:id"
+  element={
+    <MainLayout>
+      <NutsDetail />
+    </MainLayout>
+  }
+/>
+<Route
+  path="/category/nuts"
+  element={
+    <MainLayout>
+      <Nuts />
+    </MainLayout>
+  }
+/>
+
+<Route
+  path="/nuts/:id"
+  element={
+    <MainLayout>
+      <NutsDetail />
+    </MainLayout>
+  }
+/>
+
     </Routes>
   );
 };
