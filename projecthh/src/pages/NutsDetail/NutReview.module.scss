@@ -1,0 +1,125 @@
+.reviewBox {
+  max-width: 800px;
+  margin: auto;
+  padding: 2rem;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+}
+
+.stats {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+
+  .stars {
+    display: flex;
+    gap: 0.25rem;
+    .filled { color: #f5a623; }
+    .empty { color: #ccc; }
+  }
+
+  .breakdown {
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+
+      .bar {
+        width: 100px;
+        height: 8px;
+        background: #eee;
+        border-radius: 4px;
+        overflow: hidden;
+
+        div {
+          height: 100%;
+          background: #f5a623;
+        }
+      }
+    }
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+  input, textarea {
+    padding: 0.7rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+
+  .starInput {
+    display: flex;
+    gap: 0.3rem;
+    font-size: 1.5rem;
+    .filled { color: #f5a623; cursor: pointer; }
+    .empty { color: #ccc; cursor: pointer; }
+  }
+
+  button {
+    background: #000;
+    color: white;
+    padding: 0.9rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+  }
+}
+
+.reviewList {
+  .card {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-top: 1px solid #eee;
+    padding-top: 1rem;
+
+    .avatar {
+      background: #ddd;
+      color: #000;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .details {
+      .starLine {
+        display: flex;
+        gap: 0.2rem;
+      }
+
+      .verified {
+        font-size: 0.85rem;
+        color: #555;
+      }
+
+      h4 {
+        margin: 0.3rem 0;
+        font-size: 1rem;
+      }
+
+      img {
+        margin-top: 0.5rem;
+        max-width: 120px;
+        border-radius: 8px;
+      }
+    }
+  }
+}

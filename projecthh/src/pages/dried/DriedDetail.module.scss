@@ -1,0 +1,67 @@
+.detailPage {
+  padding: 40px;
+
+  .container {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .imageSection {
+    flex: 1;
+
+    .mainImage {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+    }
+
+    .gallery {
+      display: flex;
+      gap: 10px;
+
+      .thumbnail {
+        width: 70px;
+        height: 70px;
+        border-radius: 8px;
+        object-fit: cover;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: 0.3s;
+
+        &.active {
+          border-color: #000;
+        }
+      }
+    }
+  }
+
+  .infoSection {
+    flex: 1;
+
+    h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .price {
+      font-size: 1.2rem;
+      color: #222;
+      font-weight: 600;
+    }
+
+    .desc {
+      margin: 1rem 0;
+    }
+
+    .meta {
+      list-style: none;
+      padding: 0;
+      li {
+        margin-bottom: 0.4rem;
+      }
+    }
+  }
+}

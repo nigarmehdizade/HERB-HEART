@@ -1,80 +1,69 @@
-import React, { useEffect, useState } from 'react';
-import styles from './Nuts.module.scss';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
-
+import styles from './Nuts.module.scss';
+import { FaStar } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Nuts = () => {
-  const navigate = useNavigate();
+  const [nuts, setNuts] = useState([]);
   const [sort, setSort] = useState('featured');
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-
-    const fetchNuts = async () => {
-      try {
-        const res = await axios.get('http://localhost:5000/api/nuts'); // URL backendində necədirsə ora uyğun dəyiş
-        setProducts(res.data);
-      } catch (err) {
-        setError('Failed to fetch nuts');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchNuts();
-  }, []);
+    axios.get(`http://localhost:5000/api/nuts?sort=${sort}`)
+      .then(res => setNuts(res.data))
+      .catch(() => setError('Failed to fetch nuts'));
+  }, [sort]);
 
   return (
-    <div className={styles.container}>
-
-      <section className={styles.banner}>
-        <img src="" alt="Nuts Banner" className={styles.bannerImg} />
-        <h1 className={styles.title}>NUTS</h1>
-      </section>
-
-      <div className={styles.topBar}>
-        <p>{products.length} products</p>
-        <select value={sort} onChange={(e) => setSort(e.target.value)}>
-          <option value="featured">Featured</option>
-          <option value="bestselling">Best selling</option>
-          <option value="az">Alphabetically, A-Z</option>
-          <option value="za">Alphabetically, Z-A</option>
-          <option value="lowhigh">Price, low to high</option>
-          <option value="highlow">Price, high to low</option>
-          <option value="oldnew">Date, old to new</option>
-          <option value="newold">Date, new to old</option>
-        </select>
+    <div className={styles.nutsPage}>
+      {/* Banner */}
+      <div className={styles.hero}>
+        <img src="https://elanbio.ca/cdn/shop/collections/AdobeStock_256156726_1512x.jpg?v=1617293926" alt="Nuts Banner" />
+        <h1>NUTS</h1>
       </div>
 
-      {loading ? (
-        <p className={styles.status}>Loading...</p>
-      ) : error ? (
-        <p className={styles.status}>{error}</p>
-      ) : (
-        <div className={styles.grid}>
-          {products.map((item) => (
-            <div
-              key={item._id}
-              className={styles.card}
-              onClick={() => navigate(`/nuts/${item._id}`)}
-            >
-              <img src={item.image} alt={item.name} />
-              <h3>{item.name}</h3>
-              <div className={styles.rating}>
-                {'★'.repeat(Math.floor(item.rating || 0))}
-                {'☆'.repeat(5 - Math.floor(item.rating || 0))}
-                <span> {item.reviews?.length || 0} reviews</span>
+      {/* Top Filter */}
+      <div className={styles.productsSection}>
+        <div className={styles.topBar}>
+          <p>{nuts.length} products</p>
+          <div className={styles.filter}>
+            <label htmlFor="sort">Sort:</label>
+            <select id="sort" value={sort} onChange={(e) => setSort(e.target.value)}>
+              <option value="featured">Featured</option>
+              <option value="az">A-Z</option>
+              <option value="za">Z-A</option>
+              <option value="priceLowHigh">Price: Low to High</option>
+              <option value="priceHighLow">Price: High to Low</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Grid */}
+        <div className={styles.productGrid}>
+          {error && <p>{error}</p>}
+          {nuts.map((nut) => (
+            <Link to={`/nuts/${nut._id}`} key={nut._id} className={styles.card}>
+              <div className={styles.imageWrapper}>
+                <img
+                  src={nut.image}
+                  alt={nut.name}
+                  onMouseOver={(e) => nut.hoverImage && (e.currentTarget.src = nut.hoverImage)}
+                  onMouseOut={(e) => (e.currentTarget.src = nut.image)}
+                />
               </div>
-              <p>from ${item.price}</p>
-            </div>
+              <h3>{nut.name.toUpperCase()}</h3>
+              <div className={styles.reviews}>
+                {[...Array(5)].map((_, i) => (
+                  <FaStar key={i} className={styles.star} />
+                ))}
+                <span>{nut.reviews || 0} reviews</span>
+              </div>
+              <p>from ${nut.price.toFixed(2)}</p>
+            </Link>
           ))}
         </div>
-      )}
+      </div>
     </div>
   );
 };
