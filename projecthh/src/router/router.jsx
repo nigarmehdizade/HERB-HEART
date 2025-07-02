@@ -50,7 +50,8 @@ const Router = () => {
 
       {/* DÜZGÜN PATH BURADA: 👇👇👇 */}
       <Route path="/category/dried-fruits" element={<MainLayout><Dried /></MainLayout>} />
-      <Route path="/dried/:id" element={<MainLayout><DriedDetail /></MainLayout>} />
+  <Route path="/dried-detail/:id" element={<MainLayout><DriedDetail /></MainLayout>} />
+
     </Routes>
   );
 };

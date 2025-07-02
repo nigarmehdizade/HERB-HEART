@@ -4,6 +4,7 @@ const driedFruitSchema = new mongoose.Schema({
   title: { type: String, required: true },
   price: { type: Number, required: true },
   image: { type: String, required: true },
+    hoverImage: { type: String },
   gallery: [String],
   sizes: [String],
   description: String,
