@@ -10,12 +10,14 @@ import userRoutes from "./routes/userRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import basketRoutes from "./routes/basketRoutes.js";
+import seedsRoutes from './routes/seedsRoutes.js';
 import snackRoutes from './routes/snackRoutes.js';
 import nutRoutes from './routes/nutRoutes.js';
 import nutReviewRoutes from './routes/nutReviewRoutes.js';
 import driedFruitRoutes from './routes/driedFruitRoutes.js'; 
 import recipeRoutes from "./routes/recipeRoutes.js";
 import commentRoutes from './routes/commentRoutes.js';
+import matchaRoutes from './routes/matchaRoutes.js';
 import fruitReviewRoutes from './routes/fruitReviewRoutes.js';
 
 
@@ -62,7 +64,9 @@ app.use("/api/nuts", nutRoutes);
 app.use("/api/nutreviews", nutReviewRoutes);
 app.use('/api/driedfruits', driedFruitRoutes);
 app.use("/api/recipes", recipeRoutes);
+app.use('/api/matcha', matchaRoutes);
 app.use('/api/fruitreviews', fruitReviewRoutes);
+app.use('/api/seeds', seedsRoutes);
 app.use("/api/comments", commentRoutes);
 
 // ERROR HANDLER

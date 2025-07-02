@@ -24,6 +24,9 @@ import DriedDetail from '../pages/dried/DriedDetail';
 import Recipes from '../pages/Recipes/Recipes';
 import DetailPage from '../pages/Recipes/detailpage';
 import Basket from '../pages/basket/Bakset';
+import Seeds from '../pages/seeds/Seeds';
+import SeedsDetail from '../pages/seeds/SeedsDetail';
+import Matcha from '../pages/matcha/Matcha';
 
 const Router = () => {
   return (
@@ -51,7 +54,10 @@ const Router = () => {
       {/* DÜZGÜN PATH BURADA: 👇👇👇 */}
       <Route path="/category/dried-fruits" element={<MainLayout><Dried /></MainLayout>} />
   <Route path="/dried-detail/:id" element={<MainLayout><DriedDetail /></MainLayout>} />
-
+<Route path="/category/seeds" element={<MainLayout><Seeds /></MainLayout>} />
+<Route path="/seeds/:id" element={<MainLayout><SeedsDetail/></MainLayout>} />
+  <Route path="/category/matcha" element={<MainLayout><Matcha/></MainLayout>} /> {/* ✅ matcha route */}
+      {/* <Route path="/matcha/:id" element={<MainLayout><Matcha/></MainLayout>} />  */}
     </Routes>
   );
 };

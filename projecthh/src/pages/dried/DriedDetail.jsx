@@ -5,7 +5,7 @@ import axios from 'axios';
 import { FaStar } from 'react-icons/fa';
 import { SiMastercard } from "react-icons/si";
 import { FaCcVisa, FaCcPaypal, FaCcApplePay } from "react-icons/fa";
-import DriedFruitReview from './DriedFruitReview';
+// import DriedFruitReview from './DriedFruitReview';
 
 const DriedDetail = () => {
   const { id } = useParams();
@@ -145,7 +145,7 @@ const DriedDetail = () => {
       </div>
 
       {/* Review Section */}
-      <DriedFruitReview fruitId={fruit._id} />
+      {/* <DriedFruitReview fruitId={fruit._id} /> */}
 
       {/* You May Also Like */}
       <div className={styles.mayAlsoLikeWrapper}>
