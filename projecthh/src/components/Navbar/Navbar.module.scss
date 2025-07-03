@@ -1,98 +1,107 @@
 .navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  justify-content: space-between;
+  padding: 1.2rem 3rem;
   background-color: white;
-  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
   position: sticky;
   top: 0;
   z-index: 999;
-  flex-wrap: wrap;
+}
+.left {
+  display: flex;
+  align-items: center;
 
+  img {
+    height: 75px; 
+    width: auto;
+    object-fit: contain;
+  }
 }
 
-.left img {
-  height: 80px;
-  width: auto;
-  object-fit: contain;
-  transition: transform 0.3s ease;
-}
-
-.left img:hover {
-  transform: scale(1.05);
-}
 
 .center {
   display: flex;
-  gap: 1.5rem;
-  
-  flex-wrap: wrap;
   justify-content: center;
-  flex: 1;
+  align-items: center;
+  gap: 2.5rem; // 🟢 burda məsafə təyin olunur
+  flex-wrap: wrap;
 
   a {
+    position: relative;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: #000;
     text-decoration: none;
-    font-weight: 600;
     font-size: 0.9rem;
-      color: black;
-    letter-spacing: 1px;
-    transition: color 0.3s;
+    text-transform: uppercase;
+    padding-bottom: 6px;
+    display: inline-block; // 🟢 bu vacibdir
 
-    &:hover {
-      color: #4caf50;
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0%;
+      height: 2px;
+      background-color: #000;
+      transition: width 0.3s ease;
+    }
+
+    &:hover::after {
+      width: 100%;
     }
   }
 }
+
 
 .right {
   display: flex;
-  gap: 1rem;
   align-items: center;
+  gap: 1.5rem;
 
-  a, .iconBtn {
-    font-size: 1.2rem;
-    color: black;
+  a, button {
     background: none;
     border: none;
+    font-size: 1.1rem;
+    color: black;
     cursor: pointer;
-    transition: color 0.3s;
+    position: relative;
 
     &:hover {
-      color: #4caf50;
+      color: #4CAF50;
     }
   }
+}
+
+.iconBtn {
+  padding: 0;
 }
 
 .searchBox {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 0.8rem;
+  position: absolute;
+  top: 100%;
+  right: 3rem;
+  margin-top: 0.5rem;
 
   input {
-    width: 45%;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
+    padding: 0.4rem 0.8rem;
     border: 1px solid #ccc;
-    border-radius: 25px;
-    outline: none;
-    transition: all 0.3s ease-in-out;
-
-    &:focus {
-      border-color: #4caf50;
-    }
+    border-radius: 6px;
+    width: 200px;
   }
 }
 
-@media (max-width: 768px) {
-  .center {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.8rem;
-  }
 
-  .searchBox input {
-    width: 80%;
-  }
+.right a:last-child::after {
+  content: '';
+  position: absolute;
+  top: 0px;
+  right: -3px;
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  border-radius: 50%;
 }

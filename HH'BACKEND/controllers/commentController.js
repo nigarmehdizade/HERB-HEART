@@ -80,3 +80,33 @@ export const deleteComment = async (req, res) => {
   }
 };
 
+export const createRecipeComment = async (req, res) => {
+  const { name, email, comment } = req.body;
+  const { recipeId } = req.params;
+
+  try {
+    const newComment = new Comment({
+      name,
+      email,
+      comment,
+      recipeId,
+    });
+
+    await newComment.save();
+    res.status(201).json(newComment);
+  } catch (error) {
+    res.status(500).json({ message: 'Recipe üçün şərh əlavə edilə bilmədi.', error });
+  }
+};
+
+
+export const getCommentsByRecipe = async (req, res) => {
+  const { recipeId } = req.params;
+
+  try {
+    const comments = await Comment.find({ recipeId }).sort({ createdAt: -1 });
+    res.status(200).json(comments);
+  } catch (error) {
+    res.status(500).json({ message: 'Recipe şərhləri yüklənə bilmədi.', error });
+  }
+};

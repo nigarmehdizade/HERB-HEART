@@ -36,7 +36,7 @@ const Login = () => {
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.imageSection}>
-          <img src={loginImg} alt="Login visual" />
+          <img src="https://colorlib.com/etc/regform/colorlib-regform-7/images/signin-image.jpg"alt="Login visual" />
         </div>
         <div className={styles.formSection}>
           <h2 className={styles.title}>Daxil ol</h2>

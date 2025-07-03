@@ -27,6 +27,7 @@ import Basket from '../pages/basket/Bakset';
 import Seeds from '../pages/seeds/Seeds';
 import SeedsDetail from '../pages/seeds/SeedsDetail';
 import Matcha from '../pages/matcha/Matcha';
+import MatchaDetail from '../pages/matcha/MatchaDetail';
 
 const Router = () => {
   return (
@@ -57,7 +58,7 @@ const Router = () => {
 <Route path="/category/seeds" element={<MainLayout><Seeds /></MainLayout>} />
 <Route path="/seeds/:id" element={<MainLayout><SeedsDetail/></MainLayout>} />
   <Route path="/category/matcha" element={<MainLayout><Matcha/></MainLayout>} /> {/* ✅ matcha route */}
-      {/* <Route path="/matcha/:id" element={<MainLayout><Matcha/></MainLayout>} />  */}
+      <Route path="/matcha/:id" element={<MainLayout><MatchaDetail/></MainLayout>} /> 
     </Routes>
   );
 };

@@ -6,24 +6,27 @@ import styles from './detailpage.module.scss';
 const DetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [recipe, setRecipe] = useState(null);
 
+  const [recipe, setRecipe] = useState(null);
+  const [comments, setComments] = useState([]);
   const [comment, setComment] = useState({
     name: '',
     email: '',
     message: ''
   });
 
-  const [comments, setComments] = useState([]);
-
+  // FETCH recipe və comments
   useEffect(() => {
     axios.get(`http://localhost:5000/api/recipes/${id}`)
       .then(res => setRecipe(res.data))
       .catch(err => console.error(err));
 
-    axios.get(`http://localhost:5000/api/comments/${id}`)
-      .then(res => setComments(res.data.data))
-      .catch(err => console.error(err));
+    axios.get(`http://localhost:5000/api/comments/recipe/${id}`)
+      .then(res => setComments(res.data || []))
+      .catch(err => {
+        console.error(err);
+        setComments([]);
+      });
   }, [id]);
 
   const handleChange = (e) => {
@@ -32,27 +35,35 @@ const DetailPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      await axios.post('http://localhost:5000/api/comments', {
-        recipeId: id,
+      await axios.post(`http://localhost:5000/api/comments/recipe/${id}`, {
         name: comment.name,
         email: comment.email,
-        message: comment.message
+        comment: comment.message,
       });
 
-      alert("Şərhiniz göndərildi və təsdiq gözləyir.");
       setComment({ name: '', email: '', message: '' });
+      alert("Şərhiniz göndərildi və təsdiq gözləyir.");
 
-      const updated = await axios.get(`http://localhost:5000/api/comments/${id}`);
-      setComments(updated.data.data);
+      const updated = await axios.get(`http://localhost:5000/api/comments/recipe/${id}`);
+      setComments(updated.data || []);
     } catch (error) {
       console.error(error);
       alert("Şərh göndərilərkən xəta baş verdi.");
     }
   };
 
-  if (!recipe) return <div>Loading...</div>;
+  const handleDelete = async (commentId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/comments/${commentId}`);
+      const updated = await axios.get(`http://localhost:5000/api/comments/recipe/${id}`);
+      setComments(updated.data || []);
+    } catch (err) {
+      console.error("Silinmə zamanı xəta:", err);
+    }
+  };
+
+  if (!recipe) return <div className={styles.loading}>Loading...</div>;
 
   return (
     <div className={styles.detailWrapper}>
@@ -62,7 +73,7 @@ const DetailPage = () => {
 
       <h3>Ingredients:</h3>
       <ul>
-        {recipe.ingredients.map((item, index) => (
+        {recipe.ingredients?.map((item, index) => (
           <li key={index}>{item}</li>
         ))}
       </ul>
@@ -71,8 +82,6 @@ const DetailPage = () => {
       <ol>
         <li>In a small saucepan, heat almond milk over medium heat.</li>
         <li>Add rolled oats and cook for 5–7 minutes, stirring regularly until mixture is creamy and oats have absorbed the liquid.</li>
-      </ol>
-      <ol start="3">
         <li>Remove from heat and stir in hemp seeds and cinnamon powder. Mix well.</li>
         <li>Pour oatmeal into a bowl.</li>
         <li>Top with almond butter, pecans, coconut smiles, fresh berries, and extra hemp seeds.</li>
@@ -80,7 +89,6 @@ const DetailPage = () => {
       </ol>
 
       <div className={styles.commentSection}>
-        {/* 🔵 Əvvəl form */}
         <h3>Leave a Comment</h3>
         <form onSubmit={handleSubmit}>
           <div className={styles.row}>
@@ -112,14 +120,14 @@ const DetailPage = () => {
         </form>
         <p className={styles.note}>Please note, comments must be approved before they are published.</p>
 
-        {/* 🟢 Sonra comment siyahısı */}
-        {comments.length > 0 && (
+        {Array.isArray(comments) && comments.length > 0 && (
           <div className={styles.commentList}>
             <h3>Comments:</h3>
             {comments.map((c, i) => (
               <div key={i} className={styles.singleComment}>
                 <p><strong>{c.name}</strong> <em>({new Date(c.createdAt).toLocaleDateString()})</em></p>
-                <p>{c.message}</p>
+                <p>{c.comment}</p>
+                <button className={styles.deleteBtn} onClick={() => handleDelete(c._id)}>Delete</button>
               </div>
             ))}
           </div>
