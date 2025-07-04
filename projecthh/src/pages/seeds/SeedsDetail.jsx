@@ -1,4 +1,3 @@
-// src/pages/seeds/SeedsDetail.jsx
 import React, { useEffect, useState } from 'react';
 import styles from './SeedsDetail.module.scss';
 import { useParams } from 'react-router-dom';
@@ -7,30 +6,44 @@ import { FaStar } from 'react-icons/fa';
 import { SiMastercard } from "react-icons/si";
 import { FaCcVisa, FaCcPaypal, FaCcApplePay } from "react-icons/fa";
 
+// Redux
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/cartSlice';
+
+// Drawer
+import { useDrawer } from '../../context/DrawerContext';
+
 const SeedsDetail = () => {
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const { openDrawer } = useDrawer();
+
   const [seed, setSeed] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('');
   const [relatedSeeds, setRelatedSeeds] = useState([]);
-
-  useEffect(() => {
-    axios.get(`http://localhost:5000/api/seeds/${id}`)
-      .then(res => {
-        setSeed(res.data);
-        setSelectedSize(res.data.sizes?.[0] || '');
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error('Xəta:', err);
-        setLoading(false);
+useEffect(() => {
+  axios.get(`http://localhost:5000/api/seeds/${id}`)
+    .then(res => {
+      const staticSizes = ['150g', '8x150g']; // Əgər backenddən gəlmirsə burada override et
+      setSeed({
+        ...res.data,
+        sizes: staticSizes
       });
+      setSelectedSize(staticSizes[0]);
+      setLoading(false);
+    })
+    .catch(err => {
+      console.error('Xəta:', err);
+      setLoading(false);
+    });
 
-    axios.get('http://localhost:5000/api/seeds')
-      .then(res => setRelatedSeeds(res.data.slice(0, 6)))
-      .catch(err => console.error('Seeds alınmadı', err));
-  }, [id]);
+  axios.get('http://localhost:5000/api/seeds')
+    .then(res => setRelatedSeeds(res.data.slice(0, 6)))
+    .catch(err => console.error('Seeds alınmadı', err));
+}, [id]);
+
 
   if (loading) return <p>Yüklənir...</p>;
   if (!seed) return <p>Məhsul tapılmadı</p>;
@@ -38,6 +51,24 @@ const SeedsDetail = () => {
   const totalPrice = (seed.price * quantity).toFixed(2);
   const freeShippingThreshold = 15;
   const remainingForFreeShipping = Math.max(0, freeShippingThreshold - totalPrice).toFixed(2);
+
+  const handleAddToCart = () => {
+    if (!selectedSize) {
+      alert("Please select a size");
+      return;
+    }
+
+    dispatch(addToCart({
+      id: seed._id,
+      name: seed.title,
+      image: seed.image,
+      price: seed.price,
+      quantity,
+      size: selectedSize
+    }));
+
+    openDrawer(); // Drawer açılır
+  };
 
   return (
     <>
@@ -47,7 +78,7 @@ const SeedsDetail = () => {
         </div>
 
         <div className={styles.infoWrapper}>
-          <h1 className={styles.title}>{seed.title}</h1>
+          <h1 className={styles.name}>{seed.title}</h1>
 
           <div className={styles.rating}>
             <div className={styles.stars}>
@@ -66,25 +97,34 @@ const SeedsDetail = () => {
             </div>
           )}
 
-          <div className={styles.sizeSelect}>
-            {seed.sizes?.map((size) => (
-              <button
-                key={size}
-                className={selectedSize === size ? styles.active : ''}
-                onClick={() => setSelectedSize(size)}
-              >
-                {size}
-              </button>
-            ))}
-          </div>
+          {/* SIZE SELECTION */}
+          {seed.sizes?.length > 0 && (
+            <>
+              <label className={styles.sectionLabel}>Size</label>
+              <div className={styles.sizeSelect}>
+                {seed.sizes.map((size) => (
+                  <button
+                    key={size}
+                    className={`${styles.sizeButton} ${selectedSize === size ? styles.active : ''}`}
+                    onClick={() => setSelectedSize(size)}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
 
+          {/* QUANTITY */}
+          <label className={styles.sectionLabel}>Quantity</label>
           <div className={styles.quantityControl}>
             <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>−</button>
             <span>{quantity}</span>
             <button onClick={() => setQuantity(q => q + 1)}>+</button>
           </div>
 
-          <button className={styles.addToCart}>ADD TO CART</button>
+          {/* ADD TO CART */}
+          <button className={styles.addToCart} onClick={handleAddToCart}>ADD TO CART</button>
           <button className={styles.shopPay}>Buy with <strong>shop</strong><span>Pay</span></button>
 
           <a href="#" className={styles.moreOptions}>More payment options</a>
@@ -117,10 +157,11 @@ const SeedsDetail = () => {
         </div>
       </div>
 
+      {/* YOU MAY ALSO LIKE */}
       <div className={styles.mayAlsoLikeWrapper}>
         <h2>You may also like</h2>
         <div className={styles.grid}>
-          {relatedSeeds.slice(0, 5).map(s => (
+          {relatedSeeds.map(s => (
             <div className={styles.card} key={s._id}>
               <img src={s.image} alt={s.title} />
               <h3>{s.title}</h3>

@@ -20,6 +20,30 @@
   }
 }
 
+.cartIcon {
+  position: relative;
+  cursor: pointer;
+
+  svg {
+    font-size: 18px;
+  }
+
+  .cartDot {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background-color: red;
+    color: white;
+    width: 16px;
+    height: 16px;
+    font-size: 11px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+}
 
 .center {
   display: flex;

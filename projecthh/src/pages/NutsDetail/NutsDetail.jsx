@@ -5,7 +5,13 @@ import axios from 'axios';
 import { FaStar } from 'react-icons/fa';
 import { SiMastercard } from "react-icons/si";
 import { FaCcVisa, FaCcPaypal, FaCcApplePay } from "react-icons/fa";
-import NutReview from './NutReview'; 
+import NutReview from './NutReview';
+
+// ✅ Redux və Drawer Context importları
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/cartSlice';
+import { useDrawer } from '../../context/DrawerContext';
+
 const NutsDetail = () => {
   const { id } = useParams();
   const [nut, setNut] = useState(null);
@@ -14,6 +20,10 @@ const NutsDetail = () => {
   const [nuts, setNuts] = useState([]);
   const [mainImage, setMainImage] = useState('');
   const [loading, setLoading] = useState(true);
+
+  // ✅ Redux və Drawer
+  const dispatch = useDispatch();
+  const { openDrawer } = useDrawer();
 
   useEffect(() => {
     axios.get(`http://localhost:5000/api/nuts/${id}`)
@@ -27,7 +37,21 @@ const NutsDetail = () => {
         console.error('Xəta:', err);
         setLoading(false);
       });
-
+ axios.get(`http://localhost:5000/api/nuts/${id}`)
+    .then(res => {
+      const staticSizes = ['150g', '8x150g']; // ← sabit size-lar
+      setNut({
+        ...res.data,
+        sizes: staticSizes // ← override edir
+      });
+      setSelectedSize(staticSizes[0]);
+      setMainImage(res.data.image);
+      setLoading(false);
+    })
+    .catch(err => {
+      console.error('Xəta:', err);
+      setLoading(false);
+    });
     axios.get('http://localhost:5000/api/nuts')
       .then(res => setNuts(res.data.slice(0, 6)))
       .catch(err => console.error('Nuts alınmadı', err));
@@ -41,6 +65,24 @@ const NutsDetail = () => {
   const remainingForFreeShipping = Math.max(0, freeShippingThreshold - totalPrice).toFixed(2);
   const progress = Math.min((totalPrice / freeShippingThreshold) * 100, 100);
 
+const handleAddToCart = () => {
+  if (nut.sizes?.length > 0 && !selectedSize) {
+    alert("Please select a size.");
+    return;
+  }
+
+    dispatch(addToCart({
+      id: nut._id,
+      name: nut.title,
+      image: nut.image,
+      price: nut.price,
+      quantity,
+        size: selectedSize || null
+    }));
+
+    openDrawer(); // sağdan səbəti aç
+  };
+
   return (
     <>
       <div className={styles.container}>
@@ -49,6 +91,7 @@ const NutsDetail = () => {
           <img src={mainImage} alt={nut.title} loading="lazy" />
           <div className={styles.galleryRow}>
             {[nut.image, ...(nut.gallery || [])].map((img, i) => (
+              
               <img
                 key={i}
                 src={img}
@@ -62,7 +105,8 @@ const NutsDetail = () => {
 
         {/* RIGHT INFO */}
         <div className={styles.infoWrapper}>
-          <h1 className={styles.title}>{nut.title}</h1>
+      <h1 className={styles.title}>{nut.title || nut.name || nut.productTitle}</h1>
+
 
           <div className={styles.rating}>
             <div className={styles.stars}>
@@ -81,23 +125,23 @@ const NutsDetail = () => {
           <div className={styles.progressWrapper}>
             <div className={styles.progressBar} style={{ width: `${progress}%` }}></div>
           </div>
+{nut.sizes?.length > 0 && (
+  <>
+    <p className={styles.sectionLabel}>Size</p>
+    <div className={styles.sizeSelect}>
+      {nut.sizes.map((size) => (
+        <button
+          key={size}
+          className={`${styles.sizeButton} ${selectedSize === size ? styles.active : ''}`}
+          onClick={() => setSelectedSize(size)}
+        >
+          {size}
+        </button>
+      ))}
+    </div>
+  </>
+)}
 
-          {nut.sizes?.length > 0 && (
-            <>
-              <p className={styles.sectionLabel}>Size</p>
-              <div className={styles.sizeSelect}>
-                {nut.sizes.map((size) => (
-                  <button
-                    key={size}
-                    className={selectedSize === size ? styles.active : ''}
-                    onClick={() => setSelectedSize(size)}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
 
           <p className={styles.sectionLabel}>Quantity</p>
           <div className={styles.quantityControl}>
@@ -106,7 +150,10 @@ const NutsDetail = () => {
             <button onClick={() => setQuantity(q => q + 1)}>+</button>
           </div>
 
-          <button className={styles.addToCart}>Add to Cart</button>
+          <button className={styles.addToCart} onClick={handleAddToCart}>
+            Add to Cart
+          </button>
+
           <button className={styles.shopPay}>
             Buy with <strong>shop</strong><span>Pay</span>
           </button>
@@ -140,29 +187,29 @@ const NutsDetail = () => {
           </div>
         </div>
       </div>
-<>
-<NutReview nutId={nut._id} />
-</>
-      
-     <div className={styles.mayAlsoLikeWrapper}>
-  <h2>YOU MAY ALSO LIKE</h2>
-  <div className={styles.grid}>
-    {nuts.slice(0, 5).map(n => (
-      <div className={styles.card} key={n._id}>
-        <img src={n.image} alt={n.title} />
-        <h3>{n.title}</h3>
-        <div className={styles.reviews}>
-          {[...Array(5)].map((_, i) => (
-            <FaStar key={i} className={styles.star} />
-          ))}
-          <span>{n.reviews || 0} reviews</span>
-        </div>
-        <p className={styles.price}>from ${n.price}</p>
-      </div>
-    ))}
-  </div>
-</div>
 
+      {/* REVIEW */}
+      <NutReview nutId={nut._id} />
+
+      {/* YOU MAY ALSO LIKE */}
+      <div className={styles.mayAlsoLikeWrapper}>
+        <h2>YOU MAY ALSO LIKE</h2>
+        <div className={styles.grid}>
+          {nuts.map(n => (
+            <div className={styles.card} key={n._id}>
+              <img src={n.image} alt={n.title} />
+              <h3>{n.title}</h3>
+              <div className={styles.reviews}>
+                {[...Array(5)].map((_, i) => (
+                  <FaStar key={i} className={styles.star} />
+                ))}
+                <span>{n.reviews || 0} reviews</span>
+              </div>
+              <p className={styles.price}>from ${n.price}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </>
   );
 };

@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import styles from './DriedDetail.module.scss';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaStar } from 'react-icons/fa';
 import { SiMastercard } from "react-icons/si";
 import { FaCcVisa, FaCcPaypal, FaCcApplePay } from "react-icons/fa";
-// import DriedFruitReview from './DriedFruitReview';
+
+// Redux və Drawer
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/cartSlice';
+import { useDrawer } from '../../context/DrawerContext';
 
 const DriedDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { openDrawer } = useDrawer();
+
   const [fruit, setFruit] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('');
-  const [driedList, setDriedList] = useState([]);
   const [mainImage, setMainImage] = useState('');
   const [loading, setLoading] = useState(true);
+  const [driedList, setDriedList] = useState([]);
 
   useEffect(() => {
-    // GET current fruit
     axios.get(`http://localhost:5000/api/driedfruits/${id}`)
       .then(res => {
         setFruit(res.data);
@@ -30,7 +37,6 @@ const DriedDetail = () => {
         setLoading(false);
       });
 
-    // GET all fruits for "You may also like"
     axios.get('http://localhost:5000/api/driedfruits')
       .then(res => setDriedList(res.data.slice(0, 5)))
       .catch(err => console.error('Dried alınmadı', err));
@@ -43,6 +49,28 @@ const DriedDetail = () => {
   const freeShippingThreshold = 15;
   const remainingForFreeShipping = Math.max(0, freeShippingThreshold - totalPrice).toFixed(2);
   const progress = Math.min((totalPrice / freeShippingThreshold) * 100, 100);
+
+  const handleAddToCart = () => {
+    if (fruit.sizes?.length > 0 && !selectedSize) {
+      alert("Please select a size.");
+      return;
+    }
+
+    dispatch(addToCart({
+      id: fruit._id,
+      name: fruit.title,
+      image: fruit.image,
+      price: fruit.price,
+      quantity,
+      size: selectedSize || null,
+    }));
+
+    openDrawer();
+  };
+
+  const handleCheckout = () => {
+    navigate('/checkout');
+  };
 
   return (
     <>
@@ -78,39 +106,52 @@ const DriedDetail = () => {
           <p className={styles.price}>${fruit.price}</p>
           <p className={styles.shipping}>Shipping calculated at checkout.</p>
 
-          <div className={styles.shippingNotice}>
-            You're <span>${remainingForFreeShipping}</span> away from free shipping!
-          </div>
-          <div className={styles.progressWrapper}>
-            <div className={styles.progressBar} style={{ width: `${progress}%` }}></div>
-          </div>
-
-          {fruit.sizes?.length > 0 && (
+          {remainingForFreeShipping > 0 && (
             <>
-              <p className={styles.sectionLabel}>Size</p>
-              <div className={styles.sizeSelect}>
-                {fruit.sizes.map((size) => (
-                  <button
-                    key={size}
-                    className={selectedSize === size ? styles.active : ''}
-                    onClick={() => setSelectedSize(size)}
-                  >
-                    {size}
-                  </button>
-                ))}
+              <div className={styles.shippingNotice}>
+                You're <span>${remainingForFreeShipping}</span> away from free shipping!
+              </div>
+              <div className={styles.progressWrapper}>
+                <div className={styles.progressBar} style={{ width: `${progress}%` }}></div>
               </div>
             </>
           )}
 
-          <p className={styles.sectionLabel}>Quantity</p>
-          <div className={styles.quantityControl}>
-            <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>−</button>
-            <span>{quantity}</span>
-            <button onClick={() => setQuantity(q => q + 1)}>+</button>
+          {/* SIZE + QUANTITY ROW */}
+          <div className={styles.rowOptions}>
+            {fruit.sizes?.length > 0 && (
+              <div className={styles.sizeBlock}>
+                <p className={styles.sectionLabel}>Size</p>
+                <div className={styles.sizeSelect}>
+                  {fruit.sizes.map((size) => (
+                    <button
+                      key={size}
+                      className={`${styles.sizeButton} ${selectedSize === size ? styles.active : ''}`}
+                      onClick={() => setSelectedSize(size)}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className={styles.quantityBlock}>
+              <p className={styles.sectionLabel}>Quantity</p>
+              <div className={styles.quantityControl}>
+                <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>−</button>
+                <span>{quantity}</span>
+                <button onClick={() => setQuantity(q => q + 1)}>+</button>
+              </div>
+            </div>
           </div>
 
-          <button className={styles.addToCart}>Add to Cart</button>
-          <button className={styles.shopPay}>
+          {/* ACTION BUTTONS */}
+          <button className={styles.addToCart} onClick={handleAddToCart}>
+            Add to Cart
+          </button>
+
+          <button className={styles.shopPay} onClick={handleCheckout}>
             Buy with <strong>shop</strong><span>Pay</span>
           </button>
 
@@ -144,10 +185,7 @@ const DriedDetail = () => {
         </div>
       </div>
 
-      {/* Review Section */}
-      {/* <DriedFruitReview fruitId={fruit._id} /> */}
-
-      {/* You May Also Like */}
+      {/* YOU MAY ALSO LIKE */}
       <div className={styles.mayAlsoLikeWrapper}>
         <h2>YOU MAY ALSO LIKE</h2>
         <div className={styles.grid}>

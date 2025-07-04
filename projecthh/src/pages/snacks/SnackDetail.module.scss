@@ -35,11 +35,16 @@
 }
 
 .title {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 700;
-  color: #111;
-  margin-bottom: 4px;
 }
+
+.price {
+  font-size: 26px;
+  font-weight: 600;
+  color: #ff6b00;
+}
+
 
 .rating {
   display: flex;
@@ -92,6 +97,30 @@
     font-weight: 600;
   }
 }
+.freeShippingBar {
+  margin-top: 10px;
+  font-size: 14px;
+
+  .progressBar {
+    background: #eee;
+    height: 10px;
+    border-radius: 5px;
+    margin-top: 5px;
+
+    .progress {
+      height: 100%;
+      background: #ffae00;
+      border-radius: 5px;
+    }
+  }
+}
+.paymentIcons {
+  display: flex;
+  gap: 16px;
+  font-size: 32px;
+  color: #444;
+  margin-top: 20px;
+}
 
 .sizeSelect {
   display: flex;
@@ -100,7 +129,7 @@
 
   button {
     padding: 10px 16px;
-    border: 1px solid #ccc;
+    border: 1px solid red;
     background-color: #fff;
     border-radius: 6px;
     font-size: 14px;
@@ -160,6 +189,71 @@
 
   &:hover {
     background-color: #f2f2f2;
+  }
+}
+.selectorSection {
+  margin: 20px 0;
+}
+
+.label {
+  font-size: 12px;              // biraz daha kiçik
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  margin-bottom: 8px;
+  display: block;
+  color: black;
+  text-transform: uppercase;
+}
+
+.sizeOptions {
+  display: flex;
+  gap: 12px;
+}
+
+.sizeButton {
+  padding: 10px 20px;
+  font-size: 15px;
+  background-color: white;
+  border: 1px solid #eee;         // defaultda çox açıq sərhəd
+  border-radius: 2px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  color: black;
+}
+
+.sizeButton:hover {
+  border-color: #ccc;
+}
+
+.sizeButton.active {
+  border: 2px solid black;        // seçiləndə qalın və qara sərhəd
+  background-color: white;
+}
+
+
+.quantityControl {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #ddd;
+  width: fit-content;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 16px;
+
+  button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    padding: 6px 12px;
+    cursor: pointer;
+    color: #333;
+  }
+
+  span {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
   }
 }
 

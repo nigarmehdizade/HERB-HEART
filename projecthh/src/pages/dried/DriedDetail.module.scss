@@ -10,7 +10,6 @@
   }
 }
 
-/* IMAGE SECTION */
 .imageWrapper {
   flex: 1;
   min-width: 350px;
@@ -54,7 +53,6 @@
   }
 }
 
-/* INFO SECTION */
 .infoWrapper {
   display: flex;
   flex-direction: column;
@@ -68,6 +66,7 @@
   font-weight: 800;
   text-transform: uppercase;
   margin-bottom: 0.5rem;
+  color: #000;
 }
 
 .rating {
@@ -104,12 +103,6 @@
   text-decoration: underline;
 }
 
-.divider {
-  border-top: 1px solid #ddd;
-  margin: 1rem 0;
-}
-
-/* FREE SHIPPING */
 .shippingNotice {
   font-size: 0.95rem;
   color: #000;
@@ -135,59 +128,87 @@
   }
 }
 
-/* SIZE */
+/* ========================== */
+/* SIZE SELECTOR */
+/* ========================== */
 .sectionLabel {
-  font-size: 0.8rem;
+  font-size: 13px;
   font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+  display: block;
+  color: black;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #222;
-  margin-top: 1.5rem;
 }
 
 .sizeSelect {
   display: flex;
-  gap: 0.5rem;
+  gap: 12px;
+  margin-bottom: 20px;
+}
 
-  button {
-    padding: 0.5rem 1rem;
-    border: 1px solid #ccc;
-    background: #fff;
-    font-weight: 500;
-    cursor: pointer;
-    border-radius: 4px;
+.sizeButton {
+  padding: 10px 20px;
+  font-size: 14px;
+  background-color: white;
+  color: black;
+  border: 2px solid #eee;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s ease;
 
-    &.active {
-      border: 2px solid #000;
-    }
+  &:hover {
+    border-color: #ccc;
   }
 }
 
-/* QUANTITY */
+.sizeButton.active {
+  border-color: black;
+}
+
+/* ========================== */
+/* QUANTITY SELECTOR */
+/* ========================== */
 .quantityControl {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 1rem;
-  margin-top: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+  width: fit-content;
+  margin-bottom: 20px;
 
   button {
-    width: 38px;
-    height: 38px;
-    background: #fff;
-    border: 1px solid #ccc;
-    font-size: 1.2rem;
+    background-color: white;
+    color: black;
+    border: none;
+    padding: 8px 16px;
+    font-size: 18px;
     cursor: pointer;
+    transition: background 0.2s;
+    border-right: 1px solid #ddd;
+
+    &:hover {
+      background-color: #f4f4f4;
+    }
+
+    &:last-child {
+      border-right: none;
+    }
   }
 
   span {
-    font-size: 1rem;
-    font-weight: 600;
-    min-width: 24px;
-    text-align: center;
+    padding: 8px 16px;
+    font-size: 16px;
+    color: black;
+    background-color: white;
+    border-right: 1px solid #ddd;
   }
 }
 
-/* ADD TO CART */
+/* ========================== */
+/* ADD TO CART BUTTON */
+/* ========================== */
 .addToCart {
   margin-top: 1.5rem;
   padding: 1rem;
@@ -207,7 +228,9 @@
   }
 }
 
-/* SHOP PAY */
+/* ========================== */
+/* SHOP PAY & MORE OPTIONS */
+/* ========================== */
 .shopPay {
   margin-top: 0.75rem;
   padding: 1rem;
@@ -240,7 +263,9 @@
   cursor: pointer;
 }
 
-/* DESCRIPTION */
+/* ========================== */
+/* PRODUCT DESCRIPTION & META */
+/* ========================== */
 .description {
   font-size: 0.95rem;
   line-height: 1.6;
@@ -256,7 +281,9 @@
   margin-top: 0.5rem;
 }
 
-/* SHARE */
+/* ========================== */
+/* SHARE ICONS & PAYMENT ICONS */
+/* ========================== */
 .share {
   margin-top: 1rem;
   display: flex;
@@ -273,7 +300,6 @@
   }
 }
 
-/* PAYMENT ICONS */
 .paymentIcons {
   margin-top: 1rem;
   display: flex;
@@ -284,6 +310,7 @@
 .mayAlsoLikeWrapper {
   margin-top: 4rem;
   padding: 2rem 1rem;
+  background-color: #fff;
 
   h2 {
     text-align: center;
@@ -292,6 +319,7 @@
     text-transform: uppercase;
     margin-bottom: 2.5rem;
     letter-spacing: 0.5px;
+    color: #000;
   }
 
   .grid {
@@ -309,12 +337,11 @@
     border-radius: 10px;
     text-align: center;
     cursor: pointer;
-    transition: all 0.3s ease;
   
 
     &:hover {
       transform: translateY(-5px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+     
     }
 
     img {
@@ -363,17 +390,6 @@
         font-weight: 400;
         color: #999;
       }
-    }
-  }
-
-  @media (max-width: 768px) {
-    .grid {
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .card {
-      max-width: 100%;
     }
   }
 }

@@ -69,8 +69,7 @@ app.use('/api/fruitreviews', fruitReviewRoutes);
 app.use('/api/seeds', seedsRoutes);
 app.use("/api/comments", commentRoutes);
 
-// ERROR HANDLER
 app.use(errorHandler);
 
-// SERVER START
-app.listen(PORT, () => console.log(`✅ Backend running on port ${PORT}`));
+
+app.listen(PORT, () => console.log(`Backend running ${PORT}`));
