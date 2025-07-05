@@ -1,96 +1,148 @@
 .nutsPage {
-  padding-bottom: 60px;
-}
-
-.hero {
+  .hero {
   position: relative;
   width: 100%;
-  height: 400px;
+  height: 300px; // ⬅️ əvvəl 400px idisə 300px et (şəkli aşağıdan qısaldır)
+  overflow: hidden;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
   }
 
   h1 {
     position: absolute;
-    top: 50%;
+    top: 50%; // ⬅️ mərkəzə gətirmək üçün top 50%
     left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 3rem;
-    font-weight: 800;
-    text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+    transform: translate(-50%, -50%); // ⬅️ tam ortaya
+
+    color: #fff;
+    font-size: 2.8rem;
+    font-weight: bold;
+    padding: 0.5rem 2rem;
+    border-radius: 10px;
   }
 }
 
-.productsSection {
-  padding: 40px;
-}
+  .productsSection {
+    padding: 3rem;
 
-.topBar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
+    .topBar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
 
-  .filter {
-    display: flex;
-    gap: 10px;
-    select {
-      padding: 6px 10px;
+      p {
+        font-size: 1.2rem;
+        font-weight: 500;
+      }
+
+      .filter {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        label {
+          font-weight: 600;
+        }
+
+        select {
+          padding: 0.4rem 1rem;
+          font-size: 1rem;
+        }
+      }
     }
-  }
-}
 
-.productGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 30px;
-}
+    .productGrid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
 
-.card {
+   .card {
+  max-width: 260px;
+  padding: 1.5rem 1rem;
+  border-radius: 12px;
+  background: #fff;
   text-align: center;
-  text-decoration: none;
-  color: #111;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+
+ 
+  img {
+    width: 100%;
+    height: 280px; 
+    object-fit: contain;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+  }
 
   h3 {
     font-size: 1rem;
-    font-weight: 700;
-    margin: 10px 0;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
   }
 
   p {
-    margin-top: 4px;
     font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;
   }
-}
 
-.imageWrapper {
-  width: 100%;
-  max-width: 220px;
-  height: 250px;
-  margin: 0 auto;
+      .reviews {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.2rem;
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: 0.3s ease;
-  }
-}
+        .star {
+            margin: 0.5rem 0;
+    font-size: 1rem;
+    color: #f4c150;
+        }
 
-.reviews {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.9rem;
-  margin-top: 6px;
+        span {
+          margin-left: 0.5rem;
+          font-size: 0.85rem;
+          color: #666;
+        }
+      }
 
-  .star {
-    color: #f5a623;
-    font-size: 16px;
+      .imageWrapper {
+        position: relative;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          height: 220px;
+          object-fit: cover;
+          border-radius: 10px;
+        }
+
+        .quickView {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          background: black;
+          color: white;
+          text-align: center;
+          padding: 0.6rem 0;
+          font-size: 0.9rem;
+          font-weight: 500;
+          opacity: 0;
+          transform: translateY(100%);
+          transition: all 0.3s ease;
+        }
+
+        &:hover .quickView {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
   }
 }

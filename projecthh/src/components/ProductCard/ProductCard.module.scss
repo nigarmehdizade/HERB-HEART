@@ -1,74 +1,61 @@
 .card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   text-align: center;
-  padding: 20px;
-  background-color: white;
-  transition: transform 0.3s ease;
-  border: none;
-  box-shadow: none;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
 
-  &:hover {
-    transform: translateY(-5px);
+  .imageWrapper {
+    position: relative;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .quickView {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background-color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+
+      a {
+        color: #fff;
+        text-transform: uppercase;
+        font-size: 14px;
+        text-decoration: none;
+        font-weight: 500;
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    &:hover .quickView {
+      opacity: 1;
+    }
   }
-}
 
-.link {
-  text-decoration: none;
-  color: inherit;
-  width: 100%;
-}
-
-.imageWrapper {
-  position: relative;
-  width: 280px; // daha böyük şəkil
-  height: 280px;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-    transition: opacity 0.3s ease;
+  .name {
+    margin-top: 1rem;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #000;
   }
 
-  .hoverImg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    pointer-events: none;
+  .price {
+    font-size: 14px;
+    color: #444;
+    margin-top: 4px;
   }
-
-  &:hover .hoverImg {
-    opacity: 1;
-  }
-
-  &:hover .defaultImg {
-    opacity: 0;
-  }
-}
-
-.defaultImg {
-  z-index: 1;
-}
-
-.hoverImg {
-  z-index: 2;
-}
-
-h3 {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 16px 0 6px 0;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #111;
-}
-
-p {
-  font-size: 14px;
-  color: #555;
-  margin: 0 0 10px 0;
 }

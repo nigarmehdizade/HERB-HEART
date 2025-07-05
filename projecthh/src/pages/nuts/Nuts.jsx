@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './Nuts.module.scss';
 import { FaStar } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Nuts = () => {
   const [nuts, setNuts] = useState([]);
   const [sort, setSort] = useState('featured');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get(`http://localhost:5000/api/nuts?sort=${sort}`)
@@ -23,7 +24,7 @@ const Nuts = () => {
         <h1>NUTS</h1>
       </div>
 
-      {/* Top Filter */}
+      {/* Filter */}
       <div className={styles.productsSection}>
         <div className={styles.topBar}>
           <p>{nuts.length} products</p>
@@ -42,26 +43,30 @@ const Nuts = () => {
         {/* Grid */}
         <div className={styles.productGrid}>
           {error && <p>{error}</p>}
-          {nuts.map((nut) => (
-            <Link to={`/nuts/${nut._id}`} key={nut._id} className={styles.card}>
-              <div className={styles.imageWrapper}>
-                <img
-                  src={nut.image}
-                  alt={nut.name}
-                  onMouseOver={(e) => nut.hoverImage && (e.currentTarget.src = nut.hoverImage)}
-                  onMouseOut={(e) => (e.currentTarget.src = nut.image)}
-                />
-              </div>
-              <h3>{nut.name.toUpperCase()}</h3>
-              <div className={styles.reviews}>
-                {[...Array(5)].map((_, i) => (
-                  <FaStar key={i} className={styles.star} />
-                ))}
-                <span>{nut.reviews || 0} reviews</span>
-              </div>
-              <p>from ${nut.price.toFixed(2)}</p>
-            </Link>
-          ))}
+       {nuts.map((nut) => (
+  <div key={nut._id} className={styles.card}>
+    <div className={styles.imageWrapper}>
+      <img
+        src={nut.image}
+        alt={nut.name}
+        onMouseOver={(e) => nut.hoverImage && (e.currentTarget.src = nut.hoverImage)}
+        onMouseOut={(e) => (e.currentTarget.src = nut.image)}
+      />
+      <Link to={`/nuts/${nut._id}`}>
+        <div className={styles.quickView}>QUICK VIEW</div>
+      </Link>
+    </div>
+    <h3>{nut.name.toUpperCase()}</h3>
+    <div className={styles.reviews}>
+      {[...Array(5)].map((_, i) => (
+        <FaStar key={i} className={styles.star} />
+      ))}
+      <span>{nut.reviews || 0} reviews</span>
+    </div>
+    <p>from ${nut.price.toFixed(2)}</p>
+  </div>
+))}
+
         </div>
       </div>
     </div>

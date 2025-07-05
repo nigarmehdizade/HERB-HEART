@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './SeedsDetail.module.scss';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaStar } from 'react-icons/fa';
 import { SiMastercard } from "react-icons/si";
@@ -17,33 +17,34 @@ const SeedsDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { openDrawer } = useDrawer();
+  const navigate = useNavigate();
 
   const [seed, setSeed] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('');
   const [relatedSeeds, setRelatedSeeds] = useState([]);
-useEffect(() => {
-  axios.get(`http://localhost:5000/api/seeds/${id}`)
-    .then(res => {
-      const staticSizes = ['150g', '8x150g']; // Əgər backenddən gəlmirsə burada override et
-      setSeed({
-        ...res.data,
-        sizes: staticSizes
+
+  useEffect(() => {
+    axios.get(`http://localhost:5000/api/seeds/${id}`)
+      .then(res => {
+        const staticSizes = ['150g', '8x150g'];
+        setSeed({
+          ...res.data,
+          sizes: staticSizes
+        });
+        setSelectedSize(staticSizes[0]);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Xəta:', err);
+        setLoading(false);
       });
-      setSelectedSize(staticSizes[0]);
-      setLoading(false);
-    })
-    .catch(err => {
-      console.error('Xəta:', err);
-      setLoading(false);
-    });
 
-  axios.get('http://localhost:5000/api/seeds')
-    .then(res => setRelatedSeeds(res.data.slice(0, 6)))
-    .catch(err => console.error('Seeds alınmadı', err));
-}, [id]);
-
+    axios.get('http://localhost:5000/api/seeds')
+      .then(res => setRelatedSeeds(res.data.slice(0, 6)))
+      .catch(err => console.error('Seeds alınmadı', err));
+  }, [id]);
 
   if (loading) return <p>Yüklənir...</p>;
   if (!seed) return <p>Məhsul tapılmadı</p>;
@@ -67,7 +68,7 @@ useEffect(() => {
       size: selectedSize
     }));
 
-    openDrawer(); // Drawer açılır
+    openDrawer();
   };
 
   return (
@@ -78,7 +79,7 @@ useEffect(() => {
         </div>
 
         <div className={styles.infoWrapper}>
-          <h1 className={styles.name}>{seed.title}</h1>
+          <h1 className={styles.title}>{seed.title || seed.name || seed.productTitle}</h1>
 
           <div className={styles.rating}>
             <div className={styles.stars}>
@@ -97,7 +98,6 @@ useEffect(() => {
             </div>
           )}
 
-          {/* SIZE SELECTION */}
           {seed.sizes?.length > 0 && (
             <>
               <label className={styles.sectionLabel}>Size</label>
@@ -115,7 +115,6 @@ useEffect(() => {
             </>
           )}
 
-          {/* QUANTITY */}
           <label className={styles.sectionLabel}>Quantity</label>
           <div className={styles.quantityControl}>
             <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>−</button>
@@ -123,7 +122,6 @@ useEffect(() => {
             <button onClick={() => setQuantity(q => q + 1)}>+</button>
           </div>
 
-          {/* ADD TO CART */}
           <button className={styles.addToCart} onClick={handleAddToCart}>ADD TO CART</button>
           <button className={styles.shopPay}>Buy with <strong>shop</strong><span>Pay</span></button>
 
@@ -163,7 +161,15 @@ useEffect(() => {
         <div className={styles.grid}>
           {relatedSeeds.map(s => (
             <div className={styles.card} key={s._id}>
-              <img src={s.image} alt={s.title} />
+              <div className={styles.imageContainer}>
+                <img src={s.image} alt={s.title} />
+                <div
+                  className={styles.quickView}
+                  onClick={() => navigate(`/seeds/${s._id}`)}
+                >
+                  QUICK VIEW
+                </div>
+              </div>
               <h3>{s.title}</h3>
               <div className={styles.reviews}>
                 {[...Array(5)].map((_, i) => (

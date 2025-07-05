@@ -39,19 +39,33 @@ const Matcha = () => {
       {/* Product Grid */}
       <div className={styles.grid}>
         {matchaItems.map(item => (
-          <Link to={`/matcha/${item._id}`} className={styles.card} key={item._id}>
-            <div className={styles.imageWrapper}>
+          <div className={styles.card} key={item._id}>
+            <div
+              className={styles.imageWrapper}
+              onMouseEnter={(e) => {
+                if (item.hoverImage) {
+                  e.currentTarget.querySelector('img').src = item.hoverImage;
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.querySelector('img').src = item.image;
+              }}
+            >
               <img src={item.image} alt={item.name} />
+              <Link to={`/matcha/${item._id}`} className={styles.quickView}>Quick View</Link>
             </div>
+
             <h3>{item.name.toUpperCase()}</h3>
+
             <div className={styles.rating}>
               {[...Array(5)].map((_, i) => (
                 <FaStar key={i} color={i < Math.round(item.rating) ? '#000' : '#ccc'} />
               ))}
               <span>{item.reviews} reviews</span>
             </div>
+
             <p>from ${item.price.toFixed(2)}</p>
-          </Link>
+          </div>
         ))}
       </div>
     </div>

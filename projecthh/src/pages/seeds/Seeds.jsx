@@ -1,4 +1,3 @@
-// src/pages/seeds/Seeds.jsx
 import React, { useEffect, useState } from 'react';
 import styles from './Seeds.module.scss';
 import axios from 'axios';
@@ -39,36 +38,35 @@ const Seeds = () => {
 
       {/* Product Grid */}
       <div className={styles.grid}>
-    {seeds.map(seed => (
-  <Link to={`/seeds/${seed._id}`} style={{ textDecoration: 'none', color: 'inherit' }} key={seed._id}>
-    <div
-      className={styles.imageWrapper}
-      onMouseEnter={(e) => {
-        if (seed.hoverImage) {
-          e.currentTarget.querySelector('img').src = seed.hoverImage;
-        }
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.querySelector('img').src = seed.image;
-      }}
-    >
-      <img src={seed.image} alt={seed.name} />
-    </div>
+        {seeds.map(seed => (
+          <div className={styles.card} key={seed._id}>
+            <div
+              className={styles.imageWrapper}
+              onMouseEnter={(e) => {
+                if (seed.hoverImage) {
+                  e.currentTarget.querySelector('img').src = seed.hoverImage;
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.querySelector('img').src = seed.image;
+              }}
+            >
+              <img src={seed.image} alt={seed.name} />
+              <Link to={`/seeds/${seed._id}`} className={styles.quickView}>Quick View</Link>
+            </div>
 
-    <h3>{seed.name.toUpperCase()}</h3>
+            <h3>{seed.name.toUpperCase()}</h3>
 
-    <div className={styles.rating}>
-      {Array(5).fill().map((_, i) => (
-        <FaStar key={i} color={i < Math.round(seed.rating) ? '#000' : '#ccc'} />
-      ))}
-      <span>{seed.reviews} reviews</span>
-    </div>
+            <div className={styles.rating}>
+              {Array(5).fill().map((_, i) => (
+                <FaStar key={i} color={i < Math.round(seed.rating) ? '#000' : '#ccc'} />
+              ))}
+              <span>{seed.reviews} reviews</span>
+            </div>
 
-    <p>from ${seed.price.toFixed(2)}</p>
-  </Link>
-))}
-
-      
+            <p>from ${seed.price.toFixed(2)}</p>
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -6,6 +6,9 @@ import { FaStar } from 'react-icons/fa';
 import { SiMastercard } from "react-icons/si";
 import { FaCcVisa, FaCcPaypal, FaCcApplePay } from "react-icons/fa";
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/cartSlice';
+import { useDrawer } from '../../context/DrawerContext';
 
 const MatchaDetail = () => {
   const { id } = useParams();
@@ -15,6 +18,8 @@ const MatchaDetail = () => {
   const [matchaList, setMatchaList] = useState([]);
   const [mainImage, setMainImage] = useState('');
   const [loading, setLoading] = useState(true);
+const dispatch = useDispatch();
+const { openDrawer } = useDrawer();
 
   useEffect(() => {
     axios.get(`http://localhost:5000/api/matcha/${id}`)
@@ -37,6 +42,21 @@ const MatchaDetail = () => {
 
   if (loading) return <p>Yüklənir...</p>;
   if (!matcha) return <p>Məhsul tapılmadı</p>;
+const handleAddToCart = () => {
+  if (!selectedSize) return alert("Please select a size");
+
+  const productToAdd = {
+    id: matcha._id,
+    name: matcha.title, // title istifadə edirsən
+    image: matcha.image,
+    price: matcha.price,
+    size: selectedSize,
+    quantity
+  };
+
+  dispatch(addToCart(productToAdd));
+  openDrawer();
+};
 
   const totalPrice = (matcha.price * quantity).toFixed(2);
   const freeShippingThreshold = 15;
@@ -62,7 +82,7 @@ const MatchaDetail = () => {
         </div>
 
         <div className={styles.infoWrapper}>
-          <h1 className={styles.title}>{matcha.title}</h1>
+       <h1 className={styles.title}>{matcha.title || matcha.name || matcha.productTitle}</h1>
 
           <div className={styles.rating}>
             <div className={styles.stars}>
@@ -106,7 +126,8 @@ const MatchaDetail = () => {
             <button onClick={() => setQuantity(q => q + 1)}>+</button>
           </div>
 
-          <button className={styles.addToCart}>Add to Cart</button>
+          <button className={styles.addToCart} onClick={handleAddToCart}>Add to Cart</button>
+
           <button className={styles.shopPay}>
             Buy with <strong>shop</strong><span>Pay</span>
           </button>

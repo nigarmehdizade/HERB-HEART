@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './NutReview.module.scss';
 import axios from 'axios';
 import { FaStar } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 
 const NutReview = ({ nutId }) => {
   const [reviews, setReviews] = useState([]);
@@ -15,6 +16,7 @@ const NutReview = ({ nutId }) => {
   });
 
   const [hover, setHover] = useState(0);
+  const { userInfo } = useSelector((state) => state.user);
 
   useEffect(() => {
     axios.get(`http://localhost:5000/api/nutreviews/${nutId}`)
@@ -41,6 +43,15 @@ const NutReview = ({ nutId }) => {
     const res = await axios.post('http://localhost:5000/api/nutreviews', review);
     setReviews([res.data, ...reviews]);
     setForm({ name: '', email: '', title: '', comment: '', rating: 0, image: null });
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/nutreviews/${id}`);
+      setReviews(reviews.filter(r => r._id !== id));
+    } catch (err) {
+      console.error("Silinmə zamanı xəta:", err);
+    }
   };
 
   const average = (reviews.reduce((a, b) => a + b.rating, 0) / reviews.length || 0).toFixed(1);
@@ -113,6 +124,11 @@ const NutReview = ({ nutId }) => {
               <h4>{r.title}</h4>
               <p>{r.comment}</p>
               {r.image && <img src={r.image} alt="uploaded" />}
+              {userInfo?.email?.toLowerCase() === r.email?.toLowerCase() && (
+                <button className={styles.deleteBtn} onClick={() => handleDelete(r._id)}>
+                  Delete
+                </button>
+              )}
             </div>
           </div>
         ))}

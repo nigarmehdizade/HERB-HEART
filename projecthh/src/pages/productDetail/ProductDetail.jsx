@@ -6,14 +6,21 @@ import { FaStar } from 'react-icons/fa';
 import { SiMastercard } from "react-icons/si";
 import { FaCcVisa, FaCcPaypal, FaCcApplePay } from "react-icons/fa";
 
+// Redux və Drawer
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/cartSlice';
+import { useDrawer } from '../../context/DrawerContext';
+
 const ProductDetail = () => {
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const { openDrawer } = useDrawer();
+
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('225g');
 
-  // Description-lar id-ə görə
   const descriptions = {
     "1": "are dried, plump, whole fruits without added sugar. They are soft, sticky, naturally sweet and a source of fiber. Ideal for snacking, baking, or smoothies.",
     "2": "are crunchy, protein-rich nuts perfect for snacking or baking.",
@@ -34,6 +41,15 @@ const ProductDetail = () => {
       });
   }, [id]);
 
+  const handleAddToCart = () => {
+    dispatch(addToCart({
+      ...product,
+      selectedSize,
+      quantity
+    }));
+    openDrawer();
+  };
+
   if (loading) return <p>Yüklənir...</p>;
   if (!product) return <p>Məhsul tapılmadı</p>;
 
@@ -53,7 +69,7 @@ const ProductDetail = () => {
           <span className={styles.reviewCount}>24 reviews</span>
         </div>
 
-        <p className={styles.sku}>08045</p>
+        <p className={styles.sku}>SKU: 08045</p>
         <p className={styles.price}>${product.price}</p>
         <p className={styles.shipping}>Shipping calculated at checkout.</p>
 
@@ -61,27 +77,41 @@ const ProductDetail = () => {
           You're <span>$35.00</span> away from free shipping!
         </div>
 
+        {/* ✅ SIZE seçimi */}
         <div className={styles.sizeSelect}>
-          <button className={selectedSize === '225g' ? styles.active : ''} onClick={() => setSelectedSize('225g')}>
+          <button
+            className={selectedSize === '225g' ? styles.active : ''}
+            onClick={() => setSelectedSize('225g')}
+          >
             225g
           </button>
-          <button className={selectedSize === '8x225g' ? styles.active : ''} onClick={() => setSelectedSize('8x225g')}>
+          <button
+            className={selectedSize === '8x225g' ? styles.active : ''}
+            onClick={() => setSelectedSize('8x225g')}
+          >
             8x225g
           </button>
         </div>
 
+        {/* ✅ Quantity seçimi */}
         <div className={styles.quantityControl}>
           <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>−</button>
           <span>{quantity}</span>
           <button onClick={() => setQuantity(q => q + 1)}>+</button>
         </div>
 
-        <button className={styles.addToCart}>ADD TO CART</button>
-        <button className={styles.shopPay}>Buy with <strong>shop</strong><span>Pay</span></button>
+        {/* ✅ Cart düymələri */}
+        <button className={styles.addToCart} onClick={handleAddToCart}>
+          ADD TO CART
+        </button>
+
+        <button className={styles.shopPay}>
+          Buy with <strong>shop</strong><span>Pay</span>
+        </button>
 
         <a href="#" className={styles.moreOptions}>More payment options</a>
 
-        {/* 💬 Məhsula aid description */}
+        {/* Məhsul haqqında təsvir */}
         <div className={styles.description}>
           <p><strong>{product.name}</strong> {descriptions[product.id] || "Delicious and healthy product, perfect for your daily needs."}</p>
         </div>

@@ -5,22 +5,16 @@ import { Link } from 'react-router-dom';
 const ProductCard = ({ product }) => {
   return (
     <div className={styles.card}>
-      <Link to={`/product/${product._id}`} className={styles.link}>
-        <div className={styles.imageWrapper}>
-          <img
-            src={product.image}
-            alt={product.name}
-            className={styles.defaultImg}
-          />
-          <img
-            src={product.hoverImage}
-            alt="hover"
-            className={styles.hoverImg}
-          />
+      <div className={styles.imageWrapper}>
+        <img src={product.image} alt={product.name} />
+
+        <div className={styles.quickView}>
+          <Link to={`/product/${product._id}`}>Quick view</Link>
         </div>
-        <h3>{product.name}</h3>
-        <p>from ${product.price}</p>
-      </Link>
+      </div>
+
+      <h3 className={styles.name}>{product.name}</h3>
+      <p className={styles.price}>from ${product.price}</p>
     </div>
   );
 };
