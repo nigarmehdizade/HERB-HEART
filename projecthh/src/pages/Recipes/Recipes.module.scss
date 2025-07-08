@@ -1,11 +1,15 @@
 .recipesPage {
   padding: 40px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
   text-align: center;
 
   h1 {
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 40px;
+    color: var(--text-color);
   }
 }
 
@@ -27,20 +31,39 @@
 .card {
   cursor: pointer;
   text-align: center;
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+
+
 
   h3 {
     font-size: 1rem;
     font-weight: 700;
     margin-top: 10px;
-    color: #111;
+    color: #000;
+    background-color: #fff;
+    padding: 1rem;
   }
 }
 
 .image {
   width: 100%;
-  max-width: 400px; /* əvvəl 300px idi */
-  height: 250px;     /* əvvəl 180px idi */
+  max-width: 400px;
+  height: 250px;
   object-fit: cover;
   display: block;
+  border-radius: 8px 8px 0 0;
+}
 
+
+[data-theme="dark"] {
+  .card {
+    background-color: #1e1e1e;
+
+    h3 {
+      background-color: #1e1e1e;
+      color: #f0f0f0;
+    }
+  }
 }

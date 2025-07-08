@@ -3,16 +3,21 @@
   top: 0;
   right: -100%;
   width: 100%;
-  max-width: 360px; // Daha dar görünüş üçün
+  max-width: 360px;
   height: 100%;
-  background-color: white;
+  background-color: var(--bg-color);
   box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
   transition: right 0.3s ease;
   z-index: 1000;
   display: flex;
   flex-direction: column;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 13px; // Ümumi fontu kiçilt
+  font-size: 13px;
+
+  @media (max-width: 420px) {
+    max-width: 100%;
+    font-size: 12px;
+  }
 }
 
 .open {
@@ -30,6 +35,7 @@
     font-size: 18px;
     font-weight: 700;
     letter-spacing: 1px;
+    color: var(--text-color);
   }
 
   button {
@@ -39,10 +45,9 @@
     cursor: pointer;
     padding: 0;
     line-height: 1;
-    color: #000; // <<< Bunu əlavə et: düyməni qara göstərmək üçün
+    color: var(--text-color);
   }
 }
-
 
 .body {
   flex: 1;
@@ -51,7 +56,7 @@
 
   p {
     font-size: 13px;
-    color: #555;
+    color: var(--text-color);
   }
 }
 
@@ -65,6 +70,8 @@
     height: auto;
     object-fit: contain;
     margin-right: 12px;
+    border-radius: 4px;
+    background-color: #f9f9f9;
   }
 
   .details {
@@ -74,6 +81,7 @@
       font-size: 14px;
       font-weight: 500;
       margin: 0 0 4px;
+      color: var(--text-color);
     }
 
     small {
@@ -90,18 +98,24 @@
         width: 24px;
         height: 24px;
         font-size: 14px;
-        background: white;
+        background: var(--bg-color);
         border: 1px solid #ccc;
-        color: #333;
+        color: var(--text-color);
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background-color: #f0f0f0;
+        }
       }
 
       span {
         margin: 0 6px;
         font-size: 13px;
+        color: var(--text-color);
       }
     }
   }
@@ -109,7 +123,7 @@
   .price {
     font-size: 14px;
     font-weight: 500;
-    color: #333;
+    color: var(--text-color);
     margin-left: 10px;
   }
 }
@@ -117,12 +131,14 @@
 .footer {
   padding: 16px;
   border-top: 1px solid #e5e5e5;
+  background-color: var(--bg-color);
 
   div {
     display: flex;
     justify-content: space-between;
     font-size: 13px;
     margin-bottom: 10px;
+    color: var(--text-color);
 
     strong {
       font-weight: 600;
@@ -130,8 +146,8 @@
   }
 
   .checkout {
-    background: black;
-    color: white;
+    background: #000;
+    color: #fff;
     font-size: 13px;
     font-weight: 600;
     padding: 10px;
@@ -139,5 +155,10 @@
     border: none;
     cursor: pointer;
     letter-spacing: 1px;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background-color: #333;
+    }
   }
 }

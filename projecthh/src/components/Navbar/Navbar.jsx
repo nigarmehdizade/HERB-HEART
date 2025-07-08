@@ -5,12 +5,15 @@ import { FaUser, FaHeart, FaShoppingBag, FaSearch } from 'react-icons/fa';
 import logo from '../../assets/logo.png';
 import { useDrawer } from '../../context/DrawerContext';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import ThemeToggle from '../ThemeToggle/ThemeToggle';
 
 const Navbar = () => {
+  const { t } = useTranslation();
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const { openDrawer } = useDrawer(); // 🟢 CartDrawer-u açmaq üçün
-  const cartItems = useSelector((state) => state.cart.items); // 🛒 Səbətdə neçə məhsul var
+  const { openDrawer } = useDrawer();
+  const cartItems = useSelector((state) => state.cart.items);
 
   const toggleSearch = () => {
     setShowSearch((prev) => !prev);
@@ -28,33 +31,34 @@ const Navbar = () => {
       </div>
 
       <div className={styles.center}>
-        <Link to="/category/snacks">SNACKS</Link>
-        <Link to="/category/nuts">NUTS</Link>
-        <Link to="/category/dried-fruits">DRIED FRUITS</Link>
-        <Link to="/category/seeds">SEEDS</Link>
-        <Link to="/category/matcha">MATCHA</Link>
-        <Link to="/category/recipes">RECIPES</Link>
-        <Link to="#">MADE IN CANADA</Link>
+        <Link to="/category/snacks">{t('navbar.snacks', 'SNACKS')}</Link>
+        <Link to="/category/nuts">{t('navbar.nuts', 'NUTS')}</Link>
+        <Link to="/category/dried-fruits">{t('navbar.dried', 'DRIED FRUITS')}</Link>
+        <Link to="/category/seeds">{t('navbar.seeds', 'SEEDS')}</Link>
+        <Link to="/category/matcha">{t('navbar.matcha', 'MATCHA')}</Link>
+        <Link to="/category/recipes">{t('navbar.recipes', 'RECIPES')}</Link>
+        <Link to="#">{t('navbar.madeInCanada', 'MADE IN CANADA')}</Link>
       </div>
 
       <div className={styles.right}>
         <Link to="/dashboard"><FaUser /></Link>
-        <Link to="/wishlist"><FaHeart /></Link>
+
+         <ThemeToggle />
         <button onClick={toggleSearch} className={styles.iconBtn}><FaSearch /></button>
 
-        {/* 🟢 Cart Icon — Drawer açır */}
         <div className={styles.cartIcon} onClick={openDrawer}>
           <FaShoppingBag />
-          {cartItems.length > 0 && <span className={styles.cartDot}>{cartItems.length}</span>}
+          {cartItems.length > 0 && (
+            <span className={styles.cartDot}>{cartItems.length}</span>
+          )}
         </div>
       </div>
 
-      {/* 🔍 Axtarış qutusu */}
       {showSearch && (
         <div className={styles.searchBox}>
           <input
             type="text"
-            placeholder="Axtar..."
+            placeholder={t('navbar.searchPlaceholder', 'Search...')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />

@@ -1,18 +1,21 @@
 import React from 'react';
-import Navbar from '../Navbar/Navbar';     
+import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
-import TopBanner from '../TopBanner/TopBanner'; 
 import CartDrawer from '../cart/CartDrawer';
-import { DrawerProvider } from '../../context/DrawerContext'; // ✅ bunu əlavə et!
+import { DrawerProvider } from '../../context/DrawerContext';
+import TopBanner from '../TopBanner/TopBanner';
+import { Outlet } from 'react-router-dom';
 
-const MainLayout = ({ children }) => {
+const MainLayout = () => {
   return (
-    <DrawerProvider> {/* ✅ bütün layout üçün context burada olmalıdır */}
+    <DrawerProvider>
       <TopBanner />
       <Navbar />
-      <main>{children}</main>
+      <main>
+        <Outlet /> 
+      </main>
       <Footer />
-      <CartDrawer /> {/* hər səhifədə işləyəcək */}
+      <CartDrawer />
     </DrawerProvider>
   );
 };

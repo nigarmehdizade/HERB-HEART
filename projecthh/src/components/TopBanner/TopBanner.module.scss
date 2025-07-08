@@ -1,10 +1,70 @@
-.topBanner {
-  background-color: #000;
-  color: #fff;
+.topBannerWrapper {
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+}
+
+.top {
+  background-color: #000; // arxa fon qara
+  color: white;           // yazı ağ olsun – light mode üçün vacibdir
+  padding: 10px 0;
   text-align: center;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  padding: 0.6rem 0;
-  text-transform: uppercase;
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: white; // yazı light mode-da da ağ qalsın
+  }
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 20px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.region {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+
+  img {
+    width: 20px;
+    height: auto;
+  }
+}
+
+.languageSelect {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 12px;
+
+  img {
+    width: 20px;
+  }
+
+  select {
+    background-color: transparent;
+    border: none;
+    color: var(--text-color);
+    font-size: 14px;
+    cursor: pointer;
+  }
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+#root {
+  margin: 0;
+  padding: 0;
 }

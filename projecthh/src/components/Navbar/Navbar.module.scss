@@ -1,22 +1,76 @@
 .navbar {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 1.2rem 3rem;
-  background-color: white;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--bg-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 999;
+
+  a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    margin: 0 0.8rem;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+
+    &:hover {
+      border-bottom: 2px solid var(--text-color);
+    }
+  }
 }
-.left {
+
+.left img {
+  width: 110px;
+  height: auto;
+}
+
+.center {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.right {
   display: flex;
   align-items: center;
+  gap: 16px; 
+  color: var(--text-color);
 
-  img {
-    height: 75px; 
-    width: auto;
-    object-fit: contain;
+  svg {
+    cursor: pointer;
+    font-size: 18px;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  .iconBtn {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: var(--text-color);
   }
 }
 
@@ -25,107 +79,64 @@
   cursor: pointer;
 
   svg {
-    font-size: 18px;
-  }
-
-  .cartDot {
-    position: absolute;
-    top: -6px;
-    right: -6px;
-    background-color: red;
-    color: white;
-    width: 16px;
-    height: 16px;
-    font-size: 11px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
+    font-size: 1.2rem;
   }
 }
 
-.center {
+.cartDot {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: red;
+  color: white;
+  font-size: 0.65rem;
+  width: 16px;
+  height: 16px;
   display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-  gap: 2.5rem; // 🟢 burda məsafə təyin olunur
-  flex-wrap: wrap;
-
-  a {
-    position: relative;
-    font-weight: 400;
-    letter-spacing: 2px;
-    color: #000;
-    text-decoration: none;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    padding-bottom: 6px;
-    display: inline-block; // 🟢 bu vacibdir
-
-    &::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 0%;
-      height: 2px;
-      background-color: #000;
-      transition: width 0.3s ease;
-    }
-
-    &:hover::after {
-      width: 100%;
-    }
-  }
-}
-
-
-.right {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-
-  a, button {
-    background: none;
-    border: none;
-    font-size: 1.1rem;
-    color: black;
-    cursor: pointer;
-    position: relative;
-
-    &:hover {
-      color: #4CAF50;
-    }
-  }
-}
-
-.iconBtn {
-  padding: 0;
+  border-radius: 50%;
 }
 
 .searchBox {
   position: absolute;
   top: 100%;
-  right: 3rem;
-  margin-top: 0.5rem;
+  right: 2rem;
+  margin-top: 10px;
+  background: var(--bg-color);
+  padding: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
 
   input {
-    padding: 0.4rem 0.8rem;
+    padding: 8px 12px;
+    font-size: 0.9rem;
     border: 1px solid #ccc;
-    border-radius: 6px;
+    border-radius: 4px;
     width: 200px;
+    color: var(--text-color);
+    background-color: var(--bg-color);
   }
 }
 
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-.right a:last-child::after {
-  content: '';
-  position: absolute;
-  top: 0px;
-  right: -3px;
-  width: 8px;
-  height: 8px;
-  background-color: red;
-  border-radius: 50%;
+  .center {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.5rem 0;
+  }
+
+  .right {
+    margin-top: 0.5rem;
+  }
+
+  .searchBox input {
+    width: 100%;
+  }
 }

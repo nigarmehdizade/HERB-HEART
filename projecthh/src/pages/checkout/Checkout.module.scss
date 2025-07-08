@@ -4,6 +4,13 @@
   padding: 2rem;
   gap: 3rem;
   font-family: 'Helvetica Neue', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+    padding: 1.5rem;
+  }
 }
 
 .left {
@@ -12,13 +19,14 @@
 
 .right {
   flex: 0.9;
-  background: #f9f9f9;
+  background: var(--card-bg);
   padding: 1.5rem;
   border-radius: 10px;
 
   h2 {
     font-size: 1.25rem;
     margin-bottom: 1rem;
+    color: var(--text-color);
   }
 
   .cartItem {
@@ -36,11 +44,12 @@
     p {
       margin: 0;
       font-weight: 600;
+      color: var(--text-color);
     }
 
     span {
       font-size: 14px;
-      color: #555;
+      color: var(--muted-color);
     }
   }
 
@@ -55,6 +64,8 @@
       border: 1px solid #ccc;
       border-radius: 6px;
       font-size: 14px;
+      background-color: var(--input-bg);
+      color: var(--text-color);
     }
 
     button {
@@ -105,6 +116,8 @@
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 14px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
   }
 
   .row {
@@ -113,6 +126,10 @@
 
     input {
       flex: 1;
+    }
+
+    @media (max-width: 576px) {
+      flex-direction: column;
     }
   }
 }
@@ -129,12 +146,13 @@
     padding: 1rem;
     border-radius: 8px;
     font-size: 14px;
-    color: #555;
+    color: var(--muted-color);
   }
 }
+
 .paymentBox {
   margin-top: 2rem;
-  background: #f9f9f9;
+  background: var(--card-bg);
   padding: 1.5rem;
   border-radius: 10px;
 
@@ -188,7 +206,7 @@
 
     span {
       font-size: 14px;
-      color: #333;
+      color: var(--text-color);
     }
   }
 
@@ -199,19 +217,22 @@
     border-radius: 6px;
     border: 1px solid #ccc;
     font-size: 14px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
   }
 }
+
 .footerNotice {
   margin-top: 2rem;
   font-size: 13px;
-  color: #555;
+  color: var(--muted-color);
 
   p {
     line-height: 1.6;
     margin-bottom: 1.2rem;
 
     a {
-      color: #333;
+      color: var(--text-color);
       text-decoration: underline;
       margin: 0 4px;
     }
@@ -223,51 +244,77 @@
     gap: 1.5rem;
 
     a {
-      color: #000;
+      color: var(--text-color);
       font-weight: 500;
       font-size: 13px;
       text-decoration: underline;
     }
   }
 }
+
 .paymentOptions {
-  display: flex;
-  gap: 1rem;
-  margin: 1rem 0;
+  text-align: center;
+  margin-bottom: 30px;
 
-  button {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+  .express {
     font-size: 16px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
     font-weight: 500;
-    transition: background-color 0.3s ease;
+    color: var(--text-color);
+    margin-bottom: 12px;
+  }
+
+  .paymentButtons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+
+    button {
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s;
+    }
+
+    .shopPay {
+      background-color: #5a31f4;
+      color: white;
+
+      span {
+        background: white;
+        color: #5a31f4;
+        font-weight: 600;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+
+    .gpay {
+      background-color: #000;
+      color: white;
+
+      img {
+        width: 20px;
+        height: 20px;
+      }
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
   }
 }
 
-.shopPay {
-  background-color: #5a31f4;
-  color: white;
-}
-
-.shopPay span {
-  background: white;
-  color: #5a31f4;
-  font-weight: bold;
-  padding: 2px 4px;
-  border-radius: 4px;
-}
-
-.gpay {
-  background-color: #202124;
-  color: white;
-
-  img {
-    width: 20px;
-    height: 20px;
-  }
-}

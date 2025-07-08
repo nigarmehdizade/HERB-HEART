@@ -1,149 +1,194 @@
-.snackPage {
-  padding-bottom: 60px;
-}
-
-.hero {
-  position: relative;
-  width: 100%;
-  height: 400px;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .snackPage {
+    padding-bottom: 60px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
-  h1 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 3rem;
-    font-weight: 800;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
-  }
-}
-
-.productsSection {
-  padding: 40px;
-
-  .topBar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-
-    p {
-      font-size: 1rem;
-      font-weight: 500;
-    }
-
-    select {
-      padding: 6px 10px;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-  }
-}
-
-.snackGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 30px;
-  justify-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.card {
-  text-align: center;
-  max-width: 250px;
-  cursor: pointer;
-
-  .imageWrapper {
+  .hero {
     position: relative;
     width: 100%;
-    height: 300px;
+    height: 400px;
 
     img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
-      transition: 0.3s ease;
+      object-fit: cover;
     }
 
-    .mainImage {
-      position: relative;
-      z-index: 1;
-    }
-
-    .hoverImage {
+    h1 {
       position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      z-index: 2;
-      transition: opacity 0.3s ease;
-    }
-
-    .quickView {
-      position: absolute;
-      bottom: 0;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
-      background-color: #000;
-      color: #fff;
-      padding: 10px 20px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-      white-space: nowrap;
-      z-index: 3;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 3rem;
+      font-weight: 800;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
     }
+  }
 
-    &:hover {
+  .productsSection {
+    padding: 40px;
+
+    .topBar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+
+      p {
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--text-color);
+      }
+
+      select {
+        padding: 6px 10px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+      }
+    }
+  }
+
+  .snackGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    justify-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .card {
+    text-align: center;
+    max-width: 250px;
+    cursor: pointer;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+
+    .imageWrapper {
+      position: relative;
+      width: 100%;
+      height: 300px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: 0.3s ease;
+      }
+
       .mainImage {
-        opacity: 0;
+        position: relative;
+        z-index: 1;
       }
 
       .hoverImage {
-        opacity: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        z-index: 2;
+        transition: opacity 0.3s ease;
       }
 
       .quickView {
-        opacity: 1;
-        pointer-events: auto;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--text-color);
+        color: var(--bg-color);
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+        white-space: nowrap;
+        z-index: 3;
       }
+
+      &:hover {
+        .mainImage {
+          opacity: 0;
+        }
+
+        .hoverImage {
+          opacity: 1;
+        }
+
+        .quickView {
+          opacity: 1;
+          pointer-events: auto;
+        }
+      }
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-top: 10px;
+      color: var(--text-color);
+      line-height: 1.4;
+    }
+
+    .reviews {
+      font-size: 0.9rem;
+      color: #999;
+      margin-top: 4px;
+    }
+
+    .price {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text-color);
+      margin-top: 6px;
     }
   }
 
-  h3 {
-    font-size: 1rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-top: 10px;
-    color: #111;
-    line-height: 1.4;
+  .description p {
+    font-size: 17px;
+    color: var(--text-color);
   }
 
-  .reviews {
-    font-size: 0.9rem;
-    color: #777;
-    margin-top: 4px;
-  }
+  @media (max-width: 768px) {
+    .hero {
+      height: 250px;
 
-  .price {
-    font-weight: 700;
-    font-size: 1rem;
-    color: #000;
-    margin-top: 6px;
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+
+    .productsSection {
+      padding: 20px;
+
+      .topBar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+    }
+
+    .card {
+      max-width: 100%;
+      .imageWrapper {
+        height: 220px;
+      }
+
+      h3 {
+        font-size: 0.95rem;
+      }
+
+      .price {
+        font-size: 0.95rem;
+      }
+    }
   }
-}
-.description p{
-  font-size: 17px;
-  color: black;
-}

@@ -3,6 +3,9 @@
   flex-wrap: wrap;
   padding: 3rem 2rem;
   gap: 3rem;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -10,7 +13,6 @@
   }
 }
 
-/* IMAGE SECTION */
 .imageWrapper {
   flex: 1;
   min-width: 350px;
@@ -24,6 +26,7 @@
     background-color: #f9f9f9;
   }
 }
+
 .galleryRow {
   display: flex;
   gap: 0.75rem;
@@ -31,11 +34,11 @@
   overflow-x: auto;
   padding-bottom: 0.5rem;
 
-
-  scrollbar-width: none; 
+  scrollbar-width: none;
   -ms-overflow-style: none;
+
   &::-webkit-scrollbar {
-    display: none; 
+    display: none;
   }
 
   .thumbnail {
@@ -66,7 +69,6 @@
   font-size: 2rem;
   font-weight: 800;
   text-transform: uppercase;
-  margin-bottom: 0.5rem;
 }
 
 .rating {
@@ -76,11 +78,10 @@
   gap: 0.4rem;
 
   .stars {
-    color: #000;
+    color: #f5a623;
   }
 
   .reviewCount {
-    color: #000;
     font-weight: 500;
     font-size: 0.95rem;
   }
@@ -88,13 +89,13 @@
 
 .sku {
   font-size: 0.85rem;
-  color: #888;
+  color: #aaa;
 }
 
 .price {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #000;
+  color: #c46a00;
 }
 
 .shipping {
@@ -104,14 +105,13 @@
 }
 
 .divider {
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #ccc;
   margin: 1rem 0;
 }
 
-/* --- FREE SHIPPING --- */
 .shippingNotice {
   font-size: 0.95rem;
-  color: #000;
+  color: var(--text-color);
   margin-bottom: 0.5rem;
 
   span {
@@ -129,7 +129,7 @@
   .progressBar {
     height: 100%;
     background: #f6c15c;
-    width: 50%; // JS ilə dinamik olaraq dəyişə bilər
+    width: 50%;
     transition: width 0.4s ease;
   }
 }
@@ -138,9 +138,8 @@
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 1px;
-  margin-bottom: 8px;
   text-transform: uppercase;
-  color: black;
+  margin-bottom: 8px;
 }
 
 .sizeSelect {
@@ -151,65 +150,20 @@
 
 .sizeButton {
   padding: 10px 20px;
-  background-color: white;
+  background-color: var(--bg-color);
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 14px;
   cursor: pointer;
-  color: black;
+  color: var(--text-color);
   transition: border-color 0.2s ease;
 
   &:hover {
     border-color: #888;
   }
-}
 
-.sizeButton.active {
-  border: 2px solid black;
-}
-
-.quantityControl {
-  display: inline-flex;
-  align-items: center;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  overflow: hidden;
-  width: fit-content;
-
-  button {
-    background-color: white;
-    border: none;
-    padding: 8px 16px;
-    font-size: 18px;
-    cursor: pointer;
-    border-right: 1px solid #ddd;
-    transition: background 0.2s;
-
-    &:hover {
-      background-color: #f9f9f9;
-    }
-
-    &:last-child {
-      border-right: none;
-    }
-  }
-
-  span {
-    padding: 8px 16px;
-    font-size: 16px;
-    text-align: center;
-    border-right: 1px solid #ddd;
-    background-color: white;
-    color: black;
-  }
-}
-@media (max-width: 480px) {
-  .quantityControl {
-    button,
-    span {
-      padding: 6px 12px;
-      font-size: 16px;
-    }
+  &.active {
+    border: 2px solid #000;
   }
 }
 
@@ -222,8 +176,8 @@
   width: fit-content;
 
   button {
-    background-color: white;       // düymə içi ağ
-    color: black;                  // yazı qara
+    background-color: var(--bg-color);
+    color: var(--text-color);
     border: none;
     padding: 8px 16px;
     font-size: 18px;
@@ -232,7 +186,7 @@
     transition: background 0.2s ease;
 
     &:hover {
-      background-color: #f2f2f2;   // hover effekti: boz fonda dəyişiklik
+      background-color: #f2f2f2;
     }
 
     &:last-child {
@@ -244,21 +198,25 @@
     padding: 8px 16px;
     font-size: 16px;
     text-align: center;
-    background-color: white;
-    color: black;
-    border-right: 1px solid #ccc;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+  }
+
+  @media (max-width: 480px) {
+    button,
+    span {
+      padding: 6px 12px;
+      font-size: 16px;
+    }
   }
 }
 
-
-
-/* --- ADD TO CART BUTTON --- */
 .addToCart {
   margin-top: 1.5rem;
   padding: 1rem;
-  border: 2px solid #000;
-  background: #fff;
-  color: #000;
+  border: 2px solid var(--text-color);
+  background: var(--bg-color);
+  color: var(--text-color);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -267,12 +225,11 @@
   transition: all 0.3s ease;
 
   &:hover {
-    background: #000;
-    color: #fff;
+    background: var(--text-color);
+    color: var(--bg-color);
   }
 }
 
-/* --- SHOP PAY --- */
 .shopPay {
   margin-top: 0.75rem;
   padding: 1rem;
@@ -301,12 +258,10 @@
   font-size: 0.85rem;
   margin-top: 0.75rem;
   text-decoration: underline;
-  color: #333;
+  color: var(--text-color);
   cursor: pointer;
 }
 
-
-/* DESCRIPTION */
 .description {
   font-size: 0.95rem;
   line-height: 1.6;
@@ -318,11 +273,10 @@
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
-  color: #666;
+  color: #777;
   margin-top: 0.5rem;
 }
 
-/* SHARE LINKS */
 .share {
   margin-top: 1rem;
   display: flex;
@@ -339,19 +293,18 @@
   }
 }
 
-/* PAYMENT ICONS */
 .paymentIcons {
   margin-top: 1rem;
   display: flex;
   gap: 1rem;
   font-size: 1.8rem;
-  color: #333;
+  color: var(--text-color);
 }
 
-/* MAY ALSO LIKE */
 .mayAlsoLikeWrapper {
   margin-top: 4rem;
   padding: 2rem;
+  background-color: var(--bg-color);
 
   h2 {
     text-align: center;
@@ -373,7 +326,7 @@
     text-align: center;
     padding: 1.5rem 1rem;
     border-radius: 12px;
-    background: #fff;
+    background: var(--bg-color);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
 
@@ -394,7 +347,7 @@
       font-size: 0.85rem;
       font-weight: 700;
       text-transform: uppercase;
-      color: #000;
+      color: var(--text-color);
       margin-bottom: 0.5rem;
     }
 
@@ -407,22 +360,20 @@
       margin-bottom: 0.5rem;
 
       .star {
-        color: #000;
+        color: #f5a623;
         font-size: 1rem;
       }
 
       span {
-        color: #000;
         font-weight: 500;
-        margin-left: 0.3rem;
+        color: #999;
       }
     }
 
     .price {
       font-size: 0.95rem;
-      color: #333;
       font-weight: 600;
-      margin-top: 0.25rem;
+      color: var(--text-color);
 
       &::before {
         content: "from ";

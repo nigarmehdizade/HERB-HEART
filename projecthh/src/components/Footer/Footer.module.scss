@@ -1,8 +1,9 @@
 .footer {
-  background-color: #e8edf9;
+  background-color: var(--bg-color);
   padding: 60px 40px 30px;
   font-family: Arial, sans-serif;
   font-size: 14px;
+  color: var(--text-color);
 
   .footerTop {
     display: flex;
@@ -31,6 +32,7 @@
         li {
           margin: 6px 0;
           cursor: pointer;
+          color: var(--text-color);
 
           &:hover {
             text-decoration: underline;
@@ -47,16 +49,18 @@
         font-weight: bold;
         letter-spacing: 1px;
         margin-bottom: 10px;
+        color: var(--text-color);
       }
 
       p {
         margin-bottom: 10px;
+        color: var(--text-color);
       }
 
       .emailForm {
         display: flex;
         align-items: center;
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid var(--text-color);
         max-width: 300px;
         margin-bottom: 20px;
 
@@ -66,10 +70,12 @@
           flex: 1;
           padding: 8px 0;
           outline: none;
+          color: var(--text-color);
         }
 
         .icon {
           font-size: 18px;
+          color: var(--text-color);
         }
       }
 
@@ -81,6 +87,12 @@
 
         svg {
           cursor: pointer;
+          color: var(--text-color);
+          transition: transform 0.3s ease;
+
+          &:hover {
+            transform: scale(1.1);
+          }
         }
       }
     }
@@ -91,28 +103,30 @@
 
     .language {
       margin-bottom: 15px;
+      color: var(--text-color);
     }
-.payments {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  align-items: center;
-  margin-top: 1rem;
 
-  svg {
-    font-size: 32px; 
-    color: #000;    
-    transition: transform 0.3s ease;
+    .payments {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+      margin-top: 1rem;
 
-    &:hover {
-      transform: scale(1.1);
+      svg {
+        font-size: 32px;
+        color: var(--text-color);
+        transition: transform 0.3s ease;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
     }
-  }
-}
 
     .copyright {
       font-size: 13px;
-      color: #444;
+      color: var(--text-color);
       margin-top: 15px;
     }
   }

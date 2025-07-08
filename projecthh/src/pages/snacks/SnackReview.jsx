@@ -3,8 +3,10 @@ import styles from './SnackReview.module.scss';
 import axios from 'axios';
 import { FaStar } from 'react-icons/fa';
 import { MdVerified, MdDelete } from 'react-icons/md';
+import { useTranslation } from 'react-i18next';
 
 const SnackReview = ({ snackId, currentUserEmail }) => {
+  const { t } = useTranslation();
   const [reviews, setReviews] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
@@ -60,7 +62,7 @@ const SnackReview = ({ snackId, currentUserEmail }) => {
       setPreview(null);
       fetchReviews();
     } catch {
-      alert('Şərh göndərilə bilmədi.');
+      alert(t('snackReview.submitError', 'Şərh göndərilə bilmədi.'));
     } finally {
       setLoading(false);
     }
@@ -72,17 +74,17 @@ const SnackReview = ({ snackId, currentUserEmail }) => {
       fetchReviews();
     } catch (err) {
       console.error("Silinmə zamanı xəta:", err);
-      alert('Silinmədi!');
+      alert(t('snackReview.deleteError', 'Silinmədi!'));
     }
   };
 
   return (
     <div className={styles.reviewContainer}>
-      <h2>CUSTOMER REVIEWS</h2>
+      <h2>{t('snackReview.title', 'MÜŞTƏRİ RƏYLƏRİ')}</h2>
 
       <form onSubmit={handleSubmit} className={styles.reviewForm}>
-        <input type="text" name="name" placeholder="Your name" value={formData.name} onChange={handleChange} required />
-        <input type="email" name="email" placeholder="Your email" value={formData.email} onChange={handleChange} required />
+        <input type="text" name="name" placeholder={t('snackReview.name', 'Adınız')} value={formData.name} onChange={handleChange} required />
+        <input type="email" name="email" placeholder={t('snackReview.email', 'Email adresiniz')} value={formData.email} onChange={handleChange} required />
 
         <div className={styles.stars}>
           {[...Array(5)].map((_, i) => (
@@ -94,13 +96,13 @@ const SnackReview = ({ snackId, currentUserEmail }) => {
           ))}
         </div>
 
-        <input type="text" name="title" placeholder="Review title" value={formData.title} onChange={handleChange} required />
-        <textarea name="comment" placeholder="Write your comment..." value={formData.comment} onChange={handleChange} required />
+        <input type="text" name="title" placeholder={t('snackReview.reviewTitle', 'Rəy başlığı')} value={formData.title} onChange={handleChange} required />
+        <textarea name="comment" placeholder={t('snackReview.comment', 'Rəyinizi yazın...')} value={formData.comment} onChange={handleChange} required />
         <input type="file" accept="image/*" onChange={handleImageChange} />
         {preview && <img src={preview} alt="preview" className={styles.previewImage} />}
 
         <button type="submit" disabled={loading}>
-          {loading ? 'Sending...' : 'Submit Review'}
+          {loading ? t('snackReview.sending', 'Göndərilir...') : t('snackReview.submit', 'Rəyi göndər')}
         </button>
       </form>
 
@@ -134,14 +136,6 @@ const SnackReview = ({ snackId, currentUserEmail }) => {
                   className={styles.commentImage}
                 />
               )}
-{true && (
-  <button
-    className={styles.deleteBtn}
-    onClick={() => handleDelete(r._id)}
-  >
-    <MdDelete /> Delete
-  </button>
-)}
 
               {currentUserEmail?.toLowerCase() === r.email?.toLowerCase() && (
                 <div className={styles.deleteWrapper}>
@@ -152,7 +146,7 @@ const SnackReview = ({ snackId, currentUserEmail }) => {
                       handleDelete(r._id);
                     }}
                   >
-                    <MdDelete /> Delete
+                    <MdDelete /> {t('snackReview.delete', 'Sil')}
                   </button>
                 </div>
               )}

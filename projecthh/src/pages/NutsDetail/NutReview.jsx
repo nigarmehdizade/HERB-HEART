@@ -3,8 +3,10 @@ import styles from './NutReview.module.scss';
 import axios from 'axios';
 import { FaStar } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 const NutReview = ({ nutId }) => {
+  const { t } = useTranslation();
   const [reviews, setReviews] = useState([]);
   const [form, setForm] = useState({
     name: '',
@@ -61,16 +63,18 @@ const NutReview = ({ nutId }) => {
 
   return (
     <div className={styles.reviewBox}>
-      <h2>CUSTOMER REVIEWS</h2>
+      <h2>{t('review.customerReviews', 'Customer Reviews')}</h2>
+
       <div className={styles.stats}>
         <div>
-          <strong>{average}</strong> / 5 based on {reviews.length} reviews
+          <strong>{average}</strong> / 5 {t('review.basedOn', { count: reviews.length })}
           <div className={styles.stars}>
             {[...Array(5)].map((_, i) => (
               <FaStar key={i} className={i < average ? styles.filled : styles.empty} />
             ))}
           </div>
         </div>
+
         <div className={styles.breakdown}>
           {breakdown.map((count, i) => {
             const percent = (count / reviews.length) * 100 || 0;
@@ -88,8 +92,22 @@ const NutReview = ({ nutId }) => {
       </div>
 
       <form onSubmit={handleSubmit} className={styles.form}>
-        <input type="text" name="name" placeholder="Your name" required value={form.name} onChange={handleChange} />
-        <input type="email" name="email" placeholder="Your email" required value={form.email} onChange={handleChange} />
+        <input
+          type="text"
+          name="name"
+          placeholder={t('review.name', 'Your Name')}
+          required
+          value={form.name}
+          onChange={handleChange}
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder={t('review.email', 'Your Email')}
+          required
+          value={form.email}
+          onChange={handleChange}
+        />
         <div className={styles.starInput}>
           {[...Array(5)].map((_, i) => (
             <FaStar
@@ -101,10 +119,21 @@ const NutReview = ({ nutId }) => {
             />
           ))}
         </div>
-        <input type="text" name="title" placeholder="Review title" value={form.title} onChange={handleChange} />
-        <textarea name="comment" placeholder="Write your comments" value={form.comment} onChange={handleChange}></textarea>
+        <input
+          type="text"
+          name="title"
+          placeholder={t('review.title', 'Review Title')}
+          value={form.title}
+          onChange={handleChange}
+        />
+        <textarea
+          name="comment"
+          placeholder={t('review.comment', 'Write your review...')}
+          value={form.comment}
+          onChange={handleChange}
+        ></textarea>
         <input type="file" name="image" accept="image/*" onChange={handleChange} />
-        <button type="submit">Submit Review</button>
+        <button type="submit">{t('review.submit', 'Submit Review')}</button>
       </form>
 
       <div className={styles.reviewList}>
@@ -120,13 +149,15 @@ const NutReview = ({ nutId }) => {
                 </div>
                 <span>{new Date(r.date).toLocaleDateString()}</span>
               </div>
-              <strong className={styles.verified}>✔ Verified • {r.name}</strong>
+              <strong className={styles.verified}>
+                ✔ {t('review.verified', 'Verified')} • {r.name}
+              </strong>
               <h4>{r.title}</h4>
               <p>{r.comment}</p>
               {r.image && <img src={r.image} alt="uploaded" />}
               {userInfo?.email?.toLowerCase() === r.email?.toLowerCase() && (
                 <button className={styles.deleteBtn} onClick={() => handleDelete(r._id)}>
-                  Delete
+                  {t('review.delete', 'Delete')}
                 </button>
               )}
             </div>

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import styles from './DriedFruitReview.module.scss';
 import axios from 'axios';
 import { FaStar } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 const DriedFruitReview = ({ fruitId }) => {
+  const { t } = useTranslation();
   const [reviews, setReviews] = useState([]);
   const [form, setForm] = useState({
     name: '',
@@ -36,11 +38,7 @@ const DriedFruitReview = ({ fruitId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const review = {
-      ...form,
-      fruitId, // burda fruitId POST olunur
-    };
+    const review = { ...form, fruitId };
 
     try {
       const res = await axios.post('http://localhost:5000/api/fruitreviews', review);
@@ -69,12 +67,12 @@ const DriedFruitReview = ({ fruitId }) => {
 
   return (
     <div className={styles.reviewSection}>
-      <h2>Write a Review</h2>
+      <h2>{t('review.writeReview')}</h2>
       <form onSubmit={handleSubmit} className={styles.reviewForm}>
         <input
           type="text"
           name="name"
-          placeholder="Ad"
+          placeholder={t('review.name')}
           value={form.name}
           onChange={handleChange}
           required
@@ -82,7 +80,7 @@ const DriedFruitReview = ({ fruitId }) => {
         <input
           type="email"
           name="email"
-          placeholder="Email"
+          placeholder={t('review.email')}
           value={form.email}
           onChange={handleChange}
           required
@@ -90,13 +88,13 @@ const DriedFruitReview = ({ fruitId }) => {
         <input
           type="text"
           name="title"
-          placeholder="Başlıq"
+          placeholder={t('review.title')}
           value={form.title}
           onChange={handleChange}
         />
         <textarea
           name="comment"
-          placeholder="Rəyinizi yazın..."
+          placeholder={t('review.comment')}
           value={form.comment}
           onChange={handleChange}
           required
@@ -130,12 +128,14 @@ const DriedFruitReview = ({ fruitId }) => {
           accept="image/*"
         />
 
-        <button type="submit">Rəyi göndər</button>
+        <button type="submit">{t('review.submit')}</button>
       </form>
 
       <div className={styles.reviewsList}>
-        <h3>Rəylər</h3>
-        {reviews.length === 0 ? <p>Hələ rəy yoxdur</p> : (
+        <h3>{t('review.reviews')}</h3>
+        {reviews.length === 0 ? (
+          <p>{t('review.noReviews')}</p>
+        ) : (
           reviews.map(r => (
             <div key={r._id} className={styles.reviewCard}>
               <div className={styles.header}>
@@ -148,7 +148,7 @@ const DriedFruitReview = ({ fruitId }) => {
               </div>
               <p>{r.comment}</p>
               {r.image && <img src={r.image} alt="review" className={styles.reviewImg} />}
-              <button onClick={() => handleDelete(r._id)}>Sil</button>
+              <button onClick={() => handleDelete(r._id)}>{t('review.delete')}</button>
             </div>
           ))
         )}

@@ -3,8 +3,10 @@
   flex-wrap: wrap;
   gap: 3rem;
   padding: 3rem 5%;
-  background-color: #fff;
+  background-color: var(--bg-color);
+  color: var(--text-color);
   font-family: 'Helvetica Neue', sans-serif;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .imageWrapper {
@@ -26,6 +28,7 @@
   font-size: 24px;
   font-weight: 600;
   margin-bottom: 0.5rem;
+  color: var(--text-color);
 }
 
 .rating {
@@ -44,13 +47,13 @@
 
   .reviewCount {
     font-size: 14px;
-    color: #555;
+    color: var(--text-color);
   }
 }
 
 .sku {
   font-size: 13px;
-  color: #999;
+  color: #aaa;
   margin-bottom: 0.5rem;
 }
 
@@ -58,25 +61,30 @@
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 0.3rem;
+  color: var(--text-color);
 }
 
 .shipping {
   font-size: 13px;
-  color: #555;
+  color: var(--text-color);
   margin-bottom: 1rem;
 }
 
 .shippingNotice {
   font-size: 13px;
-  background-color: #f7f7f7;
+  background-color: var(--bg-color);
+  color: var(--text-color);
   padding: 10px;
-  border-left: 4px solid #000;
+  border-left: 4px solid var(--text-color);
   margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
 
   span {
     font-weight: 600;
   }
 }
+
+
 .sizeSelect {
   display: flex;
   gap: 12px;
@@ -87,23 +95,22 @@
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 2px;
-    background-color: #fff; 
-    color: #000; 
+    background-color: var(--bg-color);
+    color: var(--text-color);
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover {
-      border-color: #000;
+      border-color: var(--text-color);
     }
 
     &.active {
-      border: 2px solid #000;
+      border: 2px solid var(--text-color);
       background-color: #f4f4f4;
-      color: #000;
+      color: var(--text-color);
     }
   }
 }
-
 
 .quantityControl {
   display: flex;
@@ -113,14 +120,14 @@
   border-radius: 3px;
   width: fit-content;
   overflow: hidden;
-  background-color: #fff; // ✅ ağ fon
+  background-color: var(--bg-color);
 
   button {
     width: 38px;
     height: 38px;
     border: none;
-    background-color: #fff;
-    color: #000; // ✅ qara mətn
+    background-color: var(--bg-color);
+    color: var(--text-color);
     font-size: 20px;
     cursor: pointer;
 
@@ -133,14 +140,14 @@
     padding: 0 15px;
     font-size: 16px;
     font-weight: 500;
-    color: #000; // ✅ qara rəqəm
-    background-color: #fff;
+    color: var(--text-color);
+    background-color: var(--bg-color);
   }
 }
 
 .addToCart {
-  background-color: #000;
-  color: #fff;
+  background-color: var(--text-color);
+  color: var(--bg-color);
   padding: 14px 20px;
   font-size: 14px;
   border: none;
@@ -150,7 +157,7 @@
   transition: background 0.3s;
 
   &:hover {
-    background-color: #333;
+    opacity: 0.85;
   }
 }
 
@@ -181,12 +188,12 @@
 .moreOptions {
   font-size: 13px;
   text-decoration: underline;
-  color: #000;
+  color: var(--text-color);
   margin-bottom: 1.5rem;
   display: inline-block;
 
   &:hover {
-    color: #555;
+    opacity: 0.7;
   }
 }
 
@@ -194,6 +201,7 @@
   font-size: 14px;
   line-height: 1.6;
   margin-bottom: 2rem;
+  color: var(--text-color);
 
   strong {
     font-weight: 600;
@@ -202,7 +210,7 @@
 
 .meta {
   font-size: 13px;
-  color: #444;
+  color: var(--text-color);
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -217,12 +225,12 @@
   margin-bottom: 1.5rem;
 
   a {
-    color: #000;
+    color: var(--text-color);
     text-decoration: underline;
     font-weight: 500;
 
     &:hover {
-      color: #555;
+      opacity: 0.7;
     }
   }
 }
@@ -231,5 +239,5 @@
   display: flex;
   gap: 15px;
   font-size: 30px;
-  color: #222;
+  color: var(--text-color);
 }

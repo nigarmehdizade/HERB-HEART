@@ -6,13 +6,13 @@ import { FaStar } from 'react-icons/fa';
 import { SiMastercard } from "react-icons/si";
 import { FaCcVisa, FaCcPaypal, FaCcApplePay } from "react-icons/fa";
 import NutReview from './NutReview';
-
-// ✅ Redux və Drawer Context importları
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/cartSlice';
 import { useDrawer } from '../../context/DrawerContext';
+import { useTranslation } from 'react-i18next';
 
 const NutsDetail = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const [nut, setNut] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -21,15 +21,19 @@ const NutsDetail = () => {
   const [mainImage, setMainImage] = useState('');
   const [loading, setLoading] = useState(true);
 
-  // ✅ Redux və Drawer
   const dispatch = useDispatch();
   const { openDrawer } = useDrawer();
 
   useEffect(() => {
     axios.get(`http://localhost:5000/api/nuts/${id}`)
       .then(res => {
-        setNut(res.data);
-        setSelectedSize(res.data.sizes?.[0] || '');
+              console.log("GƏLƏN NUT:", res.data);
+        const staticSizes = ['150g', '8x150g'];
+        setNut({
+          ...res.data,
+          sizes: staticSizes
+        });
+        setSelectedSize(staticSizes[0]);
         setMainImage(res.data.image);
         setLoading(false);
       })
@@ -37,39 +41,25 @@ const NutsDetail = () => {
         console.error('Xəta:', err);
         setLoading(false);
       });
- axios.get(`http://localhost:5000/api/nuts/${id}`)
-    .then(res => {
-      const staticSizes = ['150g', '8x150g']; // ← sabit size-lar
-      setNut({
-        ...res.data,
-        sizes: staticSizes // ← override edir
-      });
-      setSelectedSize(staticSizes[0]);
-      setMainImage(res.data.image);
-      setLoading(false);
-    })
-    .catch(err => {
-      console.error('Xəta:', err);
-      setLoading(false);
-    });
+
     axios.get('http://localhost:5000/api/nuts')
       .then(res => setNuts(res.data.slice(0, 6)))
       .catch(err => console.error('Nuts alınmadı', err));
   }, [id]);
 
-  if (loading) return <p>Yüklənir...</p>;
-  if (!nut) return <p>Məhsul tapılmadı</p>;
+  if (loading) return <p>{t('nutDetail.loading', 'Loading...')}</p>;
+  if (!nut) return <p>{t('nutDetail.notFound', 'Product not found')}</p>;
 
   const totalPrice = (nut.price * quantity).toFixed(2);
   const freeShippingThreshold = 15;
   const remainingForFreeShipping = Math.max(0, freeShippingThreshold - totalPrice).toFixed(2);
   const progress = Math.min((totalPrice / freeShippingThreshold) * 100, 100);
 
-const handleAddToCart = () => {
-  if (nut.sizes?.length > 0 && !selectedSize) {
-    alert("Please select a size.");
-    return;
-  }
+  const handleAddToCart = () => {
+    if (nut.sizes?.length > 0 && !selectedSize) {
+      alert(t('nutDetail.selectSizeAlert', 'Please select a size'));
+      return;
+    }
 
     dispatch(addToCart({
       id: nut._id,
@@ -77,21 +67,19 @@ const handleAddToCart = () => {
       image: nut.image,
       price: nut.price,
       quantity,
-        size: selectedSize || null
+      size: selectedSize || null
     }));
 
-    openDrawer(); // sağdan səbəti aç
+    openDrawer();
   };
 
   return (
     <>
       <div className={styles.container}>
-        {/* LEFT IMAGE */}
         <div className={styles.imageWrapper}>
           <img src={mainImage} alt={nut.title} loading="lazy" />
           <div className={styles.galleryRow}>
             {[nut.image, ...(nut.gallery || [])].map((img, i) => (
-              
               <img
                 key={i}
                 src={img}
@@ -103,47 +91,51 @@ const handleAddToCart = () => {
           </div>
         </div>
 
-        {/* RIGHT INFO */}
         <div className={styles.infoWrapper}>
-      <h1 className={styles.title}>{nut.title || nut.name || nut.productTitle}</h1>
+   <h1 className={styles.title}>{nut.name}</h1>
+
+
+
 
 
           <div className={styles.rating}>
             <div className={styles.stars}>
               {[...Array(5)].map((_, i) => <FaStar key={i} />)}
             </div>
-            <span className={styles.reviewCount}>{nut.reviews || 0} reviews</span>
+            <span className={styles.reviewCount}>
+              {nut.reviews || 0} {t('nutDetail.reviews', 'reviews')}
+            </span>
           </div>
 
           <p className={styles.sku}>{nut.code || 'N/A'}</p>
           <p className={styles.price}>${nut.price}</p>
-          <p className={styles.shipping}>Shipping calculated at checkout.</p>
+          <p className={styles.shipping}>{t('nutDetail.shippingNote', 'Shipping calculated at checkout')}</p>
 
           <div className={styles.shippingNotice}>
-            You're <span>${remainingForFreeShipping}</span> away from free shipping!
+            {t('nutDetail.freeShipping', { amount: remainingForFreeShipping })}
           </div>
           <div className={styles.progressWrapper}>
             <div className={styles.progressBar} style={{ width: `${progress}%` }}></div>
           </div>
-{nut.sizes?.length > 0 && (
-  <>
-    <p className={styles.sectionLabel}>Size</p>
-    <div className={styles.sizeSelect}>
-      {nut.sizes.map((size) => (
-        <button
-          key={size}
-          className={`${styles.sizeButton} ${selectedSize === size ? styles.active : ''}`}
-          onClick={() => setSelectedSize(size)}
-        >
-          {size}
-        </button>
-      ))}
-    </div>
-  </>
-)}
 
+          {nut.sizes?.length > 0 && (
+            <>
+              <p className={styles.sectionLabel}>{t('nutDetail.size', 'Size')}</p>
+              <div className={styles.sizeSelect}>
+                {nut.sizes.map((size) => (
+                  <button
+                    key={size}
+                    className={`${styles.sizeButton} ${selectedSize === size ? styles.active : ''}`}
+                    onClick={() => setSelectedSize(size)}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
 
-          <p className={styles.sectionLabel}>Quantity</p>
+          <p className={styles.sectionLabel}>{t('nutDetail.quantity', 'Quantity')}</p>
           <div className={styles.quantityControl}>
             <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>−</button>
             <span>{quantity}</span>
@@ -151,30 +143,32 @@ const handleAddToCart = () => {
           </div>
 
           <button className={styles.addToCart} onClick={handleAddToCart}>
-            Add to Cart
+            {t('nutDetail.addToCart', 'Add to Cart')}
           </button>
 
           <button className={styles.shopPay}>
-            Buy with <strong>shop</strong><span>Pay</span>
+            {t('nutDetail.buyWith', 'Buy with')} <strong>shop</strong><span>Pay</span>
           </button>
 
-          <a href="#" className={styles.moreOptions}>More payment options</a>
+          <a href="#" className={styles.moreOptions}>
+            {t('nutDetail.morePayment', 'More payment options')}
+          </a>
 
           <div className={styles.description}>
             <p><strong>{nut.title}</strong> {nut.description}</p>
           </div>
 
           <div className={styles.meta}>
-            <span>Certified: {nut.certifications}</span>
+            <span>{t('nutDetail.certified', 'Certified')}: {nut.certifications}</span>
             <span>{nut.features}</span>
-            <span>Keep cool and dry</span>
-            <span>Country of origin: {nut.origin}</span>
-            <span>Ingredients: {nut.ingredients}</span>
-            <span>May contain: {nut.allergyInfo}</span>
+            <span>{t('nutDetail.storage', 'Store in a cool, dry place')}</span>
+            <span>{t('nutDetail.origin', 'Origin')}: {nut.origin}</span>
+            <span>{t('nutDetail.ingredients', 'Ingredients')}: {nut.ingredients}</span>
+            <span>{t('nutDetail.allergy', 'May contain')}: {nut.allergyInfo}</span>
           </div>
 
           <div className={styles.share}>
-            <span>🔗 Share: </span>
+            <span>🔗 {t('nutDetail.share', 'Share')}:</span>
             <a href="#">Facebook</a>
             <a href="#">Twitter</a>
           </div>
@@ -188,12 +182,10 @@ const handleAddToCart = () => {
         </div>
       </div>
 
-      {/* REVIEW */}
       <NutReview nutId={nut._id} />
 
-      {/* YOU MAY ALSO LIKE */}
       <div className={styles.mayAlsoLikeWrapper}>
-        <h2>YOU MAY ALSO LIKE</h2>
+        <h2>{t('nutDetail.alsoLike', 'You may also like')}</h2>
         <div className={styles.grid}>
           {nuts.map(n => (
             <div className={styles.card} key={n._id}>
@@ -203,9 +195,9 @@ const handleAddToCart = () => {
                 {[...Array(5)].map((_, i) => (
                   <FaStar key={i} className={styles.star} />
                 ))}
-                <span>{n.reviews || 0} reviews</span>
+                <span>{n.reviews || 0} {t('nutDetail.reviews', 'reviews')}</span>
               </div>
-              <p className={styles.price}>from ${n.price}</p>
+              <p className={styles.price}>{t('nutDetail.from', 'from')} ${n.price}</p>
             </div>
           ))}
         </div>

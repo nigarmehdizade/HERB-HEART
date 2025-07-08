@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import styles from './Dried.module.scss';
+import { useTranslation } from 'react-i18next';
 
 const Dried = () => {
   const [fruits, setFruits] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sort, setSort] = useState('');
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,28 +21,28 @@ const Dried = () => {
         setLoading(false);
       }
     };
-
     fetchData();
   }, [sort]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div>{t('loading')}</div>;
 
   return (
     <div className={styles.driedPage}>
       {/* Banner */}
       <div className={styles.hero}>
-        <h1>DRIED FRUITS</h1>
+      <h1 className={styles.title}>{t('dried.title')}</h1>
+
       </div>
 
-      {/* Sort */}
+      {/* Top bar */}
       <div className={styles.topBar}>
-        <p>{fruits.length} products</p>
+        <p>{fruits.length} {i18n.language === 'az' ? 'məhsul' : 'products'}</p>
         <select onChange={(e) => setSort(e.target.value)}>
-          <option value="">Featured</option>
-          <option value="price-asc">Price, low to high</option>
-          <option value="price-desc">Price, high to low</option>
-          <option value="date-new">Date, new to old</option>
-          <option value="date-old">Date, old to new</option>
+          <option value="">{i18n.language === 'az' ? 'Seçilmiş' : 'Featured'}</option>
+          <option value="price-asc">{i18n.language === 'az' ? 'Əvvəlcə ucuz' : 'Price: Low to High'}</option>
+          <option value="price-desc">{i18n.language === 'az' ? 'Əvvəlcə bahalı' : 'Price: High to Low'}</option>
+          <option value="date-new">{i18n.language === 'az' ? 'Ən yenilər' : 'Newest'}</option>
+          <option value="date-old">{i18n.language === 'az' ? 'Ən köhnələr' : 'Oldest'}</option>
         </select>
       </div>
 
@@ -53,13 +55,16 @@ const Dried = () => {
               {fruit.hoverImage && (
                 <img src={fruit.hoverImage} alt="hover" className={styles.hoverImg} />
               )}
+              <span className={styles.quickView}>QUICK VIEW</span>
             </div>
-            <h3>{fruit.title}</h3>
+            <h3>{fruit.title?.toUpperCase()}</h3>
             <div className={styles.reviews}>
               <span className={styles.stars}>★★★★★</span>
-              {fruit.reviews?.length || 0} reviews
+              {fruit.reviews?.length || 0} {i18n.language === 'az' ? 'rəy' : 'reviews'}
             </div>
-            <div className={styles.price}>from ${fruit.price.toFixed(2)}</div>
+            <div className={styles.price}>
+              {i18n.language === 'az' ? '₼' : 'From'} ${fruit.price.toFixed(2)}
+            </div>
           </Link>
         ))}
       </div>

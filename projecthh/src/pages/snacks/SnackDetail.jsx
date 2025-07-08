@@ -11,6 +11,10 @@ import SnackReview from '../snacks/SnackReview';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/cartSlice';
 import { useDrawer } from '../../context/DrawerContext';
+import YouMayAlsoLike from './YouMayAlsoLike';
+
+// i18n
+import { useTranslation } from 'react-i18next';
 
 const SnackDetail = () => {
   const { id } = useParams();
@@ -19,42 +23,33 @@ const SnackDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('');
   const [snacks, setSnacks] = useState([]);
-
   const dispatch = useDispatch();
   const { openDrawer } = useDrawer();
+  const { t } = useTranslation();
 
   useEffect(() => {
     axios.get(`http://localhost:5000/api/snacks/${id}`)
       .then(res => {
-        setSnack(res.data);
-        setSelectedSize(res.data.sizes?.[0] || '');
+        const staticSizes = ['150g', '8x150g'];
+        setSnack({
+          ...res.data,
+          sizes: staticSizes
+        });
+        setSelectedSize(staticSizes[0]);
         setLoading(false);
       })
       .catch(err => {
         console.error('Xəta:', err);
         setLoading(false);
       });
- axios.get(`http://localhost:5000/api/snacks/${id}`)
-    .then(res => {
-      const staticSizes = ['150g', '8x150g'];
-      setSnack({
-        ...res.data,
-        sizes: staticSizes // ← Bütün məhsullar üçün sabit ölçülər
-      });
-      setSelectedSize(staticSizes[0]);
-      setLoading(false);
-    })
-    .catch(err => {
-      console.error('Xəta:', err);
-      setLoading(false);
-    });
+
     axios.get('http://localhost:5000/api/snacks')
       .then(res => setSnacks(res.data.slice(0, 6)))
       .catch(err => console.error('Snacks alınmadı', err));
   }, [id]);
 
-  if (loading) return <p>Yüklənir...</p>;
-  if (!snack) return <p>Məhsul tapılmadı</p>;
+  if (loading) return <p>{t('snack.loading')}</p>;
+  if (!snack) return <p>{t('snack.not_found')}</p>;
 
   const totalPrice = (snack.price * quantity).toFixed(2);
   const freeShippingThreshold = 15;
@@ -62,7 +57,7 @@ const SnackDetail = () => {
 
   const handleAddToCart = () => {
     if (snack.sizes?.length > 0 && !selectedSize) {
-      alert("Please select a size.");
+      alert(t('snack.select_size_alert'));
       return;
     }
 
@@ -92,16 +87,18 @@ const SnackDetail = () => {
             <div className={styles.stars}>
               {[...Array(5)].map((_, i) => <FaStar key={i} />)}
             </div>
-            <span className={styles.reviewCount}>{snack.reviews || 0} reviews</span>
+            <span className={styles.reviewCount}>
+              {snack.reviews || 0} {t('snack.reviews')}
+            </span>
           </div>
 
           <p className={styles.sku}>{snack.code || 'N/A'}</p>
           <p className={styles.price}>${snack.price}</p>
-          <p className={styles.shipping}>Shipping calculated at checkout.</p>
+          <p className={styles.shipping}>{t('snack.shipping_info')}</p>
 
           {remainingForFreeShipping > 0 && (
             <div className={styles.freeShippingBar}>
-              You're <span>${remainingForFreeShipping}</span> away from free shipping!
+              {t('snack.remaining_shipping', { amount: remainingForFreeShipping })}
               <div className={styles.progressBar}>
                 <div
                   className={styles.progress}
@@ -111,9 +108,9 @@ const SnackDetail = () => {
             </div>
           )}
 
-          {/* SIZE seçimi */}
+          {/* ÖLÇÜ */}
           <div className={styles.selectorSection}>
-            <label className={styles.label}>SIZE</label>
+            <label className={styles.label}>{t('snack.size')}</label>
             <div className={styles.sizeOptions}>
               {snack.sizes?.map((size) => (
                 <button
@@ -127,9 +124,9 @@ const SnackDetail = () => {
             </div>
           </div>
 
-          {/* QUANTITY seçimi */}
+          {/* MİQDARI */}
           <div className={styles.selectorSection}>
-            <label className={styles.label}>QUANTITY</label>
+            <label className={styles.label}>{t('snack.quantity')}</label>
             <div className={styles.quantityControl}>
               <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>−</button>
               <span>{quantity}</span>
@@ -138,27 +135,27 @@ const SnackDetail = () => {
           </div>
 
           <button className={styles.addToCart} onClick={handleAddToCart}>
-            ADD TO CART
+            {t('snack.add_to_cart')}
           </button>
 
-          <button className={styles.shopPay}>Buy with <strong>shop</strong><span>Pay</span></button>
-          <a href="#" className={styles.moreOptions}>More payment options</a>
+          <button className={styles.shopPay}>{t('snack.shop_pay')}</button>
+          <a href="#" className={styles.moreOptions}>{t('snack.more_payment')}</a>
 
           <div className={styles.description}>
             <p><strong>{snack.title}</strong> {snack.description}</p>
           </div>
 
           <div className={styles.meta}>
-            <span>Certified: {snack.certifications}</span>
+            <span>{t('snack.certified')}: {snack.certifications}</span>
             <span>{snack.features}</span>
-            <span>Keep cool and dry</span>
-            <span>Country of origin: {snack.origin}</span>
-            <span>Ingredients: {snack.ingredients}</span>
-            <span>May contain: {snack.allergyInfo}</span>
+            <span>{t('snack.storage')}</span>
+            <span>{t('snack.origin')}: {snack.origin}</span>
+            <span>{t('snack.ingredients')}: {snack.ingredients}</span>
+            <span>{t('snack.may_contain')}: {snack.allergyInfo}</span>
           </div>
 
           <div className={styles.share}>
-            <span>🔗 Share: </span>
+            <span>🔗 {t('snack.share')}</span>
             <a href="#">Facebook</a>
             <a href="#">Twitter</a>
           </div>
@@ -172,30 +169,12 @@ const SnackDetail = () => {
         </div>
       </div>
 
-      {/* Review bölməsi */}
       <div className={styles.reviewWrapper}>
         <SnackReview snackId={snack._id} />
       </div>
 
-      {/* Tövsiyə olunan məhsullar */}
-      <div className={styles.mayAlsoLikeWrapper}>
-        <h2>You may also like</h2>
-        <div className={styles.grid}>
-          {snacks.slice(0, 5).map(s => (
-            <div className={styles.card} key={s._id}>
-              <img src={s.image} alt={s.title} />
-              <h3>{s.title}</h3>
-              <div className={styles.reviews}>
-                {[...Array(5)].map((_, i) => (
-                  <FaStar key={i} className={styles.star} />
-                ))}
-                <span>{s.reviews || 0} reviews</span>
-              </div>
-              <p>from ${s.price}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+   <YouMayAlsoLike apiEndpoint="snacks" detailRoute="snackdetail" />
+
     </>
   );
 };

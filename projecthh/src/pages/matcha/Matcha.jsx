@@ -3,10 +3,13 @@ import styles from './Matcha.module.scss';
 import axios from 'axios';
 import { FaStar } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import i18n from '../../i18n';
 
 const Matcha = () => {
   const [matchaItems, setMatchaItems] = useState([]);
   const [sort, setSort] = useState('featured');
+  const { t } = useTranslation();
 
   useEffect(() => {
     axios.get(`http://localhost:5000/api/matcha?sort=${sort}`)
@@ -18,27 +21,30 @@ const Matcha = () => {
     <div className={styles.matchaPage}>
       {/* Banner */}
       <div className={styles.banner}>
-        <img src="https://elanbio.ca/cdn/shop/collections/ELAN_SHOP_BY_CATEGORY_MATCHA_1728x.jpg?v=1617291961" alt="Matcha Banner" />
-        <h1>MATCHA</h1>
+        <img
+          src="https://elanbio.ca/cdn/shop/collections/ELAN_SHOP_BY_CATEGORY_MATCHA_1728x.jpg?v=1617291961"
+          alt="Matcha Banner"
+        />
+        <h1>{i18n.language === 'az' ? t('matcha.title') : 'MATCHA'}</h1>
       </div>
 
       {/* Top Filter Bar */}
       <div className={styles.topBar}>
-        <p>{matchaItems.length} products</p>
+        <p>{matchaItems.length} {i18n.language === 'az' ? t('matcha.products') : 'products'}</p>
         <div>
-          <label htmlFor="sort">Sort by: </label>
+          <label htmlFor="sort">{i18n.language === 'az' ? t('matcha.sortBy') : 'Sort By:'} </label>
           <select id="sort" value={sort} onChange={(e) => setSort(e.target.value)}>
-            <option value="featured">Featured</option>
-            <option value="priceAsc">Price: Low to High</option>
-            <option value="priceDesc">Price: High to Low</option>
-            <option value="rating">Rating</option>
+            <option value="featured">{i18n.language === 'az' ? t('matcha.featured') : 'Featured'}</option>
+            <option value="priceAsc">{i18n.language === 'az' ? t('matcha.priceLow') : 'Price: Low to High'}</option>
+            <option value="priceDesc">{i18n.language === 'az' ? t('matcha.priceHigh') : 'Price: High to Low'}</option>
+            <option value="rating">{i18n.language === 'az' ? t('matcha.rating') : 'Rating'}</option>
           </select>
         </div>
       </div>
 
       {/* Product Grid */}
       <div className={styles.grid}>
-        {matchaItems.map(item => (
+        {matchaItems.map((item) => (
           <div className={styles.card} key={item._id}>
             <div
               className={styles.imageWrapper}
@@ -52,7 +58,9 @@ const Matcha = () => {
               }}
             >
               <img src={item.image} alt={item.name} />
-              <Link to={`/matcha/${item._id}`} className={styles.quickView}>Quick View</Link>
+              <Link to={`/matcha/${item._id}`} className={styles.quickView}>
+                {i18n.language === 'az' ? t('matcha.quickView') : 'Quick View'}
+              </Link>
             </div>
 
             <h3>{item.name.toUpperCase()}</h3>
@@ -61,10 +69,14 @@ const Matcha = () => {
               {[...Array(5)].map((_, i) => (
                 <FaStar key={i} color={i < Math.round(item.rating) ? '#000' : '#ccc'} />
               ))}
-              <span>{item.reviews} reviews</span>
+              <span>
+                {item.reviews || 0} {i18n.language === 'az' ? t('matcha.reviews') : 'reviews'}
+              </span>
             </div>
 
-            <p>from ${item.price.toFixed(2)}</p>
+            <p>
+              {i18n.language === 'az' ? t('matcha.from') : 'from'} ${item.price.toFixed(2)}
+            </p>
           </div>
         ))}
       </div>
