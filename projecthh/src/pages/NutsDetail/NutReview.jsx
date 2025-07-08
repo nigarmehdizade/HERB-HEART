@@ -19,11 +19,21 @@ const NutReview = ({ nutId }) => {
 
   const [hover, setHover] = useState(0);
   const { userInfo } = useSelector((state) => state.user);
+  const fallbackUser = localStorage.getItem('userInfo')
+    ? JSON.parse(localStorage.getItem('userInfo'))
+    : null;
+  const effectiveUser = userInfo || fallbackUser;
+
+  const userEmail =
+    effectiveUser?.email ||
+    effectiveUser?.user?.email ||
+    '';
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/nutreviews/${nutId}`)
-      .then(res => setReviews(res.data))
-      .catch(err => console.error('Review fetch error:', err));
+    axios
+      .get(`http://localhost:5000/api/nutreviews/${nutId}`)
+      .then((res) => setReviews(res.data))
+      .catch((err) => console.error('Review fetch error:', err));
   }, [nutId]);
 
   const handleChange = (e) => {
@@ -50,16 +60,14 @@ const NutReview = ({ nutId }) => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:5000/api/nutreviews/${id}`);
-      setReviews(reviews.filter(r => r._id !== id));
+      setReviews(reviews.filter((r) => r._id !== id));
     } catch (err) {
-      console.error("Silinmə zamanı xəta:", err);
+      console.error('Silinmə zamanı xəta:', err.response?.data || err.message);
     }
   };
 
   const average = (reviews.reduce((a, b) => a + b.rating, 0) / reviews.length || 0).toFixed(1);
-  const breakdown = [5, 4, 3, 2, 1].map(star =>
-    reviews.filter(r => r.rating === star).length
-  );
+  const breakdown = [5, 4, 3, 2, 1].map((star) => reviews.filter((r) => r.rating === star).length);
 
   return (
     <div className={styles.reviewBox}>
@@ -155,7 +163,7 @@ const NutReview = ({ nutId }) => {
               <h4>{r.title}</h4>
               <p>{r.comment}</p>
               {r.image && <img src={r.image} alt="uploaded" />}
-              {userInfo?.email?.toLowerCase() === r.email?.toLowerCase() && (
+              {userEmail.toLowerCase() === r.email?.toLowerCase() && (
                 <button className={styles.deleteBtn} onClick={() => handleDelete(r._id)}>
                   {t('review.delete', 'Delete')}
                 </button>

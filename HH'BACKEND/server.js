@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-// ROUTES
+
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
@@ -21,11 +21,11 @@ import matchaRoutes from './routes/matchaRoutes.js';
 import fruitReviewRoutes from './routes/fruitReviewRoutes.js';
 
 
-// MIDDLEWARE
+
 import { errorHandler } from "./middleware/errorHandler.js";
 import { secureHeaders } from "./middleware/secureHeaders.js";
 
-// CONFIG
+
 import connectDB from "./config/db.js";
 
 dotenv.config();
@@ -33,27 +33,25 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB
+
 connectDB();
 
-// CORS
 app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true,
 }));
 
-// BODY PARSING
+
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// COOKIES + SECURITY
 app.use(cookieParser());
 app.use(secureHeaders);
 
-// STATIC FILES
+
 app.use('/uploads', express.static('uploads'));
 
-// ROUTES
+
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);

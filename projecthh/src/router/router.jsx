@@ -18,29 +18,32 @@ import Dried from '../pages/dried/Dried';
 import DriedDetail from '../pages/dried/DriedDetail';
 import Seeds from '../pages/seeds/Seeds';
 import SeedsDetail from '../pages/seeds/SeedsDetail';
-
+import ProtectedRoute from '../components/ProtectedRoute';
+import AdminRoute from '../components/AdminRoute';
+// import AdminPanel from '../pages/AdminPanel/AdminPanel';
 import Checkout from '../pages/checkout/Checkout';
 
 import i18n from '../i18n';
 import MainLayout from '../components/layouts/MainLayout';
 import Matcha from '../pages/matcha/Matcha';
 import MatchaDetail from '../pages/matcha/MatchaDetail';
+import Unauthorized from '../components/Unauthorized';
+import Profile from '../profile/Profile';
 
 const Router = () => {
   return (
     <Routes>
-      {/* Auth pages (without layout) */}
+
       <Route path="/" element={<Navigate to="/register" />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
 
-      {/* Main layout wrapper for all visible pages */}
       <Route element={<MainLayout />}>
         <Route path="/home" element={<Home key={i18n.language} />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-
+        <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="/category/recipes" element={<Recipes />} />
         <Route path="/recipes/:id" element={<DetailPage />} />
 
@@ -58,8 +61,21 @@ const Router = () => {
 
         <Route path="/category/matcha" element={<Matcha />} />
         <Route path="/matcha/:id" element={<MatchaDetail />} />
-
+  <Route path="/profile" element={<Profile />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        } />
+        {/* 
+<Route path="/admin" element={
+  <AdminRoute>
+    <AdminPanel />
+  </AdminRoute>
+} /> */}
+        <Route path="/unauthorized" element={<h2>İcazəniz yoxdur</h2>} />
       </Route>
     </Routes>
   );

@@ -38,8 +38,8 @@ const DriedDetail = () => {
       });
   }, [id]);
 
-  if (loading) return <p>{t('dried.loading')}</p>;
-  if (!fruit) return <p>{t('dried.notFound')}</p>;
+  if (loading) return <p>{t('dried.loading', 'Loading...')}</p>;
+  if (!fruit) return <p>{t('dried.notFound', 'Product not found')}</p>;
 
   const totalPrice = (fruit.price * quantity).toFixed(2);
   const freeShippingThreshold = 15;
@@ -48,7 +48,7 @@ const DriedDetail = () => {
 
   const handleAddToCart = () => {
     if (fruit.sizes?.length > 0 && !selectedSize) {
-      alert(t('dried.selectSizeAlert'));
+      alert(t('dried.selectSizeAlert', 'Please select a size'));
       return;
     }
 
@@ -94,18 +94,18 @@ const DriedDetail = () => {
               {[...Array(5)].map((_, i) => <FaStar key={i} />)}
             </div>
             <span className={styles.reviewCount}>
-              {fruit.reviews?.length || 0} {t('dried.reviews')}
+              {fruit.reviews?.length || 0} {t('dried.reviews', 'reviews')}
             </span>
           </div>
 
-          <p className={styles.sku}>{t('dried.sku')}: {fruit.code || 'N/A'}</p>
+          <p className={styles.sku}>{t('dried.sku', 'SKU')}: {fruit.code || 'N/A'}</p>
           <p className={styles.price}>${fruit.price}</p>
-          <p className={styles.shipping}>{t('dried.shippingNote')}</p>
+          <p className={styles.shipping}>{t('dried.shippingNote', 'Shipping calculated at checkout')}</p>
 
           {remainingForFreeShipping > 0 && (
             <>
               <div className={styles.shippingNotice}>
-                {t('dried.freeShipping', { amount: remainingForFreeShipping })}
+                {t('dried.freeShipping', { amount: remainingForFreeShipping, defaultValue: 'Add ${{amount}} more for free shipping' })}
               </div>
               <div className={styles.progressWrapper}>
                 <div className={styles.progressBar} style={{ width: `${progress}%` }}></div>
@@ -116,7 +116,7 @@ const DriedDetail = () => {
           <div className={styles.rowOptions}>
             {fruit.sizes?.length > 0 && (
               <div className={styles.sizeBlock}>
-                <p className={styles.sectionLabel}>{t('dried.size')}</p>
+                <p className={styles.sectionLabel}>{t('dried.size', 'Size')}</p>
                 <div className={styles.sizeSelect}>
                   {fruit.sizes.map((size) => (
                     <button
@@ -132,7 +132,7 @@ const DriedDetail = () => {
             )}
 
             <div className={styles.quantityBlock}>
-              <p className={styles.sectionLabel}>{t('dried.quantity')}</p>
+              <p className={styles.sectionLabel}>{t('dried.quantity', 'Quantity')}</p>
               <div className={styles.quantityControl}>
                 <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>−</button>
                 <span>{quantity}</span>
@@ -142,30 +142,30 @@ const DriedDetail = () => {
           </div>
 
           <button className={styles.addToCart} onClick={handleAddToCart}>
-            {t('dried.addToCart')}
+            {t('dried.addToCart', 'Add to Cart')}
           </button>
 
           <button className={styles.shopPay} onClick={handleCheckout}>
-            {t('dried.buyWith')} <strong>shop</strong><span>Pay</span>
+            {t('dried.buyWith', 'Buy with')} <strong>shop</strong><span>Pay</span>
           </button>
 
-          <a href="#" className={styles.moreOptions}>{t('dried.morePayment')}</a>
+          <a href="#" className={styles.moreOptions}>{t('dried.morePayment', 'More payment options')}</a>
 
           <div className={styles.description}>
             <p><strong>{fruit.title}</strong> {fruit.description}</p>
           </div>
 
           <div className={styles.meta}>
-            <span>{t('dried.certified')}: {fruit.certifications}</span>
+            <span>{t('dried.certified', 'Certified')}: {fruit.certifications}</span>
             <span>{fruit.features}</span>
-            <span>{t('dried.storage')}</span>
-            <span>{t('dried.origin')}: {fruit.origin}</span>
-            <span>{t('dried.ingredients')}: {fruit.ingredients}</span>
-            <span>{t('dried.mayContain')}: {fruit.allergyInfo}</span>
+            <span>{t('dried.storage', 'Store in a cool dry place')}</span>
+            <span>{t('dried.origin', 'Origin')}: {fruit.origin}</span>
+            <span>{t('dried.ingredients', 'Ingredients')}: {fruit.ingredients}</span>
+            <span>{t('dried.mayContain', 'May contain')}: {fruit.allergyInfo}</span>
           </div>
 
           <div className={styles.share}>
-            <span>🔗 {t('dried.share')}</span>
+            <span>🔗 {t('dried.share', 'Share')}</span>
             <a href="#">Facebook</a>
             <a href="#">Twitter</a>
           </div>
@@ -179,7 +179,6 @@ const DriedDetail = () => {
         </div>
       </div>
 
-     
       <YouMayAlsoLike apiEndpoint="driedfruits" detailRoute="dried-detail" />
     </>
   );

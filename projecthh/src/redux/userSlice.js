@@ -3,8 +3,24 @@ import axios from 'axios';
 
 const API_URI = 'http://localhost:5000/api/auth';
 
-// ✅ Register
-const registerUser = createAsyncThunk(
+// YALNIZ 1 DƏFƏ BURADA YAZILIR
+export const fetchUsers = createAsyncThunk(
+  'user/fetchUsers',
+  async (_, thunkAPI) => {
+    try {
+      const res = await axios.get('http://localhost:5000/api/users', {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem('userInfo'))?.token}`,
+        },
+      });
+      return res.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue('İstifadəçiləri almaqda xəta baş verdi');
+    }
+  }
+);
+
+export const registerUser = createAsyncThunk(
   'user/register',
   async (formData, thunkAPI) => {
     try {
@@ -18,8 +34,7 @@ const registerUser = createAsyncThunk(
   }
 );
 
-// ✅ Normal Login
-const loginUser = createAsyncThunk(
+export const loginUser = createAsyncThunk(
   'user/login',
   async (formData, thunkAPI) => {
     try {
@@ -33,8 +48,7 @@ const loginUser = createAsyncThunk(
   }
 );
 
-// ✅ Google Login
- const loginWithGoogle = createAsyncThunk(
+export const loginWithGoogle = createAsyncThunk(
   'user/googleLogin',
   async (credentialResponse, thunkAPI) => {
     try {
@@ -48,8 +62,7 @@ const loginUser = createAsyncThunk(
   }
 );
 
-
- const loginWithFacebook = createAsyncThunk(
+export const loginWithFacebook = createAsyncThunk(
   'user/facebookLogin',
   async (facebookResponse, thunkAPI) => {
     try {
@@ -64,13 +77,18 @@ const loginUser = createAsyncThunk(
   }
 );
 
+const initialState = {
+  userInfo: localStorage.getItem('userInfo')
+    ? JSON.parse(localStorage.getItem('userInfo'))
+    : null,
+  loading: false,
+  error: null,
+  userList: [],
+};
+
 const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    userInfo: null,
-    loading: false,
-    error: null,
-  },
+  initialState,
   reducers: {
     logout: (state) => {
       state.userInfo = null;
@@ -79,7 +97,6 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Register
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -94,7 +111,6 @@ const userSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Normal Login
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -109,7 +125,6 @@ const userSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Google Login
       .addCase(loginWithGoogle.fulfilled, (state, action) => {
         state.userInfo = action.payload;
         localStorage.setItem('userInfo', JSON.stringify(action.payload));
@@ -118,23 +133,20 @@ const userSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Facebook Login
       .addCase(loginWithFacebook.fulfilled, (state, action) => {
         state.userInfo = action.payload;
         localStorage.setItem('userInfo', JSON.stringify(action.payload));
       })
       .addCase(loginWithFacebook.rejected, (state, action) => {
         state.error = action.payload;
+      })
+
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.userList = action.payload;
       });
   },
 });
 
 export const { logout } = userSlice.actions;
-export {
-  registerUser,
-  loginUser,
-  loginWithGoogle,
-  loginWithFacebook,
-};
 
 export default userSlice.reducer;

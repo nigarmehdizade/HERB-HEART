@@ -5,18 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../redux/userSlice';
 import { useNavigate, Link } from 'react-router-dom';
 import { FaUser, FaLock } from 'react-icons/fa';
+import { sanitizeInput } from '../../utils/sanitizeInput';
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
-
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo, loading, error } = useSelector((state) => state.user);
 
-  // ✅ Uğurlu login olduqda yönləndir
   useEffect(() => {
     if (userInfo && userInfo.token) {
       navigate('/home');
@@ -24,11 +20,19 @@ const Login = () => {
   }, [userInfo, navigate]);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: sanitizeInput(value) });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const { email, password } = formData;
+
+    if (!email || !password) {
+      alert('Zəhmət olmasa bütün xanaları doldurun.');
+      return;
+    }
+
     dispatch(loginUser(formData));
   };
 
@@ -36,7 +40,7 @@ const Login = () => {
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.imageSection}>
-          <img src="https://colorlib.com/etc/regform/colorlib-regform-7/images/signin-image.jpg"alt="Login visual" />
+            <img src="https://colorlib.com/etc/regform/colorlib-regform-7/images/signin-image.jpg"alt="Login visual" />
         </div>
         <div className={styles.formSection}>
           <h2 className={styles.title}>Daxil ol</h2>
@@ -74,14 +78,6 @@ const Login = () => {
             <p>
               Hesabın yoxdur? <Link to="/register">Qeydiyyatdan keç</Link>
             </p>
-            <div className={styles.socialLogin}>
-              <span>və ya daxil ol</span>
-              <div className={styles.socialIcons}>
-                <button className={styles.fb}>f</button>
-                <button className={styles.tw}>t</button>
-                <button className={styles.gg}>G</button>
-              </div>
-            </div>
           </div>
         </div>
       </div>

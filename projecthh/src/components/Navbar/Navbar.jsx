@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import styles from './Navbar.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaUser, FaHeart, FaShoppingBag, FaSearch } from 'react-icons/fa';
-import logo from '../../assets/logo.png';
 import { useDrawer } from '../../context/DrawerContext';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -14,9 +13,19 @@ const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const { openDrawer } = useDrawer();
   const cartItems = useSelector((state) => state.cart.items);
+  const { userInfo } = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   const toggleSearch = () => {
     setShowSearch((prev) => !prev);
+  };
+
+  const handleUserClick = () => {
+    if (userInfo?.user?.isAdmin) {
+      navigate('/dashboard'); 
+    } else {
+      navigate('/profile'); 
+    }
   };
 
   return (
@@ -41,10 +50,14 @@ const Navbar = () => {
       </div>
 
       <div className={styles.right}>
-        <Link to="/dashboard"><FaUser /></Link>
+        <button onClick={handleUserClick} className={styles.iconBtn}>
+          <FaUser />
+        </button>
 
-         <ThemeToggle />
-        <button onClick={toggleSearch} className={styles.iconBtn}><FaSearch /></button>
+        <ThemeToggle />
+        <button onClick={toggleSearch} className={styles.iconBtn}>
+          <FaSearch />
+        </button>
 
         <div className={styles.cartIcon} onClick={openDrawer}>
           <FaShoppingBag />

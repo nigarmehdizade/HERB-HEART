@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './CartDrawer.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
-import { incrementQuantity, decrementQuantity } from '../../redux/cartSlice';
+import { incrementQuantity, decrementQuantity, removeFromCart } from '../../redux/cartSlice';
 import { useDrawer } from '../../context/DrawerContext';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -23,24 +23,31 @@ const CartDrawer = () => {
   return (
     <div className={`${styles.drawer} ${isOpen ? styles.open : ''}`}>
       <div className={styles.header}>
-        <h2>{t('cart.title')}</h2>
+        <h2>{t('title')}</h2>
         <button onClick={closeDrawer}>×</button>
       </div>
 
       <div className={styles.body}>
         {items.length === 0 ? (
-          <p>{t('cart.empty')}</p>
+          <p>{t('empty')}</p>
         ) : (
           items.map(item => (
             <div key={item.id + item.size} className={styles.item}>
               <img src={item.image} alt={item.name} />
               <div className={styles.details}>
                 <p>{item.name}</p>
-                <small>{t('cart.size')}: {item.size}</small>
+                <small>{t('size')}: {item.size}</small>
                 <div className={styles.controls}>
                   <button onClick={() => dispatch(decrementQuantity(item))}>−</button>
                   <span>{item.quantity}</span>
                   <button onClick={() => dispatch(incrementQuantity(item))}>+</button>
+                  <button
+                    className={styles.remove}
+                    onClick={() => dispatch(removeFromCart(item))}
+                    title={t('remove')}
+                  >
+                    🗑️
+                  </button>
                 </div>
               </div>
               <div className={styles.price}>${(item.price * item.quantity).toFixed(2)}</div>
@@ -51,10 +58,10 @@ const CartDrawer = () => {
 
       <div className={styles.footer}>
         <div>
-          <strong>{t('cart.subtotal')}:</strong> ${subtotal}
+          <strong>{t('subtotal')}:</strong> ${subtotal}
         </div>
         <button className={styles.checkout} onClick={handleCheckout}>
-          {t('cart.checkout')}
+          {t('checkout')}
         </button>
       </div>
     </div>

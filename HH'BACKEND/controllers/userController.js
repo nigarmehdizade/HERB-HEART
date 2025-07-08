@@ -9,6 +9,17 @@ export const getProfile = async (req, res, next) => {
   }
 };
 
+
+export const getAllUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({}).select("-password");
+    res.json(users);
+  } catch (err) {
+    console.error("Get all users error:", err);
+    res.status(500).json({ message: "Server error: can't fetch users" });
+  }
+};
+
 export const updateProfile = async (req, res, next) => {
   try {
     const { name, email, phone, address, cardInfo } = req.body;

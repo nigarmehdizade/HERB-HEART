@@ -6,14 +6,10 @@ import { FaStar } from 'react-icons/fa';
 import { SiMastercard } from "react-icons/si";
 import { FaCcVisa, FaCcPaypal, FaCcApplePay } from "react-icons/fa";
 import SnackReview from '../snacks/SnackReview';
-
-// Redux və Drawer
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/cartSlice';
 import { useDrawer } from '../../context/DrawerContext';
 import YouMayAlsoLike from './YouMayAlsoLike';
-
-// i18n
 import { useTranslation } from 'react-i18next';
 
 const SnackDetail = () => {
@@ -31,10 +27,7 @@ const SnackDetail = () => {
     axios.get(`http://localhost:5000/api/snacks/${id}`)
       .then(res => {
         const staticSizes = ['150g', '8x150g'];
-        setSnack({
-          ...res.data,
-          sizes: staticSizes
-        });
+        setSnack({ ...res.data, sizes: staticSizes });
         setSelectedSize(staticSizes[0]);
         setLoading(false);
       })
@@ -48,8 +41,8 @@ const SnackDetail = () => {
       .catch(err => console.error('Snacks alınmadı', err));
   }, [id]);
 
-  if (loading) return <p>{t('snack.loading')}</p>;
-  if (!snack) return <p>{t('snack.not_found')}</p>;
+  if (loading) return <p>{t('snack.loading', 'Loading...')}</p>;
+  if (!snack) return <p>{t('snack.not_found', 'Product not found')}</p>;
 
   const totalPrice = (snack.price * quantity).toFixed(2);
   const freeShippingThreshold = 15;
@@ -57,7 +50,7 @@ const SnackDetail = () => {
 
   const handleAddToCart = () => {
     if (snack.sizes?.length > 0 && !selectedSize) {
-      alert(t('snack.select_size_alert'));
+      alert(t('snack.select_size_alert', 'Please select a size'));
       return;
     }
 
@@ -88,17 +81,17 @@ const SnackDetail = () => {
               {[...Array(5)].map((_, i) => <FaStar key={i} />)}
             </div>
             <span className={styles.reviewCount}>
-              {snack.reviews || 0} {t('snack.reviews')}
+              {snack.reviews || 0} {t('snack.reviews', 'reviews')}
             </span>
           </div>
 
-          <p className={styles.sku}>{snack.code || 'N/A'}</p>
+          <p className={styles.sku}>{t('snack.sku', 'SKU')}: {snack.code || 'N/A'}</p>
           <p className={styles.price}>${snack.price}</p>
-          <p className={styles.shipping}>{t('snack.shipping_info')}</p>
+          <p className={styles.shipping}>{t('snack.shipping_info', 'Shipping calculated at checkout')}</p>
 
           {remainingForFreeShipping > 0 && (
             <div className={styles.freeShippingBar}>
-              {t('snack.remaining_shipping', { amount: remainingForFreeShipping })}
+              {t('snack.remaining_shipping', { amount: remainingForFreeShipping, defaultValue: 'Add ${{amount}} more for free shipping' })}
               <div className={styles.progressBar}>
                 <div
                   className={styles.progress}
@@ -108,9 +101,8 @@ const SnackDetail = () => {
             </div>
           )}
 
-          {/* ÖLÇÜ */}
           <div className={styles.selectorSection}>
-            <label className={styles.label}>{t('snack.size')}</label>
+            <label className={styles.label}>{t('snack.size', 'Size')}</label>
             <div className={styles.sizeOptions}>
               {snack.sizes?.map((size) => (
                 <button
@@ -124,9 +116,8 @@ const SnackDetail = () => {
             </div>
           </div>
 
-          {/* MİQDARI */}
           <div className={styles.selectorSection}>
-            <label className={styles.label}>{t('snack.quantity')}</label>
+            <label className={styles.label}>{t('snack.quantity', 'Quantity')}</label>
             <div className={styles.quantityControl}>
               <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>−</button>
               <span>{quantity}</span>
@@ -135,27 +126,28 @@ const SnackDetail = () => {
           </div>
 
           <button className={styles.addToCart} onClick={handleAddToCart}>
-            {t('snack.add_to_cart')}
+            {t('snack.add_to_cart', 'Add to Cart')}
           </button>
 
-          <button className={styles.shopPay}>{t('snack.shop_pay')}</button>
-          <a href="#" className={styles.moreOptions}>{t('snack.more_payment')}</a>
+          <button className={styles.shopPay}>{t('snack.shop_pay', 'Buy with')} <strong>shop</strong><span>Pay</span></button>
+
+          <a href="#" className={styles.moreOptions}>{t('snack.more_payment', 'More payment options')}</a>
 
           <div className={styles.description}>
             <p><strong>{snack.title}</strong> {snack.description}</p>
           </div>
 
           <div className={styles.meta}>
-            <span>{t('snack.certified')}: {snack.certifications}</span>
+            <span>{t('snack.certified', 'Certified')}: {snack.certifications}</span>
             <span>{snack.features}</span>
-            <span>{t('snack.storage')}</span>
-            <span>{t('snack.origin')}: {snack.origin}</span>
-            <span>{t('snack.ingredients')}: {snack.ingredients}</span>
-            <span>{t('snack.may_contain')}: {snack.allergyInfo}</span>
+            <span>{t('snack.storage', 'Store in a cool dry place')}</span>
+            <span>{t('snack.origin', 'Origin')}: {snack.origin}</span>
+            <span>{t('snack.ingredients', 'Ingredients')}: {snack.ingredients}</span>
+            <span>{t('snack.may_contain', 'May contain')}: {snack.allergyInfo}</span>
           </div>
 
           <div className={styles.share}>
-            <span>🔗 {t('snack.share')}</span>
+            <span>🔗 {t('snack.share', 'Share')}</span>
             <a href="#">Facebook</a>
             <a href="#">Twitter</a>
           </div>
@@ -173,8 +165,7 @@ const SnackDetail = () => {
         <SnackReview snackId={snack._id} />
       </div>
 
-   <YouMayAlsoLike apiEndpoint="snacks" detailRoute="snackdetail" />
-
+      <YouMayAlsoLike apiEndpoint="snacks" detailRoute="snackdetail" />
     </>
   );
 };

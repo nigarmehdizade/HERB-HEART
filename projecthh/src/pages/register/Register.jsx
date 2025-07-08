@@ -5,6 +5,7 @@ import { registerUser, loginWithGoogle, loginWithFacebook } from '../../redux/us
 import { useNavigate } from 'react-router';
 import { GoogleLogin } from '@react-oauth/google';
 import FacebookLogin from '@greatsumini/react-facebook-login';
+import { sanitizeInput } from '../../utils/sanitizeInput';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -20,48 +21,46 @@ const Register = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({ ...formData, [name]: type === 'checkbox' ? checked : value });
+    const sanitizedValue = sanitizeInput(value);
+    setFormData({ ...formData, [name]: type === 'checkbox' ? checked : sanitizedValue });
   };
 
   const handleSubmit = (e) => {
-  e.preventDefault();
-  const { name, email, password, confirmPassword, agree } = formData;
+    e.preventDefault();
+    const { name, email, password, confirmPassword, agree } = formData;
 
-  console.log("Yoxlama üçün formData:", formData); // TEST MƏQSƏDİLƏ
-
-  if (!name || !email || !password || !confirmPassword) {
-    alert('Zəhmət olmasa bütün xanaları doldurun.');
-    return;
-  }
-
-  if (password !== confirmPassword) {
-    alert('Şifrələr uyğun deyil');
-    return;
-  }
-
-  if (!agree) {
-    alert('Şərtləri qəbul etməlisiniz!');
-    return;
-  }
-
-const payload = {
-  name: formData.name,
-  email: formData.email,
-  password: formData.password,
-  phone: '',
-  address: '',
-  cardInfo: ''
-};
-  dispatch(registerUser(payload)).then((res) => {
-    console.log("SERVERDƏN CAVAB:", res);
-    if (res.meta.requestStatus === 'fulfilled') {
-      navigate('/home');
-    } else {
-      alert(res.payload || 'Xəta baş verdi');
+    if (!name || !email || !password || !confirmPassword) {
+      alert('Zəhmət olmasa bütün xanaları doldurun.');
+      return;
     }
-  });
-};
 
+    if (password !== confirmPassword) {
+      alert('Şifrələr uyğun deyil');
+      return;
+    }
+
+    if (!agree) {
+      alert('Şərtləri qəbul etməlisiniz!');
+      return;
+    }
+
+    const payload = {
+      name,
+      email,
+      password,
+      phone: '',
+      address: '',
+      cardInfo: ''
+    };
+
+    dispatch(registerUser(payload)).then((res) => {
+      if (res.meta.requestStatus === 'fulfilled') {
+        navigate('/home');
+      } else {
+        alert(res.payload || 'Xəta baş verdi');
+      }
+    });
+  };
 
   const handleFBLogin = () => {
     if (window.FB) {
@@ -82,8 +81,6 @@ const payload = {
           });
         }
       });
-    } else {
-      console.error('Facebook SDK hələ yüklənməyib.');
     }
   };
 
@@ -113,22 +110,18 @@ const payload = {
           <h2>Sign up</h2>
           <form onSubmit={handleSubmit}>
             <div className={styles.inputWrapper}>
-              <i className="fa fa-user" />
               <input type="text" name="name" placeholder="Your Name" onChange={handleChange} required />
             </div>
 
             <div className={styles.inputWrapper}>
-              <i className="fa fa-envelope" />
               <input type="email" name="email" placeholder="Your Email" onChange={handleChange} required />
             </div>
 
             <div className={styles.inputWrapper}>
-              <i className="fa fa-lock" />
               <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
             </div>
 
             <div className={styles.inputWrapper}>
-              <i className="fa fa-lock" />
               <input type="password" name="confirmPassword" placeholder="Repeat your password" onChange={handleChange} required />
             </div>
 

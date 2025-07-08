@@ -157,32 +157,45 @@
   }
 }
 
-.quantityControl {
-  display: inline-flex;
-  align-items: center;
+// MatchaDetail.module.scss
+
+.quantityControlBox {
+  display: flex;
   border: 1px solid #ccc;
+  width: fit-content;
+  height: 42px;
+  align-items: center;
   border-radius: 4px;
   overflow: hidden;
 
   button {
-    width: 40px;
-    height: 40px;
-    background: var(--card-bg);
-    color: var(--text-color);
+    width: 42px;
+    height: 100%;
+    background: #fff;
     border: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
     cursor: pointer;
+    border-right: 1px solid #eee;
+    transition: background-color 0.2s ease;
+
+    &:last-of-type {
+      border-left: 1px solid #eee;
+      border-right: none;
+    }
 
     &:hover {
-      background: #f0f0f0;
+      background-color: #f3f3f3;
     }
   }
 
   span {
-    width: 40px;
+    width: 48px;
     text-align: center;
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 500;
-    color: var(--text-color);
+    color: #000;
   }
 }
 
@@ -276,7 +289,6 @@
   color: var(--text-color);
 }
 
-/* ✅ You May Also Like */
 .mayAlsoLikeWrapper {
   margin-top: 4rem;
   padding: 2rem;

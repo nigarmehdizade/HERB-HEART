@@ -24,17 +24,14 @@ const Dried = () => {
     fetchData();
   }, [sort]);
 
-  if (loading) return <div>{t('loading')}</div>;
+  if (loading) return <div>{t('dried.loading', 'Loading...')}</div>;
 
   return (
     <div className={styles.driedPage}>
-      {/* Banner */}
       <div className={styles.hero}>
-      <h1 className={styles.title}>{t('dried.title')}</h1>
-
+        <h1 className={styles.title}>{t('dried.title', 'Dried Fruits')}</h1>
       </div>
 
-      {/* Top bar */}
       <div className={styles.topBar}>
         <p>{fruits.length} {i18n.language === 'az' ? 'məhsul' : 'products'}</p>
         <select onChange={(e) => setSort(e.target.value)}>
@@ -46,7 +43,6 @@ const Dried = () => {
         </select>
       </div>
 
-      {/* Grid */}
       <div className={styles.grid}>
         {fruits.map(fruit => (
           <Link to={`/dried-detail/${fruit._id}`} key={fruit._id} className={styles.card}>
@@ -55,7 +51,7 @@ const Dried = () => {
               {fruit.hoverImage && (
                 <img src={fruit.hoverImage} alt="hover" className={styles.hoverImg} />
               )}
-              <span className={styles.quickView}>QUICK VIEW</span>
+              <span className={styles.quickView}>{t('dried.quickView', 'QUICK VIEW')}</span>
             </div>
             <h3>{fruit.title?.toUpperCase()}</h3>
             <div className={styles.reviews}>
@@ -63,7 +59,7 @@ const Dried = () => {
               {fruit.reviews?.length || 0} {i18n.language === 'az' ? 'rəy' : 'reviews'}
             </div>
             <div className={styles.price}>
-              {i18n.language === 'az' ? '₼' : 'From'} ${fruit.price.toFixed(2)}
+              {i18n.language === 'az' ? `₼${fruit.price.toFixed(2)}` : `${t('dried.from', 'From')} $${fruit.price.toFixed(2)}`}
             </div>
           </Link>
         ))}

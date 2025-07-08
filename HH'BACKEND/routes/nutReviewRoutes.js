@@ -3,8 +3,8 @@ import { createNutReview, getReviewsByNutId, deleteReview } from '../controllers
 
 const router = express.Router();
 
-router.post('/', createNutReview); 
-router.get('/:nutId', getReviewsByNutId); 
+router.post('/', createNutReview);
+router.get('/:nutId', getReviewsByNutId);
 router.delete('/:id', deleteReview); 
 
 export default router;

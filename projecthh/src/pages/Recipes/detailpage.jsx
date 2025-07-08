@@ -11,11 +11,7 @@ const DetailPage = () => {
 
   const [recipe, setRecipe] = useState(null);
   const [comments, setComments] = useState([]);
-  const [comment, setComment] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
+  const [comment, setComment] = useState({ name: '', email: '', message: '' });
 
   useEffect(() => {
     axios.get(`http://localhost:5000/api/recipes/${id}`)
@@ -44,13 +40,13 @@ const DetailPage = () => {
       });
 
       setComment({ name: '', email: '', message: '' });
-      alert(t('detailPage.commentSent'));
+      alert(t('detailPage.commentSent', 'Comment submitted'));
 
       const updated = await axios.get(`http://localhost:5000/api/comments/recipe/${id}`);
       setComments(updated.data || []);
     } catch (error) {
       console.error(error);
-      alert(t('detailPage.commentError'));
+      alert(t('detailPage.commentError', 'Failed to submit comment'));
     }
   };
 
@@ -60,11 +56,11 @@ const DetailPage = () => {
       const updated = await axios.get(`http://localhost:5000/api/comments/recipe/${id}`);
       setComments(updated.data || []);
     } catch (err) {
-      console.error("Silinmə zamanı xəta:", err);
+      console.error("Delete error:", err);
     }
   };
 
-  if (!recipe) return <div className={styles.loading}>{t('detailPage.loading')}</div>;
+  if (!recipe) return <div className={styles.loading}>{t('detailPage.loading', 'Loading...')}</div>;
 
   return (
     <div className={styles.detailWrapper}>
@@ -72,58 +68,70 @@ const DetailPage = () => {
       <img src={recipe.image} alt={recipe.title} className={styles.image} />
       <p>{recipe.description}</p>
 
-      <h3>{t('detailPage.ingredients')}</h3>
+      <h3>{t('detailPage.ingredients', 'Ingredients')}</h3>
       <ul>
-        {recipe.ingredients?.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
+        {recipe.ingredients?.map((item, index) => <li key={index}>{item}</li>)}
       </ul>
 
-      <h3>{t('detailPage.method')}</h3>
+      <h3>{t('detailPage.method', 'Method')}</h3>
       <ol>
-        <li>{t('detailPage.step1')}</li>
-        <li>{t('detailPage.step2')}</li>
-        <li>{t('detailPage.step3')}</li>
-        <li>{t('detailPage.step4')}</li>
-        <li>{t('detailPage.step5')}</li>
-        <li>{t('detailPage.step6')}</li>
+        {recipe.method?.map((step, index) => <li key={index}>{step}</li>)}
       </ol>
 
       <div className={styles.commentSection}>
-        <h3>{t('detailPage.leaveComment')}</h3>
+        <h3>{t('detailPage.leaveComment', 'Leave a Comment')}</h3>
+
         <form onSubmit={handleSubmit}>
           <div className={styles.row}>
-            <input
-              type="text"
-              name="name"
-              placeholder={t('detailPage.name')}
-              value={comment.name}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder={t('detailPage.email')}
-              value={comment.email}
+            <div className={styles.inputGroup}>
+              <label htmlFor="name">{t('detailPage.name', 'Name')}</label>
+              <input
+                id="name"
+                type="text"
+                name="name"
+                placeholder={t('detailPage.name', 'Name')}
+                value={comment.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className={styles.inputGroup}>
+              <label htmlFor="email">{t('detailPage.email', 'Email')}</label>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                placeholder={t('detailPage.email', 'Email')}
+                value={comment.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+
+          <div className={styles.textareaGroup}>
+            <label htmlFor="message">{t('detailPage.message', 'Message')}</label>
+            <textarea
+              id="message"
+              name="message"
+              placeholder={t('detailPage.message', 'Message')}
+              value={comment.message}
               onChange={handleChange}
               required
             />
           </div>
-          <textarea
-            name="message"
-            placeholder={t('detailPage.message')}
-            value={comment.message}
-            onChange={handleChange}
-            required
-          />
-          <button type="submit">{t('detailPage.post')}</button>
+
+          <p className={styles.note}>
+            {t('detailPage.note', 'Please note, comments must be approved before they are published')}
+          </p>
+
+          <button type="submit">{t('detailPage.post', 'Post Comment')}</button>
         </form>
-        <p className={styles.note}>{t('detailPage.note')}</p>
 
         {Array.isArray(comments) && comments.length > 0 && (
           <div className={styles.commentList}>
-            <h3>{t('detailPage.comments')}</h3>
+            <h3>{t('detailPage.comments', 'Comments')}</h3>
             {comments.map((c, i) => (
               <div key={i} className={styles.singleComment}>
                 <p>
@@ -132,7 +140,7 @@ const DetailPage = () => {
                 </p>
                 <p>{c.comment}</p>
                 <button className={styles.deleteBtn} onClick={() => handleDelete(c._id)}>
-                  {t('detailPage.delete')}
+                  {t('detailPage.delete', 'Delete')}
                 </button>
               </div>
             ))}
@@ -141,7 +149,7 @@ const DetailPage = () => {
       </div>
 
       <button className={styles.backBtn} onClick={() => navigate('/recipes')}>
-        ← {t('detailPage.back')}
+        ← {t('detailPage.back', 'Back to Recipes')}
       </button>
     </div>
   );
