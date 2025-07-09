@@ -19,8 +19,7 @@ import recipeRoutes from "./routes/recipeRoutes.js";
 import commentRoutes from './routes/commentRoutes.js';
 import matchaRoutes from './routes/matchaRoutes.js';
 import fruitReviewRoutes from './routes/fruitReviewRoutes.js';
-
-
+import twoFARoutes from "./routes/2faRoutes.js";
 
 import { errorHandler } from "./middleware/errorHandler.js";
 import { secureHeaders } from "./middleware/secureHeaders.js";
@@ -51,6 +50,7 @@ app.use(secureHeaders);
 
 app.use('/uploads', express.static('uploads'));
 
+app.use("/api/2fa", twoFARoutes);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);

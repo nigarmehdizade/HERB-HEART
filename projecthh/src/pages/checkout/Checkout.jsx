@@ -34,10 +34,6 @@ const Checkout = () => {
 
   const handleDiscountChange = (e) => setDiscount(sanitizeInput(e.target.value));
 
-  const handleGooglePay = () => {
-    alert(`${t('alert')} ${total.toFixed(2)} CAD ✅`);
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -74,13 +70,12 @@ const Checkout = () => {
   return (
     <div className={styles.checkoutPage}>
       <div className={styles.checkoutHeader}>
-        <img src="g" alt="Logo" className={styles.logo} />
-        <p className={styles.express}>{t('express')}</p>
+        <img src="https://cdn.shopify.com/s/files/1/0504/7530/3081/files/ELAN_LOGO-01_x320.png?v=1614307768" alt="Logo" className={styles.logo} />
         <div className={styles.paymentOptions}>
           <h3 className={styles.express}>{t('express')}</h3>
           <div className={styles.paymentButtons}>
             <button className={styles.shopPay}>shop <span>Pay</span></button>
-            <button className={styles.gpay} onClick={handleGooglePay}>
+            <button className={styles.gpay}>
               <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/1200px-Google_Pay_Logo.svg.png" alt="Google Pay" />
               Pay
             </button>
@@ -107,35 +102,28 @@ const Checkout = () => {
             </div>
             <input type="text" name="phone" placeholder={t('phone')} onChange={handleChange} required />
 
-            <div className={styles.shipping}>
-              <h3>{t('shippingMethod')}</h3>
-              <p>{t('enterShippingToView')}</p>
-            </div>
-
             <h2>{t('payment')}</h2>
             <div className={styles.paymentBox}>
               <div className={styles.cardTabs}>
                 <span className={styles.activeTab}>{t('creditCard')}</span>
                 <div className={styles.cardIcons}>
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa" />
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="MC" />
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Discover_Card_logo.svg" alt="Discover" />
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Diners_Club_Logo3.svg" alt="DC" />
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" />
+                  <img src="https://sumsub.com/wp/wp-content/uploads/2024/02/296x222-3.png" alt="MC" />
+                  <img src="https://www.pymnts.com/wp-content/uploads/2014/03/Discover-logo-e1416429693676.jpg" alt="Discover" />
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFANCSqpqghoJ-qaiCNIsXsZ_BqWa9lxSaxQ&s" alt="DC" />
                   <span>+1</span>
                 </div>
               </div>
-
-              <input type="text" name="cardNumber" placeholder={t('cardNumber')} onChange={handleChange} required />
-              <div className={styles.row}>
+              <div className={styles.paymentInputs}>
+                <input type="text" name="cardNumber" placeholder={t('cardNumber')} onChange={handleChange} required />
                 <input type="text" name="cardExpiration" placeholder={t('expiration')} onChange={handleChange} required />
                 <input type="text" name="cardCvv" placeholder={t('securityCode')} onChange={handleChange} required />
+                <input type="text" name="cardName" placeholder={t('nameOnCard')} onChange={handleChange} required />
               </div>
-              <input type="text" name="cardName" placeholder={t('nameOnCard')} onChange={handleChange} required />
               <label className={styles.checkbox}>
                 <input type="checkbox" defaultChecked />
                 <span>{t('useAsBilling')}</span>
               </label>
-
               <h3>{t('rememberMe')}</h3>
               <label className={styles.checkbox}>
                 <input type="checkbox" defaultChecked />
@@ -149,17 +137,12 @@ const Checkout = () => {
                 value={formData.mobilePhone}
                 onChange={handleChange}
               />
-            </div>
-
-            <div className={styles.footerNotice}>
-              <p>
-                {t('saveInfoNotice')} <a href="#">{t('terms')}</a> {t('and')} <a href="#">{t('privacy')}</a>.
-              </p>
-              <div className={styles.links}>
-                <a href="#">{t('refund')}</a>
-                <a href="#">{t('shippingPolicy')}</a>
-                <a href="#">{t('privacyPolicy')}</a>
-                <a href="#">{t('termsOfService')}</a>
+              <div className={styles.secureNote}>
+                <p className={styles.secureText}>🔒 {t('secureEncrypted')}</p>
+                <button className={styles.payNowBtn} type="submit">{t('payNow')}</button>
+                <p className={styles.infoNote}>
+                  {t('infoNote')} <a href="#">{t('terms')}</a> {t('and')} <a href="#">{t('privacy')}</a>.
+                </p>
               </div>
             </div>
           </form>
@@ -201,12 +184,15 @@ const Checkout = () => {
               <span>CAD ${total.toFixed(2)}</span>
             </div>
           </div>
-
-          <button className={styles.payBtn} onClick={handleSubmit}>
-            {t('payNow')}
-          </button>
         </div>
       </div>
+
+      <footer className={styles.footerLinks}>
+        <a href="#">{t('refund')}</a>
+        <a href="#">{t('shippingPolicy')}</a>
+        <a href="#">{t('privacyPolicy')}</a>
+        <a href="#">{t('termsOfService')}</a>
+      </footer>
     </div>
   );
 };

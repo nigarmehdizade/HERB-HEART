@@ -34,19 +34,27 @@
   background-color: #fff;
   border-radius: 12px;
   overflow: hidden;
-
-
+  transition: all 0.3s ease;
 
   h3 {
     font-size: 1rem;
     font-weight: 700;
-    margin-top: 10px;
-    color: #000;
-    background-color: #fff;
+    margin: 0;
     padding: 1rem;
+    color: #000;
+    background-color: transparent;
   }
 }
 
+[data-theme="dark"] {
+  .card {
+    background-color: #1e1e1e;
+
+    h3 {
+      color: #f0f0f0;
+    }
+  }
+}
 .image {
   width: 100%;
   max-width: 400px;

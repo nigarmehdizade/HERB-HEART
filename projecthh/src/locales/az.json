@@ -48,11 +48,12 @@
   "subscribe": "Xüsusi təkliflər, pulsuz hədiyyələr və unikal kampaniyalar üçün abunə olun.",
   "emailPlaceholder": "Email ünvanınızı daxil edin"
 },"cart": {
-  "title": "Səbət",
-  "empty": "Səbətiniz hazırda boşdur.",
-  "size": "Ölçü",
+  "title": "SƏBƏT",
+  "empty": "Səbət boşdur",
   "subtotal": "Cəmi",
-  "checkout": "Ödənişə keç"
+  "checkout": "Sifarişi tamamla",  
+  "remove": "Sil",
+  "size": "Ölçü"
 },
   "snack": {
     "size": "ÖLÇÜ",
@@ -290,6 +291,7 @@
     "firstName": "Ad",
     "lastName": "Soyad",
     "address": "Ünvan",
+    
     "apartment": "Mənzil, otaq və s. (seçimlidir)",
     "city": "Şəhər",
     "province": "Rayon",

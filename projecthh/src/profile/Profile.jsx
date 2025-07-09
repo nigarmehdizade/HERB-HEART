@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Profile.module.scss';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { logoutUser } from '../redux/authSlice';
 
 const Profile = () => {
-  const { user } = useSelector((state) => state.user.userInfo); // localStorage.userInfo.user
+  const userInfo = useSelector((state) => state.user.userInfo);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate('/login');
+    }
+  }, [userInfo, navigate]);
+
   const [formData, setFormData] = useState({
-    name: user?.name || '',
-    email: user?.email || '',
+    name: userInfo?.user?.name || '',
+    email: userInfo?.user?.email || '',
     phone: '',
     address: '',
     city: '',
@@ -26,9 +37,19 @@ const Profile = () => {
     // axios.post('/api/profile', formData)
   };
 
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigate('/home');
+  };
+
   return (
     <div className={styles.profilePage}>
-      <h2>Profil Məlumatlarım</h2>
+      <div className={styles.header}>
+        <h2>Profil Məlumatlarım</h2>
+        <button onClick={handleLogout} className={styles.logoutBtn}>
+          Çıxış
+        </button>
+      </div>
 
       <form className={styles.profileForm} onSubmit={handleSubmit}>
         <div className={styles.section}>
@@ -61,7 +82,6 @@ const Profile = () => {
             <input type="text" name="postalCode" value={formData.postalCode} onChange={handleChange} />
           </div>
         </div>
-
 
         <button type="submit" className={styles.saveBtn}>Yadda saxla</button>
       </form>

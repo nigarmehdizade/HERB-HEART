@@ -31,8 +31,11 @@
     "passport": "^0.7.0",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
+    "qrcode": "^1.5.4",
     "react-chartjs-2": "^5.3.0",
     "react-i18next": "^15.6.0",
+    "speakeasy": "^2.0.0",
+    "stripe": "^18.3.0",
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {

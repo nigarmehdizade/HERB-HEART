@@ -17,7 +17,8 @@ const Recipes = () => {
 
   return (
     <div className={styles.recipesPage}>
-      <h1>{t('recipes.title')}</h1>
+   <h1>{t('recipes.title', { defaultValue: 'Recipes' })}</h1>
+
 
       <div className={styles.recipeGrid}>
         {recipes.map(recipe => (

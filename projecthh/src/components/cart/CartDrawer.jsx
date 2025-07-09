@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './CartDrawer.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import { incrementQuantity, decrementQuantity, removeFromCart } from '../../redux/cartSlice';
@@ -23,20 +22,20 @@ const CartDrawer = () => {
   return (
     <div className={`${styles.drawer} ${isOpen ? styles.open : ''}`}>
       <div className={styles.header}>
-        <h2>{t('title')}</h2>
+        <h2>{t('cart.title')}</h2>
         <button onClick={closeDrawer}>×</button>
       </div>
 
       <div className={styles.body}>
         {items.length === 0 ? (
-          <p>{t('empty')}</p>
+          <p>{t('cart.empty')}</p>
         ) : (
           items.map(item => (
             <div key={item.id + item.size} className={styles.item}>
               <img src={item.image} alt={item.name} />
               <div className={styles.details}>
                 <p>{item.name}</p>
-                <small>{t('size')}: {item.size}</small>
+                <small>{t('cart.size')}: {item.size}</small>
                 <div className={styles.controls}>
                   <button onClick={() => dispatch(decrementQuantity(item))}>−</button>
                   <span>{item.quantity}</span>
@@ -44,7 +43,7 @@ const CartDrawer = () => {
                   <button
                     className={styles.remove}
                     onClick={() => dispatch(removeFromCart(item))}
-                    title={t('remove')}
+                    title={t('cart.remove')}
                   >
                     🗑️
                   </button>
@@ -56,14 +55,16 @@ const CartDrawer = () => {
         )}
       </div>
 
-      <div className={styles.footer}>
-        <div>
-          <strong>{t('subtotal')}:</strong> ${subtotal}
+      {items.length > 0 && (
+        <div className={styles.footer}>
+          <div>
+            <strong>{t('cart.subtotal')}:</strong> ${subtotal}
+          </div>
+          <button className={styles.checkout} onClick={handleCheckout}>
+            {typeof t('cart.checkout') === 'string' ? t('cart.checkout') : t('cart.checkout.label')}
+          </button>
         </div>
-        <button className={styles.checkout} onClick={handleCheckout}>
-          {t('checkout')}
-        </button>
-      </div>
+      )}
     </div>
   );
 };
