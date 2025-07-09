@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+"build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
+    
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
